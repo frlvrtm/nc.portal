@@ -3,7 +3,9 @@ package com.nc.portal.model;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
+/*
+* test by Modest
+* */
 @Data
 @Getter
 @Setter
