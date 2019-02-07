@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style2.css" type="text/css">
+    <title>Title</title>
+</head>
+<body class="result">
+<h1>Result</h1>
+<p th:text="'username: ' + ${account.getUsername()}"/>
+<p th:text="'password: ' + ${account.getPassword()}"/>
+<a href="/calc">CLICK ME</a>
+</body>
+</html>
