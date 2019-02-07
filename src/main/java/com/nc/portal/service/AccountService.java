@@ -2,6 +2,7 @@ package com.nc.portal.service;
 
 import com.nc.portal.model.Account;
 import org.springframework.http.*;
+import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -37,9 +38,15 @@ public class AccountService {
      */
     public void AuthRequest(Account account) {
         try {
-            HttpHeaders headers = createHttpHeaders(account.getUsername(), account.getPassword());
-            HttpEntity<String> request = new HttpEntity<String>("parameters", headers);
+            HttpHeaders headers = new HttpHeaders();//createHttpHeaders(account.getUsername(), account.getPassword());
+            HttpEntity<String> request = new HttpEntity<String>(headers);
+            // ResponseEntity<String> response = restTemplate.exchange(URL_ACC, HttpMethod.GET, request, String.class);
+
+            restTemplate.getInterceptors().add(
+                    new BasicAuthorizationInterceptor(account.getUsername(), account.getPassword()));
             ResponseEntity<String> response = restTemplate.exchange(URL_ACC, HttpMethod.GET, request, String.class);
+
+            System.out.println(response);
             System.out.println("Result - status " + response.getStatusCode());
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
@@ -53,9 +60,10 @@ public class AccountService {
      */
     public void AccCreationRequest(Account account) {
         try {
-            HttpHeaders headers = createHttpHeaders(account.getUsername(), account.getPassword());
-            HttpEntity<String> request = new HttpEntity<>(headers);
+            HttpHeaders headers = new HttpHeaders();//createHttpHeaders(account.getUsername(), account.getPassword());
+            HttpEntity<String> request = new HttpEntity<String>(headers);
             ResponseEntity<String> response = restTemplate.postForEntity(URL_CREATE_ACC, request, String.class);
+            //  ResponseEntity<String> response = restTemplate.exchange(URL_CREATE_ACC, HttpMethod.POST, request, String.class);
             System.out.println("Result - status " + response.getStatusCode());
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
