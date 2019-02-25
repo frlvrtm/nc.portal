@@ -15,6 +15,7 @@ public class AccountService {
     private final String URL_CREATE_ACC = "http://localhost:8000/auth";
     private final RestTemplate restTemplate = new RestTemplate();
 
+
     /**
      * Создает заголовок для передачи с кодировкой (Base64)
      *
