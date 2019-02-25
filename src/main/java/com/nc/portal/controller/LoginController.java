@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(value = "/")
+@RequestMapping(value = "/auth")
 public class LoginController {
 
     @Autowired
@@ -17,19 +17,13 @@ public class LoginController {
     @GetMapping
     public String FormAuthentication(Model model) {
         model.addAttribute("account", new Account());
-        return "login";
+        return "auth";
     }
 
     @PostMapping
-    public String submit(@ModelAttribute Account account) {
+    public void submit(@ModelAttribute Account account) {
         accountService.AuthRequest(account);
         System.out.println("Hello, " + account.getUsername());
-        return "result";
-    }
-
-    @GetMapping("/calc")
-    public String calc() {
-        return "page1";
     }
 
 }

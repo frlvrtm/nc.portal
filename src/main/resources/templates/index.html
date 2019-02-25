@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <div id="logo" onclick="slowScroll('#top')">
+            <span>De Livery</span>
+        </div>
+        <div id="about">
+            <a href="#" title="Возможности" onclick="slowScroll('#main')">Возможности</a>
+            <a href="#" title="Преимущества" onclick="slowScroll('#overview')">Преимущества</a>
+            <a href="#" title="Контакты" onclick="slowScroll('#footer')">Контакты</a>
+            <div id="button">
+                <a href="/auth" title="Авторизация">Авторизация</a>
+            </div>
+            <div id="button">
+                <a href="/reg" title="Регистрация">Регистрация</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section id="top">
+    <div class="container">
+        <div class="offer">
+            <h1>Курьерская служба доставки приветствует вас!</h1>
+            <p>Экспресс доставка день в день по "town"</p>
+        </div>
+        <a href="#" class="btn">Рассчитать стоимость</a>
+    </div>
+</section>
+
+<section id="main">
+    <div class="container">
+        <h2>Возможности</h2>
+        <div class="main_items">
+            <div class="mitem">
+                <h3>Доставка товаров</h3>
+            </div>
+            <div class="mitem">
+                <h3>Любые переезды</h3>
+            </div>
+            <div class="mitem">
+                <h3>Заказ на определенное время</h3>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="overview">
+    <div class="container">
+        <h2>Преимущества</h2>
+        <div class="overview_items_str1">
+            <div class="oitem">
+                <h3>Легко заказать</h3>
+                <p>Закажите грузовую машину звонком в круглосуточный Контактный центр или оформите заказ на сайте.</p>
+            </div>
+            <div class="oitem">
+                <h3>Автопоиск машины в считанные минуты</h3>
+                <p>Если автомобиль нужен срочно — мы не подведём.</p>
+            </div>
+            <div class="oitem">
+                <h3>Бережем ваши нервы</h3>
+                <p>Вы можете в любой момент связаться с водителем, то есть контролировать перевозку в реальном
+                    времени.</p>
+            </div>
+        </div>
+        <div class="overview_items_str2">
+            <div class="oitem">
+                <h3>Контроль качества</h3>
+                <p>Следим за каждым этапом перевозки: от звонка в Контактный центр — до вручения заказчику.</p>
+            </div>
+            <div class="oitem">
+                <h3>Экономия, которую легко посчитать</h3>
+                <p>Доверьтесь нам: мы всё промониторили за вас. Больше не нужно искать самые доступные цены. Заказывайте
+                    у нас!</p>
+            </div>
+            <div class="oitem">
+                <h3>Служба поддержки клиентов</h3>
+                <p>На ваш звонок ответят живые люди и помогут в любой ситуации.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer id="footer">
+    <div class="container">
+        <div class="footer-text">
+            <div class="footer-item">
+                Адрес центрального офиса -
+            </div>
+            <div class="footer-item">
+                Телефон - 8(800)-555-35-35
+            </div>
+            <div class="footer-item">
+                Email -
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function slowScroll(id) {
+        $('html, body').animate({
+            scrollTop: $(id).offset().top
+        }, 500);
+    }
+
+    $(document).on("scroll", function () {
+        if ($(window).scrollTop() === 0)
+            $("header").removeClass("fixed");
+        else
+            $("header").attr("class", "fixed");
+    });
+</script>
+
+</body>
+</html>
