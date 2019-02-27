@@ -6,7 +6,7 @@
 </head>
 <body>
     <div class="container">
-        <form action="#" th:action="@{/reg}" th:object="${account}" method="post">
+        <form action="#" th:action="@{/reg}" th:object="${userDTO}" method="post">
             <div class="dws-input">
                 <input type="text" name="username" th:field="*{username}" placeholder="Введите логин">
             </div>

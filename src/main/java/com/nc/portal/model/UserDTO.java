@@ -1,15 +1,12 @@
 package com.nc.portal.model;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
 /*
 * test by Modest
 * */
 @Data
-@Getter
-@Setter
-public class Account {
+public class UserDTO {
 
     /**
      * Логин
@@ -19,13 +16,14 @@ public class Account {
      * Пароль
      */
     private String password;
-
-    public Account() {
+    private String role;
+    public UserDTO() {
     }
 
-    public Account(String username, String password) {
+    public UserDTO(String username, String password) {
         this.username = username;
         this.password = password;
+        role="";
     }
 
 }
