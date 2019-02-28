@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(value = "/reg")
-public class AccountCreationController {
+public class RegController {
 
     @Autowired
     AccountService accountService;
 
     @GetMapping
-    public String FormRegister(Model model) {
-        model.addAttribute("account", new UserDTO());
+    public String getReg(Model model) {
+        model.addAttribute("userDTO", new UserDTO());
         return "registration";
     }
 
     @PostMapping
-    public void button_Reg(@ModelAttribute UserDTO userDTO) {
+    public void submit(@ModelAttribute UserDTO userDTO) {
        // accountService.getRole(userDTO);
         System.out.println("UserDTO created: " + userDTO.getUsername());
     }

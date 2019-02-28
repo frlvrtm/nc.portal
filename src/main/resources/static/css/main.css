@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
+
+body, html {
+	margin: 0;
+	padding: 0;
+	font-family: 'Gloria Hallelujah', cursive;
+}
+
+.container {
+	width: 1170px;
+	margin: 0 auto;
+}
+
+header nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100px;
+	padding: 10px 100px;
+	box-sizing: border-box;
+	transition: .3s;
+	z-index: 9999999;
+}
+
+header nav.black {
+	background: rgba(0,0,0,0.8);
+	height: 100px;
+	padding: 10px 100px;
+}
+
+header nav #logo a {
+	padding: 12px 20px;
+	height: 80px;
+	float: left;
+	font-size: 24px;
+	transition: .3s;
+	text-decoration: none;
+	color: #fff/*#151515*/;
+}
+
+/*header nav.black .logo a {
+	color: #fff;
+}*/
+
+header nav ul {
+	list-style: none;
+	float: right;
+	margin: 0;
+	padding: 0;
+	display: flex;
+}
+
+header nav ul li {
+	list-style: none;
+}
+
+header nav ul li a {
+	line-height: 80px;
+	color: #fff/*#151515*/;
+	padding: 12px 30px;
+	text-decoration: none;
+	text-transform: uppercase;
+	transition: .3s;
+}
+
+/*header nav.black ul li a {
+	color: #fff;
+}*/
+
+header nav ul li a:focus {
+	outline: none;
+}
+
+.active {
+	background: #E2472F;
+	color: #fff;
+	border-radius: 6px;
+}
+
+.active:hover {
+	background: #df6920;
+	color: #000;
+}
+
+#top {
+	width: 100%;
+	height: 100vh;
+	background-image: url(../img/bg11.jpg);
+	background-blend-mode: multiply;
+	background-color: #737e88bf/*#2e3a44*/;
+	background-size: cover;
+	background-position: center;
+}
+
+.title {
+	text-align: center;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+    height: 100vh;
+    letter-spacing: 1px;
+}
+
+#top a {
+	line-height: 80px;
+	color: #fff/*#151515*/;
+	padding: 12px 30px;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+#top a:hover {
+	opacity: .8;
+}
+
+#possibilityes {
+	margin-top: 80px;
+	height: 50vh;
+}
+
+#possibilityes img {
+	width: 300px;
+	height: 200px;
+	transform: rotate(2.3deg);
+}
+
+#possibilityes p {
+	font-size: 20px;
+}
+
+.possibility_items {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 55px;
+	text-align: center;
+}
+
+.pitem {
+	width: 340px;
+	padding-left: 87px;
+	padding-top: 15px;
+}
+
+/*https://media.giphy.com/media/26BROrSHlmyzzHf3i/giphy.gif*/
+
+.title h1 {
+	background-image: url(https://media.giphy.com/media/26BROrSHlmyzzHf3i/giphy.gif);
+    background-size: cover;
+    color: transparent;
+    -moz-background-clip: text;
+    -webkit-background-clip: text;
+    text-transform: uppercase;
+    font-size: 120px;
+    line-height: 1;
+    margin: 60px 0;
+    cursor: default;
+}
+
+#advantages {
+	margin-top: 80px;
+	height: 100vh;
+}
+
+#advantages p {
+	font-size: 20px;
+}
+
+.advantage_items {
+	justify-content: space-between;
+	margin-top: 55px;
+	text-align: center;
+}
+
+.aitem {
+	width: 340px;
+	padding-left: 87px;
+	padding-top: 15px;
+}
+
+h2 {
+	font-size: 32px;
+}
+
+h3 {
+	font-size: 24px;
+	text-decoration: underline;
+}
+
+#footer {
+	background: #0d0d0d;
+	color: #fff;
+	font-size: 20px;
+	margin-top: 116px;
+	padding: 55px 0;
+}
+
+.footer-text {
+	display: flex;
+
+}
+
+.footer-item {
+	margin-right: 140px;
+}

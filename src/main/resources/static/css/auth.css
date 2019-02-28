@@ -1,22 +1,22 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto|Suez+One');
+@import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
 
-body {
-    background-image: url(https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vfv9BDZagiltwcyiq/18-wheel-truck-on-the-road-with-sunset-in-the-background-large-delivery-truck-is-moving-towards-setting-sun_rvpngowl__F0000.png);
-    background-blend-mode: multiply;
-    background-color: #2e3a44;
-    background-size: cover;
-    height: 100vh;
+body, html {
+    background-image: url(../img/bg11.jpg);
+    background-repeat: no-repeat;
+    height: 100%;
+    overflow: hidden;
 
-    font-size: 13px;
-    font-family: Trebuchet MS, Helvetica;
+    font-family: 'Gloria Hallelujah', cursive;
 }
 
 a {
-    color: #fff;
+    color: #000;
+    font-size: 16px;
 }
 
 a:hover {
     text-decoration: none;
+    color: #fff;
 }
 
 .container {
@@ -33,27 +33,26 @@ input[type="text"], input[type="password"] {
     margin-bottom: 25px;
     border-radius: 4px;
     padding-left: 10px;
+    font-family: 'Gloria Hallelujah', cursive;
 }
 
 .dws-submit {
-    background-color: #ffc107;/*#c51a1d;*/
-    padding: 20px 75px;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    background-color: #E2472F;/*#c51a1d;*/
+    height: 100%;
+    width: 50%;
+    border-radius: 6px;
     cursor: pointer;
     border: none;
     color: #000;
-    font-size: 18px;
+    font-size: 24px;
     text-align: center;
-    font-family: 'Suez One', serif;
+    font-family: 'Gloria Hallelujah', cursive;
 }
 
 .dws-submit:hover {
-    background-color: #c51a1d;
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-    color: #fff;
+    background-color: #df6920;
 }
 
 .dws-input input:hover {
-    box-shadow: 0 0 6px 3px rgba(255, 193, 7, 1);
+    box-shadow: 0 0 6px 3px rgba(230, 230, 230, 1);
 }

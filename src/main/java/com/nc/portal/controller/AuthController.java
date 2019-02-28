@@ -8,15 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class LoginController {
+public class AuthController {
 
     @Autowired
     AccountService accountService;
 
     @GetMapping
     @RequestMapping(value = "/auth")
-    public String FormAuthentication(Model model) {
-        model.addAttribute("account", new UserDTO());
+    public String getAuth(Model model) {
+        model.addAttribute("userDTO", new UserDTO());
         return "auth";
     }
 
