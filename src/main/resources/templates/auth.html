@@ -5,20 +5,21 @@
     <link rel="stylesheet" href="../css/auth.css" type="text/css">
 </head>
 <body>
-    <div class="container">
-        <form action="#" th:action="@{/page}" th:object="${userDTO}" method="post">
-            <div class="dws-input">
-                <input type="text" name="username" th:field="*{username}" placeholder="Введите логин" required>
-            </div>
-            <div class="dws-input">
-                <input type="password" name="password" th:field="*{password}" placeholder="Введите пароль" required>
-            </div>
-            <input class="dws-submit" type="submit" name="submit" value="Log In">
-            <br/>
-            <br/>
-            <a href="/reg">Create an account</a><br>
-            <a href="/">Come back</a>
-        </form>
-    </div>
+<div class="container">
+    <form action="#" th:action="@{/page}" th:object="${userDTO}" method="post">
+        <div class="dws-input">
+            <input type="text" th:value="*{username}" name="username" th:field="*{username}" placeholder="Введите логин"
+                   required>
+        </div>
+        <div class="dws-input">
+            <input type="password" name="password" th:field="*{password}" placeholder="Введите пароль" required>
+        </div>
+        <input class="dws-submit" type="submit" name="submit" value="Log In">
+        <br/>
+        <br/>
+        <a href="/reg">Create an account</a><br>
+        <a href="/">Come back</a>
+    </form>
+</div>
 </body>
 </html>

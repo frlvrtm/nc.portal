@@ -22,9 +22,11 @@ public class RegController {
     }
 
     @PostMapping
-    public void submit(@ModelAttribute UserDTO userDTO) {
-       // accountService.getRole(userDTO);
+    public String submit(@ModelAttribute UserDTO userDTO, Model model) {
+        accountService.createUser(userDTO);
         System.out.println("UserDTO created: " + userDTO.getUsername());
+        model.addAttribute("userDTO", userDTO);
+        return "auth";
     }
 
 }

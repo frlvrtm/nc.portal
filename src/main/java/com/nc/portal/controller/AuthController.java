@@ -24,37 +24,31 @@ public class AuthController {
     @RequestMapping(value = "/page")
     public String submit(@ModelAttribute UserDTO userDTO) {
         accountService.getRole(userDTO);
-        String r = userDTO.getRole();
-        if (r.equals("ROLE_ADMIN"))
-        {
-            return "admin";
-        }
-        else
-        {
-            if (r.equals("ROLE_OPERATOR"))
-            {
+        String role = userDTO.getRole();
+
+        System.out.println(role);
+        /*
+         * 1.Нужно вывести окошко с ошибкой!
+         * 2.Возможно сделать флаг или вынести UserDTO и проверять роль
+         */
+        if (role == null)
+            return "auth";
+
+        switch (role) {
+            case "ADMIN":
+                return "admin";
+            case "OPERATOR":
                 return "operator";
-            }
-            else
-            {
-                if (r.equals("ROLE_DRIVER"))
-                {
-                    return "driver";
-                }
-                else
-                {
-                    if(r.equals("ROLE_CUSTOMER"))
-                    {
-                        return "customer";
-                    }
-                    else
-                    {
-                        return "auth";
-                    }
-                }
-            }
+            case "DRIVER":
+                return "driver";
+            case "CUSTOMER":
+                return "customer";
+            default:
+                return "auth";
         }
     }
+
+
 
 }
 
