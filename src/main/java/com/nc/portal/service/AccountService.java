@@ -12,11 +12,9 @@ import java.util.Base64;
 @Service
 public class AccountService {
 
-    private final String URL_ACC = "http://localhost:8000/";
     private final String URL = "http://localhost:8082/auth/role";
     private final String URL_CREATE = "http://localhost:8082/auth";
     private final RestTemplate restTemplate = new RestTemplate();
-
 
     /**
      * Создает заголовок для передачи с кодировкой (Base64)
@@ -35,29 +33,7 @@ public class AccountService {
     }
 
     /**
-     * Запрос на авторизацию (exchange)
-     *
-     * @param account
-     */
-    /*public void AuthRequest(UserDTO account) {
-        try {
-            HttpHeaders headers = createHttpHeaders(account.getUsername(), account.getPassword());//new HttpHeaders();//createHttpHeaders(account.getUsername(), account.getPassword());
-            HttpEntity<String> request = new HttpEntity<String>(headers);
-            // ResponseEntity<String> response = restTemplate.exchange(URL_ACC, HttpMethod.GET, request, String.class);
-
-            //restTemplate.getInterceptors().add(
-                   // new BasicAuthorizationInterceptor(account.getUsername(), account.getPassword()));
-            ResponseEntity<String> response = restTemplate.exchange(URL_ACC, HttpMethod.GET, request, String.class);
-
-            System.out.println(response);
-            System.out.println("Result - status " + response.getStatusCode());
-        } catch (Exception e) {
-            System.out.println("** Exception: " + e.getMessage());
-        }
-    }*/
-
-    /**
-     * Запрос на регистрацию (postForEntity)
+     * Запрос на получение роли пользователя
      *
      * @param userDTO
      */
@@ -65,10 +41,7 @@ public class AccountService {
         try {
             HttpHeaders headers = createHttpHeaders(userDTO.getUsername(), userDTO.getPassword());//new HttpHeaders();//createHttpHeaders(userDTO.getUsername(), userDTO.getPassword());
             HttpEntity<String> request = new HttpEntity<String>(headers);
-            //String response = restTemplate.getForObject("http://localhost/hello/", String.class);
-            //ResponseEntity<String> response = restTemplate.postForEntity(URL, request, String.class);
             ResponseEntity<String> response = restTemplate.exchange(URL, HttpMethod.GET, request, String.class);
-            //System.out.println("Result - status " + response.getStatusCode());
             System.out.println("Result - status " + response.getBody());
             userDTO.setRole(response.getBody());
         } catch (Exception e) {
@@ -76,6 +49,12 @@ public class AccountService {
         }
     }
 
+    /**
+     * Запрос на регистрацию
+     * Здесь надо поймать код от сервера(406 уже есть такой объект, 201 он создан)
+     *
+     * @param userDTO
+     */
     public void createUser(UserDTO userDTO) {
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -88,27 +67,9 @@ public class AccountService {
             request.put("role", "CUSTOMER");
 
             HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
-           // ResponseEntity<String> response = restTemplate.put(url, entity);
-
-
-            // send request and parse result
             ResponseEntity<String> loginResponse = restTemplate
                     .exchange(URL_CREATE, HttpMethod.POST, entity, String.class);
-  /*          if (loginResponse.getStatusCode() == HttpStatus.OK) {
-                JSONObject userJson = new JSONObject(loginResponse.getBody());
-            } else if (loginResponse.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-                // nono... bad credentials
-            }*/
 
-
-/*            HttpHeaders headers = new HttpHeaders();// createHttpHeaders(userDTO.getUsername(), userDTO.getPassword());//new HttpHeaders();//createHttpHeaders(userDTO.getUsername(), userDTO.getPassword());
-            HttpEntity<String> request = new HttpEntity<String>(headers);
-            //String response = restTemplate.getForObject("http://localhost/hello/", String.class);
-            //ResponseEntity<String> response = restTemplate.postForEntity(URL, request, String.class);
-            ResponseEntity<String> response = restTemplate.exchange(URL_CREATE, HttpMethod.POST, request, String.class);
-            //System.out.println("Result - status " + response.getStatusCode());
-            System.out.println("Result - status " + response.getBody());
-            userDTO.setRole(response.getBody());*/
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
         }

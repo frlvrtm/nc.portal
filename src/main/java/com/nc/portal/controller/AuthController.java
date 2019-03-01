@@ -26,7 +26,6 @@ public class AuthController {
         accountService.getRole(userDTO);
         String role = userDTO.getRole();
 
-        System.out.println(role);
         /*
          * 1.Нужно вывести окошко с ошибкой!
          * 2.Возможно сделать флаг или вынести UserDTO и проверять роль
@@ -36,13 +35,13 @@ public class AuthController {
 
         switch (role) {
             case "ADMIN":
-                return "admin";
+                return "redirect:/admin";
             case "OPERATOR":
-                return "operator";
+                return "redirect:/operator";
             case "DRIVER":
-                return "driver";
+                return "redirect:/driver";
             case "CUSTOMER":
-                return "customer";
+                return "redirect:/customer";
             default:
                 return "auth";
         }
