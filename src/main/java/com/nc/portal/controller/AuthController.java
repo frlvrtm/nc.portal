@@ -8,31 +8,30 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping(value = "/auth")
 public class AuthController {
 
     @Autowired
     AccountService accountService;
 
     @GetMapping
-    @RequestMapping(value = "/auth")
     public String getAuth(Model model) {
         model.addAttribute("userDTO", new UserDTO());
         return "auth";
     }
 
     @PostMapping
-    @RequestMapping(value = "/page")
-    public String submit(@ModelAttribute UserDTO userDTO) {
+    public String submit(@ModelAttribute UserDTO userDTO,Model model) {
         accountService.getRole(userDTO);
         String role = userDTO.getRole();
-
         /*
          * 1.Нужно вывести окошко с ошибкой!
          * 2.Возможно сделать флаг или вынести UserDTO и проверять роль
          */
-        if (role == null)
+        if (role == null) {
+            model.addAttribute("errorMessage", "incorrect name or password");
             return "auth";
-
+        }
         switch (role) {
             case "ADMIN":
                 return "redirect:/admin";
