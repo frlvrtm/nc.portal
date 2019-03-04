@@ -2,41 +2,19 @@ package com.nc.portal.model;
 
 import lombok.Data;
 
-/*
- * test by Modest
- * */
 @Data
 public class UserDTO {
-
-    /**
-     * Логин
-     */
     private String username;
-    /**
-     * Пароль
-     */
     private String password;
+    private String role;
 
-    /**
-     * Роль,статическая, чтобы проверять какой пользователь авторизован последний
-     */
-    private static String role = "UNAUTHORIZED";
+    static String staticRole = "UNAUTHORIZED";
 
-    public static String getRole() {
-        return role;
+    public static String getStaticRole() {
+        return staticRole;
     }
 
-    public static void setRole(String staticRole) {
-        role = staticRole;
+    public static void setStaticRole(String role){
+        staticRole = role;
     }
-
-    public UserDTO() {
-    }
-
-    public UserDTO(String username, String password) {
-        this.username = username;
-        this.password = password;
-        // role="";
-    }
-
 }

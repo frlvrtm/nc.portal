@@ -44,10 +44,10 @@ public class AccountService {
             HttpEntity<String> request = new HttpEntity<String>(headers);
             ResponseEntity<String> response = restTemplate.exchange(URL, HttpMethod.GET, request, String.class);
             System.out.println("Result - status " + response.getBody());
-            //userDTO.setRole(response.getBody());
-            UserDTO.setRole(response.getBody());
+          //  userDTO.setRole(response.getBody());
+            UserDTO.setStaticRole(response.getBody());
         } catch (Exception e) {
-            UserDTO.setRole("UNAUTHORIZED");
+            userDTO.setRole("UNAUTHORIZED");
             System.out.println("** Exception: " + e.getMessage());
         }
     }
@@ -58,7 +58,8 @@ public class AccountService {
      *
      * @param userDTO
      */
-    public void createUser(UserDTO userDTO) {
+    public int createUser(UserDTO userDTO) {
+        int code = 0;
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -67,14 +68,20 @@ public class AccountService {
             JSONObject request = new JSONObject();
             request.put("username", userDTO.getUsername());
             request.put("password", userDTO.getPassword());
-            request.put("role", "CUSTOMER");
+            if (userDTO.getRole() == null)
+                request.put("role", "CUSTOMER");
+            else
+                request.put("role", userDTO.getRole());
 
             HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
-            ResponseEntity<String> loginResponse = restTemplate
-                    .exchange(URL_CREATE, HttpMethod.POST, entity, String.class);
-
+            ResponseEntity<String> response = restTemplate.exchange(URL_CREATE, HttpMethod.POST, entity, String.class);
+            code = response.getStatusCode().value();
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
+            code = 406;
+        }
+        finally {
+            return code;
         }
     }
 

@@ -10,7 +10,7 @@ public class CustomerController {
     @GetMapping
     @RequestMapping(value = "/customer")
     public String getPage() {
-        if (UserDTO.getRole().equals("CUSTOMER"))
+        if (UserDTO.getStaticRole().equals("CUSTOMER"))
             return "customer";
         else
             return "error/access-denied";

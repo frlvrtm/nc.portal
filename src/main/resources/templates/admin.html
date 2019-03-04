@@ -2,9 +2,73 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title></title>
-    <link rel="stylesheet" href="../css/auth.css" type="text/css">
+    <link rel="stylesheet" href="../css/admin.css" type="text/css">
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous">
+    </script>
 </head>
 <body>
+
+<header>
+    <nav>
+        <div id="logo">
+            <a href="#">De Livery</a>
+        </div>
+        <ul>
+            <li><a href="/logout" class="active">Log Out</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="welcome">
+    Welcome ADMIN!
+</div>
+>
+<div class="menu">
+
+    <h2>Menu</h2>
+    <form name="click">
+        <input class="dws-submit" id="id_submit" type="submit" name="submit" value="Add user">
+    </form>
+    <script th:inline="javascript">
+        document.getElementById('id_submit').addEventListener('click', function (e) {
+            //Без этого форма будет отправляться на сервер и страница будет перезагружаться [(c) dilap54]
+            e.preventDefault();
+            var elem = document.getElementById('id_con');
+            if (elem.style.visibility == 'visible')
+                elem.style.visibility = 'hidden';
+            else
+                elem.style.visibility = 'visible';
+        })
+
+    </script>
+</div>
+<div id="id_con" class="container">
+
+    <div th:if="${errorMessage}">
+        <div class="dws-alert">
+            Name already taken
+        </div>
+    </div>
+
+    <form action="#" th:action="@{/admin/add}" th:object="${userDTO}" method="post">
+        <div class="dws-input">
+            <input type="text" th:field="*{username}" placeholder="Enter username" required>
+        </div>
+        <div class="dws-input">
+            <input type="password" th:field="*{password}" placeholder="Enter password" required>
+        </div>
+        <div>
+            <select class="dws-list" th:field="*{role}">
+                <option value="DRIVER" th:text="DRIVER"></option>
+                <option value="OPERATOR" th:text="OPERATOR"></option>
+            </select>
+        </div>
+        <input class="dws-submit" type="submit" name="submit" value="Registration">
+    </form>
+</div>
 
 </body>
 </html>

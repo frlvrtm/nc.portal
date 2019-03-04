@@ -16,22 +16,15 @@ public class AuthController {
 
     @GetMapping
     public String getAuth(Model model) {
-        model.addAttribute("userDTO", new UserDTO());
-        return "auth";
-    }
-
-    @PostMapping
-    public String submit(@ModelAttribute UserDTO userDTO, Model model) {
-        accountService.getRole(userDTO);
-        switch (UserDTO.getRole()) {
+        switch (UserDTO.getStaticRole()) {
             case "UNAUTHORIZED":
-                model.addAttribute("errorMessage", "incorrect name or password");
+                model.addAttribute("userDTO", new UserDTO());
                 return "auth";
             case "ADMIN":
                 return "redirect:/admin";
             case "OPERATOR":
                 return "redirect:/operator";
-            case "DRIVERrole":
+            case "DRIVER":
                 return "redirect:/driver";
             case "CUSTOMER":
                 return "redirect:/customer";
@@ -40,7 +33,25 @@ public class AuthController {
         }
     }
 
-
+    @PostMapping
+    public String submit(@ModelAttribute UserDTO userDTO, Model model) {
+        accountService.getRole(userDTO);
+        switch (UserDTO.getStaticRole()) {
+            case "UNAUTHORIZED":
+                model.addAttribute("errorMessage", "incorrect name or password");
+                return "auth";
+            case "ADMIN":
+                return "redirect:/admin";
+            case "OPERATOR":
+                return "redirect:/operator";
+            case "DRIVER":
+                return "redirect:/driver";
+            case "CUSTOMER":
+                return "redirect:/customer";
+            default:
+                return "auth";
+        }
+    }
 }
 
 
