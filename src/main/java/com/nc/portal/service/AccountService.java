@@ -14,6 +14,7 @@ public class AccountService {
 
     private final String URL = "http://localhost:8082/auth/role";
     private final String URL_CREATE = "http://localhost:8082/auth";
+    private final String URL_CLEAR = "http://localhost:8082/auth/clear";
     private final RestTemplate restTemplate = new RestTemplate();
 
     /**
@@ -72,6 +73,17 @@ public class AccountService {
             ResponseEntity<String> loginResponse = restTemplate
                     .exchange(URL_CREATE, HttpMethod.POST, entity, String.class);
 
+        } catch (Exception e) {
+            System.out.println("** Exception: " + e.getMessage());
+        }
+    }
+
+    public void logout() {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            HttpEntity<String> request = new HttpEntity<String>(headers);
+            ResponseEntity<String> response = restTemplate.exchange(URL_CLEAR, HttpMethod.GET, request, String.class);
+            System.out.println("Result - status " + response.getBody());
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
         }

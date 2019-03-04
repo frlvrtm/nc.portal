@@ -1,5 +1,7 @@
 package com.nc.portal.controller;
 
+import com.nc.portal.service.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -14,12 +16,16 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping(value = "/logout")
 public class LogoutController {
 
+    @Autowired
+    AccountService accountService;
+
     @GetMapping
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    public String logout() {
+        accountService.logout();
+        /*Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
+        }*/
         return "redirect:/auth?logout";
     }
 

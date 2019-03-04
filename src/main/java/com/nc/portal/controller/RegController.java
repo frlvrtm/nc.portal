@@ -25,8 +25,8 @@ public class RegController {
     public String submit(@ModelAttribute UserDTO userDTO, Model model) {
         accountService.createUser(userDTO);
         System.out.println("UserDTO created: " + userDTO.getUsername());
-        model.addAttribute("userDTO", userDTO);
-        return "auth";
+        //model.addAttribute("userDTO", userDTO);
+        return "customer";
     }
 
 }
