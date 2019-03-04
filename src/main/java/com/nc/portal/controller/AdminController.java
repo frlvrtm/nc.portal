@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
     @GetMapping
     @RequestMapping(value = "/admin")
-    public String getPage( ) {
-        return "admin";
+    public String getPage(Model model) {
+        if (UserDTO.getRole().equals("ADMIN"))
+            return "admin";
+        else
+            return "error/access-denied";
     }
 }

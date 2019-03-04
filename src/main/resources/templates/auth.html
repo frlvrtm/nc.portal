@@ -5,10 +5,20 @@
     <link rel="stylesheet" href="../css/auth.css" type="text/css">
 </head>
 <body>
+
+
 <div class="container">
+
+    <div th:if="${errorMessage}">
+        <div class="dws-alert">
+            Invalid username or password.
+        </div>
+    </div>
+
+
     <form action="#" th:action="@{/auth}" th:object="${userDTO}" method="post">
         <div class="dws-input">
-            <input type="text"  th:field="*{username}" placeholder = "Enter username" required>
+            <input type="text" th:field="*{username}" placeholder="Enter username" required>
         </div>
         <div class="dws-input">
             <input type="password" th:field="*{password}" placeholder="Enter password" required>
@@ -19,14 +29,15 @@
         <a href="/reg">Create an account</a><br>
         <a href="/">Come back</a>
     </form>
-    <script th:inline="javascript" th:if="${errorMessage}">
+    <!--script th:inline="javascript" th:if="${errorMessage}">
         function error() {
             alert([[${errorMessage}]]);
         }
+
         window.onload = function () {
             error();
         }
-    </script>
+    </script-->
 </div>
 </body>
 </html>

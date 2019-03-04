@@ -21,23 +21,17 @@ public class AuthController {
     }
 
     @PostMapping
-    public String submit(@ModelAttribute UserDTO userDTO,Model model) {
+    public String submit(@ModelAttribute UserDTO userDTO, Model model) {
         accountService.getRole(userDTO);
-        String role = userDTO.getRole();
-        /*
-         * 1.Нужно вывести окошко с ошибкой!
-         * 2.Возможно сделать флаг или вынести UserDTO и проверять роль
-         */
-        if (role == null) {
-            model.addAttribute("errorMessage", "incorrect name or password");
-            return "auth";
-        }
-        switch (role) {
+        switch (UserDTO.getRole()) {
+            case "UNAUTHORIZED":
+                model.addAttribute("errorMessage", "incorrect name or password");
+                return "auth";
             case "ADMIN":
                 return "redirect:/admin";
             case "OPERATOR":
                 return "redirect:/operator";
-            case "DRIVER":
+            case "DRIVERrole":
                 return "redirect:/driver";
             case "CUSTOMER":
                 return "redirect:/customer";
@@ -45,7 +39,6 @@ public class AuthController {
                 return "auth";
         }
     }
-
 
 
 }

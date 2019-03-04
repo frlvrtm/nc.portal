@@ -43,8 +43,10 @@ public class AccountService {
             HttpEntity<String> request = new HttpEntity<String>(headers);
             ResponseEntity<String> response = restTemplate.exchange(URL, HttpMethod.GET, request, String.class);
             System.out.println("Result - status " + response.getBody());
-            userDTO.setRole(response.getBody());
+            //userDTO.setRole(response.getBody());
+            UserDTO.setRole(response.getBody());
         } catch (Exception e) {
+            UserDTO.setRole("UNAUTHORIZED");
             System.out.println("** Exception: " + e.getMessage());
         }
     }
