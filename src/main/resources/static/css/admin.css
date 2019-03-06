@@ -31,7 +31,7 @@ a:hover {
     float: left; /* Обтекание справа */
     border: 5px solid #E2472F; /* Параметры рамки вокруг */
     width: 15%; /* Ширина колонки */
-    height: 200px;
+    height: 35%;
     padding: 5px; /* Поля вокруг текста */
     margin: 10px 10px 20px 5px; /* Значения отступов */
 
@@ -54,8 +54,8 @@ a:hover {
 .container {
     visibility: hidden;
     width: 450px;
-    height: 500px;
-    margin: 150px auto 0 auto;
+    height: 50%;
+    margin: 5% auto 0 auto;
     text-align: center;
 }
 
@@ -80,6 +80,7 @@ input[type="text"], input[type="password"] {
     font-size: 24px;
     text-align: center;
     font-family: 'Gloria Hallelujah', cursive;
+    padding: 5px;
 }
 
 .dws-submit:hover {

@@ -66,3 +66,11 @@ input[type="text"], input[type="password"] {
     text-align: center;
     font-family: 'Gloria Hallelujah';
 }
+
+.welcome{
+    margin: 0px auto 0 auto;
+    font-size: 54px;
+    text-align: center;
+    font-family: 'Gloria Hallelujah', cursive;
+    color: #E2472F;
+}

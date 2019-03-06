@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title></title>
+    <link rel="stylesheet" href="../css/auth.css" type="text/css">
+</head>
+<body>
+<div class="welcome">Log in for ADMIN</div>
+
+<div class="container">
+
+    <div th:if="${errorMessage}">
+        <div class="dws-alert">
+            <div th:text="${errorMessage}"></div>
+           <!-- Invalid username or password.-->
+        </div>
+    </div>
+
+
+    <form action="#" th:action="@{/admin}" th:object="${userDTO}" method="post">
+        <div class="dws-input">
+            <input type="text" th:field="*{username}" placeholder="Enter username" required>
+        </div>
+        <div class="dws-input">
+            <input type="password" th:field="*{password}" placeholder="Enter password" required>
+        </div>
+        <input class="dws-submit" type="submit" name="submit" value="Log In">
+    </form>
+</div>
+</body>
+</html>

@@ -17,7 +17,49 @@ public class AdminController {
     @Autowired
     AccountService accountService;
 
+    /**
+     * Метод для отображения страницы входа для админа
+     * @param model
+     * @return
+     */
     @GetMapping()
+    public String logInForAdmin(Model model) {
+        model.addAttribute("userDTO", new UserDTO());
+        return "authadmin";
+    }
+
+    /**
+     * Форма для проверки введенных данных для админа
+     * @param userDTO
+     * @param model
+     * @return
+     */
+    @PostMapping
+    public String submit(@ModelAttribute UserDTO userDTO, Model model) {
+        accountService.getRole(userDTO);
+        if (UserDTO.getStaticRole().equals("ADMIN")) {
+             return "redirect:/admin/page";
+        } else {
+            String message = "";
+            if(UserDTO.getStaticRole().equals("UNAUTORIZED")){
+                message = "Incorrect name or password";
+            }
+            else{
+                message="Incorrect role " + UserDTO.getStaticRole();
+                accountService.logout();
+                UserDTO.setStaticRole("UNAUTORIZED");
+            }
+            model.addAttribute("errorMessage", message);
+            return "authadmin";
+        }
+    }
+
+    /**
+     * Страница админа
+     * @param model
+     * @return
+     */
+    @GetMapping("/page")
     public String getPageAddUser(Model model) {
         if (UserDTO.getStaticRole().equals("ADMIN")) {
             model.addAttribute("userDTO", new UserDTO());
@@ -30,7 +72,7 @@ public class AdminController {
     public String addUser(@ModelAttribute UserDTO userDTO, Model model) {
         if (UserDTO.getStaticRole().equals("ADMIN")) {
             int responseCoode = accountService.createUser(userDTO);
-            if(responseCoode == 406)
+            if (responseCoode == 406)
                 model.addAttribute("errorMessage", "Name already taken");
             return "admin";
         } else
