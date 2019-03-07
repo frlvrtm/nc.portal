@@ -19,17 +19,22 @@ public class AdminController {
 
     /**
      * Метод для отображения страницы входа для админа
+     *
      * @param model
      * @return
      */
     @GetMapping()
     public String logInForAdmin(Model model) {
+        if (UserDTO.getStaticRole().equals("ADMIN")) {
+            return "redirect:/admin/page";
+        }
         model.addAttribute("userDTO", new UserDTO());
         return "authadmin";
     }
 
     /**
      * Форма для проверки введенных данных для админа
+     *
      * @param userDTO
      * @param model
      * @return
@@ -38,14 +43,13 @@ public class AdminController {
     public String submit(@ModelAttribute UserDTO userDTO, Model model) {
         accountService.getRole(userDTO);
         if (UserDTO.getStaticRole().equals("ADMIN")) {
-             return "redirect:/admin/page";
+            return "redirect:/admin/page";
         } else {
             String message = "";
-            if(UserDTO.getStaticRole().equals("UNAUTORIZED")){
+            if (UserDTO.getStaticRole().equals("UNAUTORIZED")) {
                 message = "Incorrect name or password";
-            }
-            else{
-                message="Incorrect role " + UserDTO.getStaticRole();
+            } else {
+                message = "Incorrect role " + UserDTO.getStaticRole();
                 accountService.logout();
                 UserDTO.setStaticRole("UNAUTORIZED");
             }
@@ -56,6 +60,7 @@ public class AdminController {
 
     /**
      * Страница админа
+     *
      * @param model
      * @return
      */
@@ -71,9 +76,13 @@ public class AdminController {
     @PostMapping("/add")
     public String addUser(@ModelAttribute UserDTO userDTO, Model model) {
         if (UserDTO.getStaticRole().equals("ADMIN")) {
-            int responseCoode = accountService.createUser(userDTO);
-            if (responseCoode == 406)
+            int responseCode = accountService.createUser(userDTO);
+            if (responseCode == 406) {
                 model.addAttribute("errorMessage", "Name already taken");
+            } else {
+                model.addAttribute("infoMessage", "User added");
+                model.addAttribute("userDTO", new UserDTO());
+            }
             return "admin";
         } else
             return "error/access-denied";

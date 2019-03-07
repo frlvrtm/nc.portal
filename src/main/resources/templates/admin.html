@@ -8,24 +8,38 @@
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
             crossorigin="anonymous">
     </script>
+    <script th:inline="javascript" th:if="${errorMessage}">
+        window.onload = function() {
+            var elem = document.getElementById('id_con');
+                elem.style.visibility = 'visible';
+        }
+    </script>
+    <!--не знаю как сделать условие или-->
+    <script th:inline="javascript" th:if="${infoMessage}">
+        window.onload = function() {
+            var elem = document.getElementById('id_con');
+            elem.style.visibility = 'visible';
+        }
+    </script>
 </head>
-<body>
+<body >
 
 <header>
     <nav>
         <div id="logo">
-            <a href="#">De Livery</a>
+            <a href="/">De Livery</a>
         </div>
+
         <ul>
             <li><a href="/logout" class="active">Log Out</a></li>
         </ul>
+        <div id="welcome">
+            Admin page
+        </div>
     </nav>
 </header>
 
-<div class="welcome">
-    Welcome ADMIN!
-</div>
->
+
 <div class="menu">
 
     <h2>Menu</h2>
@@ -43,14 +57,16 @@
             else
                 elem.style.visibility = 'visible';
         })
-
     </script>
 </div>
-<div id="id_con" class="container">
+<div id="id_con" class="container" >
 
     <div th:if="${errorMessage}">
-        <div class="dws-alert">
-            Name already taken
+        <div class="dws-alert" th:text="${errorMessage}">
+        </div>
+    </div>
+    <div th:if="${infoMessage}">
+        <div class="dws-info" th:text="${infoMessage}">
         </div>
     </div>
 
