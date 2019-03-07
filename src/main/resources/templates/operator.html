@@ -1,10 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title></title>
-    <link rel="stylesheet" href="../css/auth.css" type="text/css">
+    <title>Operator</title>
+    <link rel="stylesheet" href="../css/customer.css">
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
 </head>
 <body>
 
+<header>
+    <nav>
+        <div id="logo">
+            <a href="#">De Livery</a>
+        </div>
+        <ul>
+            <li><a href="/logout" class="active">Log Out</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section id="top">
+    <div class="container">
+        <div class="tab_container">
+            <div id="tab1" class="tab_content">
+                <table>
+                    <tr><th>id_order</th><th>customer</th><th>point_from</th><th>point_to</th>
+                        <th>cost</th><th>start_time</th><th>end_time</th><th>driver</th>
+                        <th>status</th><th>description</th>
+                    </tr>
+                    <tr th:each="o : ${orders}">
+                        <td th:text="${o.id_order}"></td>
+                        <td th:text="${o.customer}"></td>
+                        <td th:text="${o.point_from}"></td>
+                        <td th:text="${o.point_to}"></td>
+                        <td th:text="${o.cost}"></td>
+                        <td th:text="${o.start_time}"></td>
+                        <td th:text="${o.end_time}"></td>
+                        <td th:text="${o.driver}"></td>
+                        <td th:text="${o.status}"></td>
+                        <td th:text="${o.description}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
 </body>
 </html>
