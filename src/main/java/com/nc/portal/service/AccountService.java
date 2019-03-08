@@ -29,6 +29,9 @@ public class AccountService {
     private HttpHeaders createHttpHeaders(String user, String password) {
         String notEncoded = user + ":" + password;
         String encodedAuth = "Basic " + Base64.getEncoder().encodeToString(notEncoded.getBytes(Charset.forName("US-ASCII")));
+        //
+        UserDTO.setBasicAuth(encodedAuth);
+        //
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", encodedAuth);
@@ -89,6 +92,7 @@ public class AccountService {
 
     public void logout() {
         try {
+            UserDTO.setBasicAuth("");
             HttpHeaders headers = new HttpHeaders();
             HttpEntity<String> request = new HttpEntity<String>(headers);
             ResponseEntity<String> response = restTemplate.exchange(URL_CLEAR, HttpMethod.GET, request, String.class);

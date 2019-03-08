@@ -2,27 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title></title>
-    <link rel="stylesheet" href="../css/admin.css" type="text/css">
+    <link rel="stylesheet" href="/css/admin.css" type="text/css">
     <script
             src="https://code.jquery.com/jquery-3.3.1.js"
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
             crossorigin="anonymous">
     </script>
     <script th:inline="javascript" th:if="${errorMessage}">
-        window.onload = function() {
+        window.onload = function () {
             var elem = document.getElementById('id_con');
-                elem.style.visibility = 'visible';
+            elem.style.visibility = 'visible';
+            var elem2 = document.getElementById('id_subreg');
+            elem2.style.width = "300px"
         }
     </script>
     <!--не знаю как сделать условие или-->
     <script th:inline="javascript" th:if="${infoMessage}">
-        window.onload = function() {
+        window.onload = function () {
             var elem = document.getElementById('id_con');
             elem.style.visibility = 'visible';
+            var elem2 = document.getElementById('id_subreg');
+            elem2.style.width = "300px"
         }
     </script>
 </head>
-<body >
+<body>
 
 <header>
     <nav>
@@ -46,20 +50,42 @@
     <form name="click">
         <input class="dws-submit" id="id_submit" type="submit" name="submit" value="Add user">
     </form>
-    <input class="dws-submit" id="id_submit1" type="submit" name="submit" value="Show users">
+    <form name="click" action="/admin/page/drivers" method="get">
+        <input class="dws-submit" id="id_submit1" type="submit" name="submit" value="Show users">
+    </form>
     <script th:inline="javascript">
         document.getElementById('id_submit').addEventListener('click', function (e) {
             //Без этого форма будет отправляться на сервер и страница будет перезагружаться [(c) dilap54]
             e.preventDefault();
+            var elem2 = document.getElementById('id_subreg');
+            elem2.style.width = "300px"
+            var elem1 = document.getElementById('id_top');
+            elem1.style.visibility = 'hidden'
             var elem = document.getElementById('id_con');
             if (elem.style.visibility == 'visible')
                 elem.style.visibility = 'hidden';
             else
                 elem.style.visibility = 'visible';
         })
+        document.getElementById('id_submit1').addEventListener('click', function (e) {
+            e.preventDefault();
+            var elem = document.getElementById('id_con');
+            elem.style.visibility = 'hidden';
+            var elem1 = document.getElementById('id_top');
+            if (elem1.style.visibility == 'visible')
+                elem1.style.visibility = 'hidden';
+            else
+                elem1.style.visibility = 'visible';
+            //window.location.href = "/admin/page/drivers";
+            /*            var elem = document.getElementById('id_top');
+                        if (elem.style.visibility == 'visible')
+                            elem.style.visibility = 'hidden';
+                        else
+                            elem.style.visibility = 'visible';*/
+        })
     </script>
 </div>
-<div id="id_con" class="container" >
+<div id="id_con" class="container">
 
     <div th:if="${errorMessage}">
         <div class="dws-alert" th:text="${errorMessage}">
@@ -70,21 +96,59 @@
         </div>
     </div>
 
-    <form action="#" th:action="@{/admin/add}" th:object="${userDTO}" method="post">
+    <form action="#" th:action="@{/admin/page}" th:object="${userDTO}" method="post">
         <div class="dws-input">
             <input type="text" th:field="*{username}" placeholder="Enter username" required>
+            <input type="text" th:field="*{firstName}" placeholder="Enter first name" required>
         </div>
         <div class="dws-input">
             <input type="password" th:field="*{password}" placeholder="Enter password" required>
+            <input type="text" th:field="*{lastName}" placeholder="Enter last name" required>
         </div>
-        <div>
+        <div class="dws-input">
+            <input type="text" th:field="*{phone}" placeholder="Enter phone number" required>
             <select class="dws-list" th:field="*{role}">
                 <option value="DRIVER" th:text="DRIVER"></option>
                 <option value="OPERATOR" th:text="OPERATOR"></option>
             </select>
         </div>
-        <input class="dws-submit" type="submit" name="submit" value="Registration">
+        <input class="dws-submit" type="submit" name="submit" value="Registration" id="id_subreg">
     </form>
+</div>
+
+
+<div id="id_top" class="container-table">
+    <div class="tab_container">
+        <div id="tab1" class="tab_content">
+            <table>
+                <tr>
+                    <th>username</th>
+                    <th>first_name</th>
+                    <th>last_name</th>
+                    <th>phone_number</th>
+                    <th>car_number</th>
+                    <th>driver_real_point</th>
+                </tr>
+                <tr th:each = "driver, dStat : *{drivers}">
+                    <td><input type="text" th:field="*{drivers[__${dStat.index}__].username}" /></td>
+                    <td><input type="text" th:field="*{drivers[__${dStat.index}__].firstName}" /></td>
+                    <td><input type="text" th:field="*{drivers[__${dStat.index}__].lastName}" /></td>
+                    <td><input type="text" th:field="*{drivers[__${dStat.index}__].phone}" /></td>
+                    <td><input type="text" th:field="*{drivers[__${dStat.index}__].carNumber}" /></td>
+                    <td><input type="text" th:field="*{drivers[__${dStat.index}__].realPoint}" /></td>
+                </tr>
+                    <!--                <tr th:each="driver : ${drivers}">
+                                        <td th:text="*{driver.username}"></td>
+                                        <td th:text="*{driver.firstName}"></td>
+                                        <td th:text="*{driver.lastName}"></td>
+                                        <td th:text="*{driver.phone}"></td>
+                                        <td th:text="*{driver.carNumber}"></td>
+                                        <td th:text="*{driver.realPoint}"></td>
+                                    </tr>-->
+
+            </table>
+        </div>
+    </div>
 </div>
 
 </body>

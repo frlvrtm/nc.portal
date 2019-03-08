@@ -2,6 +2,7 @@ package com.nc.portal.controller;
 
 import com.nc.portal.model.UserDTO;
 import com.nc.portal.service.AccountService;
+import com.nc.portal.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,9 @@ public class AdminController {
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    AdminService adminService;
 
     /**
      * Метод для отображения страницы входа для админа
@@ -67,24 +71,35 @@ public class AdminController {
     @GetMapping("/page")
     public String getPageAddUser(Model model) {
         if (UserDTO.getStaticRole().equals("ADMIN")) {
+            model.addAttribute("drivers", adminService.getAllDrivers());
             model.addAttribute("userDTO", new UserDTO());
             return "admin";
         } else
             return "error/access-denied";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/page")
     public String addUser(@ModelAttribute UserDTO userDTO, Model model) {
         if (UserDTO.getStaticRole().equals("ADMIN")) {
-            int responseCode = accountService.createUser(userDTO);
+            int responseCode = adminService.createEmployee(userDTO);
             if (responseCode == 406) {
                 model.addAttribute("errorMessage", "Name already taken");
             } else {
                 model.addAttribute("infoMessage", "User added");
                 model.addAttribute("userDTO", new UserDTO());
             }
+            model.addAttribute("drivers", adminService.getAllDrivers());
             return "admin";
         } else
             return "error/access-denied";
     }
+
+/*    @GetMapping("/page/drivers")
+    public String getDrivers(@ModelAttribute UserDTO userDTO, Model model) {
+     //   if (UserDTO.getStaticRole().equals("ADMIN")) {
+            model.addAttribute("drivers", adminService.getAllDrivers());
+            return "admin";
+     //   } else
+       //     return "error/access-denied";
+    }*/
 }
