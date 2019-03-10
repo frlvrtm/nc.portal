@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Operator</title>
-    <link rel="stylesheet" href="../css/customer.css">
+    <link rel="stylesheet" href="../css/operator.css">
     <script
             src="https://code.jquery.com/jquery-3.3.1.js"
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
@@ -28,19 +28,22 @@
                 <table>
                     <tr><th>id_order</th><th>customer</th><th>point_from</th><th>point_to</th>
                         <th>cost</th><th>start_time</th><th>end_time</th><th>driver</th>
-                        <th>status</th><th>description</th>
+                        <th>status</th><th>description</th><th>update</th>
                     </tr>
                     <tr th:each="o : ${orders}">
-                        <td th:text="${o.id_order}"></td>
-                        <td th:text="${o.customer}"></td>
-                        <td th:text="${o.point_from}"></td>
-                        <td th:text="${o.point_to}"></td>
-                        <td th:text="${o.cost}"></td>
-                        <td th:text="${o.start_time}"></td>
-                        <td th:text="${o.end_time}"></td>
-                        <td th:text="${o.driver}"></td>
-                        <td th:text="${o.status}"></td>
-                        <td th:text="${o.description}"></td>
+                        <form action="#" th:action="@{/operator}" th:object="${order}" method="post">
+                        <td><input type="text" size="2" th:value="${o.id_order}" id="id_order" name="id_order" ></td>
+                        <td><input type="text" size="5" th:value="${o.customer}" id="customer" name="customer"></td>
+                        <td><input type="text"  th:value="${o.point_from}" id="point_from" name="point_from"></td>
+                        <td><input type="text"  th:value="${o.point_to}" id="point_to" name="point_to"></td>
+                        <td><input type="text" size="2" th:value="${o.cost}" id="cost" name="cost"></td>
+                        <td><input type="text" size="6" th:value="${o.start_time}" id="start_time" name="start_time"></td>
+                        <td><input type="text" size="6" th:value="${o.end_time}" id="end_time" name="end_time"></td>
+                        <td><input type="text" size="5" th:value="${o.driver}" id="driver" name="driver"></td>
+                        <td><input type="text" size="2" th:value="${o.status}" id="status" name="status"></td>
+                        <td><input type="text" th:value="${o.description}" id="description" name="description"></td>
+                            <td><input type="submit" name="submit" value="Update"></td>
+                        </form>
                     </tr>
                 </table>
             </div>
