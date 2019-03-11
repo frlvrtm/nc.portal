@@ -72,9 +72,15 @@ public class AdminController {
     @GetMapping("/page")
     public String getPageAddUser(Model model) {
         if (UserDTO.getStaticRole().equals("ADMIN")) {
-            model.addAttribute("drivers", adminService.getAllDrivers());
+            List<DriverDTO> list = adminService.getAllDrivers();
+            model.addAttribute("drivers", new ListDriverDTO(list));
             model.addAttribute("userDTO", new UserDTO());
             model.addAttribute("cars", adminService.getFreeCars());
+/*            ListDriverDTO list = new ListDriverDTO();
+            for (int i = 1; i <= 2; i++) {
+                list.add(new DriverDTO());
+            }
+            model.addAttribute("form", list);*/
             return "admin";
         } else
             return "error/access-denied";
@@ -90,18 +96,17 @@ public class AdminController {
                 model.addAttribute("infoMessage", "User added");
                 model.addAttribute("userDTO", new UserDTO());
             }
-            model.addAttribute("drivers", adminService.getAllDrivers());
+            List<DriverDTO> list = adminService.getAllDrivers();
+            model.addAttribute("drivers", new ListDriverDTO(list));
             return "admin";
         } else
             return "error/access-denied";
     }
 
-    @PostMapping("/page1")
-    public String update(@ModelAttribute ListDriverDTO drivers, Model model) {
+    @PostMapping("/update")
+    public String update(@ModelAttribute("drivers") ListDriverDTO drivers, Model model) {
         if (UserDTO.getStaticRole().equals("ADMIN")) {
-            //DriverDTO[] listDrivers = (DriverDTO[])drivers;
-           // model.
-            List<DriverDTO> list = drivers.getList();
+            int code = adminService.updateUsers(drivers);
             return "redirect:/admin/page";
         } else
             return "error/access-denied";

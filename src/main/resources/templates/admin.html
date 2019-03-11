@@ -112,92 +112,44 @@
 
 
 <div id="id_top" class="container-table">
-    <form action="#" th:action="@{/admin/page1}" th:object="${drivers}" method="post">
+    <form action="#" th:action="@{/admin/update}" th:object="${drivers}" method="post">
         <fieldset>
-        <div class="tab_container">
-                <table>
-                    <tr>
-                        <th>username</th>
-                        <th>first_name</th>
-                        <th>last_name</th>
-                        <th>phone_number</th>
-                        <th>car_number</th>
-                        <th>driver_real_point</th>
-                    </tr>
+            <table>
+                <thead>
+                <tr>
+                    <th>username</th>
+                    <th>first_name</th>
+                    <th>last_name</th>
+                    <th>phone_number</th>
+                    <th>car_number</th>
+                    <!-- <th>driver_real_point</th>-->
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="driver, itemStat : *{list}">
+                    <td><input type="text"
+                               th:field="*{list[__${itemStat.index}__].username}" /></td>
+                    <td><input type="text"
+                               th:field="*{list[__${itemStat.index}__].firstName}"/></td>
+                    <td><input type="text"
+                               th:field="*{list[__${itemStat.index}__].lastName}"/></td>
+                    <td><input type="text"
+                               th:field="*{list[__${itemStat.index}__].phone}"/></td>
 
-
-
-                    <tr th:each="driver, itemStat : *{list}">
-                        <td><input type="text1"
-                                   th:value="*{list[__${itemStat.index}__].username}"
-                                   th:field="*{list[__${itemStat.index}__].username}" /></td>
-                        <td><input type="text1"
-                                   th:value="*{list[__${itemStat.index}__].firstName}"
-                                   th:field="*{list[__${itemStat.index}__].firstName}" /></td>
-                        <td><input type="text1"
-                                   th:value="*{list[__${itemStat.index}__].lastName}"
-                                   th:field="*{list[__${itemStat.index}__].lastName}" /></td>
-                        <td><input type="text1"
-                                   th:value="*{list[__${itemStat.index}__].phone}"
-                                   th:field="*{list[__${itemStat.index}__].phone}" /></td>
-                        <td><input type="text1"
-                                   th:value="*{list[__${itemStat.index}__].carNumber}"
-                                   th:field="*{list[__${itemStat.index}__].carNumber}" /></td>
-                        <td><input type="text1"
-                                   th:value="*{list[__${itemStat.index}__].realPoint}"
-                                   th:field="*{list[__${itemStat.index}__].realPoint}" /></td>
-                       <!-- <td><input type="text1" th:value="${driver.username}"/></td>
-                        <td><input type="text1" th:value="${driver.firstName}"/></td>
-                        <td><input type="text1" th:value="${driver.lastName}"/></td>
-                        <td><input type="text1" th:value="${driver.phone}"/></td>
-                        <td>
-                            &lt;!&ndash;<input type="text1" th:if="${driver.carNumber}" th:value="${driver.carNumber}"/>&ndash;&gt;
-                        <input type="text1" th:if="${driver.carNumber}" th:field="*{list[__${itemStat.index}__].carNumber}" />
-                            <select type="text1" th:unless="${driver.carNumber}">
-                                <option value=""> &#45;&#45;</option>
-                                <option th:each="car : ${cars}"
-                                        th:value="${car.number}"
-                                        th:utext="${car.number}"/>
-                            </select>
-                        </td>
-                        <td th:if="${driver.realPoint}" th:text="${driver.realPoint}"></td>
-                        <td th:unless="${driver.realPoint}" th:text="no"></td>-->
-                    </tr>
-
-
-
-
-
-<!--                    <tr th:each="driver : *{list}">
-                        <td><input type="text1" th:value="${driver.username}"/></td>
-                        <td><input type="text1" th:value="${driver.firstName}"/></td>
-                        <td><input type="text1" th:value="${driver.lastName}"/></td>
-                        <td><input type="text1" th:value="${driver.phone}"/></td>
-                        <td>
-                            <input type="text1" th:if="${driver.carNumber}" th:value="${driver.carNumber}"/>
-
-                            <select type="text1" th:unless="${driver.carNumber}">
-                                <option value=""> &#45;&#45;</option>
-                                <option th:each="car : ${cars}"
-                                        th:value="${car.number}"
-                                        th:utext="${car.number}"/>
-                            </select>
-                        </td>
-                        <td th:if="${driver.realPoint}" th:text="${driver.realPoint}"></td>
-                        <td th:unless="${driver.realPoint}" th:text="no"></td>
-                    </tr>-->
-                    <!--                <tr th:each="driver : ${drivers}">
-                                        <td th:text="*{driver.username}"></td>
-                                        <td th:text="*{driver.firstName}"></td>
-                                        <td th:text="*{driver.lastName}"></td>
-                                        <td th:text="*{driver.phone}"></td>
-                                        <td th:text="*{driver.carNumber}"></td>
-                                        <td th:text="*{driver.realPoint}"></td>
-                                    </tr>-->
-
-                </table>
-            </div>
-        <input class="dws-submit" type="submit" name="submit" value="Update">
+                    <td>
+                        <select type="text" th:field="*{list[__${itemStat.index}__].carNumber}">
+                            <option th:if="${driver.carNumber}"
+                                    th:value="${driver.carNumber}"
+                                    th:utext="${driver.carNumber}"></option>
+                            <option th:unless="${driver.carNumber}" th:value="${driver.getCarNumber()}">--</option>
+                            <option th:each="car : ${cars}"
+                                    th:value="${car.number}"
+                                    th:utext="${car.number}"/>
+                        </select>
+                    </td>
+                </tbody>
+            </table>
+            <input class="dws-submit" type="submit" name="submit" value="Update">
         </fieldset>
     </form>
 
