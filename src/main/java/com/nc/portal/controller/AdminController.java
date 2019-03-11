@@ -1,15 +1,16 @@
 package com.nc.portal.controller;
 
+import com.nc.portal.model.DriverDTO;
+import com.nc.portal.model.ListDriverDTO;
 import com.nc.portal.model.UserDTO;
 import com.nc.portal.service.AccountService;
 import com.nc.portal.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping(value = "/admin")
 @Controller
@@ -73,6 +74,7 @@ public class AdminController {
         if (UserDTO.getStaticRole().equals("ADMIN")) {
             model.addAttribute("drivers", adminService.getAllDrivers());
             model.addAttribute("userDTO", new UserDTO());
+            model.addAttribute("cars", adminService.getFreeCars());
             return "admin";
         } else
             return "error/access-denied";
@@ -94,12 +96,14 @@ public class AdminController {
             return "error/access-denied";
     }
 
-/*    @GetMapping("/page/drivers")
-    public String getDrivers(@ModelAttribute UserDTO userDTO, Model model) {
-     //   if (UserDTO.getStaticRole().equals("ADMIN")) {
-            model.addAttribute("drivers", adminService.getAllDrivers());
-            return "admin";
-     //   } else
-       //     return "error/access-denied";
-    }*/
+    @PostMapping("/page1")
+    public String update(@ModelAttribute ListDriverDTO drivers, Model model) {
+        if (UserDTO.getStaticRole().equals("ADMIN")) {
+            //DriverDTO[] listDrivers = (DriverDTO[])drivers;
+           // model.
+            List<DriverDTO> list = drivers.getList();
+            return "redirect:/admin/page";
+        } else
+            return "error/access-denied";
+    }
 }
