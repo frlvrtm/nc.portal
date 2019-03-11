@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Cost calculation</title>
+	<link rel="stylesheet" href="../css/cost_page.css" type="text/css">
+</head>
+<body>
+
+	<div class="container">
+		
+		<h1>Cost calculation</h1>
+
+		<div class="main">
+			<div class="dws-input">
+				<label>Start point:</label>
+				<input id="point_from" type="text" placeholder="Enter start_Point" value="" required>
+			</div>
+			<div class="dws-input">
+				<label>End point:</label>
+				<input id="point_to" type="text" placeholder="Enter end_Point" value="" required>
+			</div>
+			<div class="dws-input">
+				<label>Weight:</label>
+				<input id="weight" type="text" placeholder="Enter weight" value="" required>
+			</div>
+			<div class="dws-input">
+				<label>Results:</label>
+				<input id="price" type="text" placeholder="Results" >
+			</div>
+			<input class="dws-button" type="button" value="Сalculate the cost" onclick="cost()"><br/><br/>
+			<a href="#" onclick="showFun('map'); return false">Show route on the map</a><br/>
+			<a href="/">Come back</a><br/>
+
+			<div id="map">
+
+			</div>
+
+		</div>
+
+		
+<!--
+	<div id="distance">
+		
+	</div>
+-->
+	</div>
+
+
+<script 
+src="https://api-maps.yandex.ru/2.1/?apikey=07aaccb9-d30b-458f-8c06-49710fbacfcd&lang=ru_RU" type="text/javascript">
+</script>
+<!--
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFAnKxruTfL_1VfoQAuE7EUL1MHaZMQxo&callback=initMap">
+</script>
+-->
+<script type="text/javascript" src="../js/ymap.js"></script>
+</body>
+</html>
+

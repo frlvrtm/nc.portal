@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
+
+body, html {
+	background-image: url(../img/bg11.jpg);
+	background-repeat: no-repeat;
+	height: 100%;
+	overflow: hidden;
+
+	font-family: 'Gloria Hallelujah', cursive;
+}
+
+#map {
+	display: none;
+	height: 300px;
+	width: 100%;
+}
+
+h1 {
+	font-size: 45px;
+}
+
+.container {
+	width: 900px;
+	height: 500px;
+	margin: 50px auto 0 auto;
+	text-align: center;
+}
+
+input[type="text"] {
+	width: 300px;
+	height: 50px;
+	font-size: 18px;
+	margin-bottom: 25px;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-family: 'Gloria Hallelujah', cursive;
+}
+
+#price {
+	background-color: #ffe6cc;
+	color: #ff3300;
+}
+
+.dws-button {
+	background-color: #E2472F;
+	height: 100%;
+	width: 50%;
+	border-radius: 6px;
+	cursor: pointer;
+	border: none;
+	color: #000;
+	font-size: 18px;
+	text-align: center;
+	font-family: 'Gloria Hallelujah', cursive;
+}
+
+.dws-button:hover {
+	background-color: #df6920;
+}
+
+.dws-input input:hover {
+	box-shadow: 0 0 6px 3px rgba(230, 230, 230, 1);
+}
+
+.dws-input {
+	clear: both;
+	text-align: right;
+}
+
+.main {
+	margin-left: 250px;
+	float: left;
+}
+
+label {
+	float: left;
+	padding-right: 10px;
+}
+
+a {
+    color: #000;
+    font-size: 16px;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #fff;
+}
