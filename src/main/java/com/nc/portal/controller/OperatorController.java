@@ -53,4 +53,14 @@ public class OperatorController {
         return "redirect:/auth";
 
     }
+    @RequestMapping(value = "/create")
+    @GetMapping
+    public String updateOrder(Model model) {
+        if (UserDTO.getStaticRole().equals("OPERATOR")) {
+            model.addAttribute("order", new OrdersDTO());
+            return "orderscreate";
+        }
+        model.addAttribute("userDTO", new UserDTO());
+        return "redirect:/auth";
+    }
 }

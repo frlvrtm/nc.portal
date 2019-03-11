@@ -1,6 +1,20 @@
-* {
-    margin: 0;
-    padding: 0;
+@import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
+
+body, html {
+    background-image: url(../img/bg11.jpg);
+    background-repeat: no-repeat;
+    height: 100%;
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+a {
+    color: #000;
+    font-size: 16px;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #fff;
 }
 
 .container {
@@ -8,11 +22,38 @@
     margin: 0 auto;
 }
 
-body {
-    background-image: url(../img/bg11.jpg);
-    background-repeat: no-repeat;
-    height: 100%;
+input[type="text"], input[type="password"] {
+    width: 300px;
+    height: 50px;
+    font-size: 18px;
+    margin-bottom: 25px;
+    border-radius: 4px;
+    padding-left: 10px;
+    font-family: 'Gloria Hallelujah', cursive;
 }
+
+.dws-submit {
+    background-color: #E2472F;/*#c51a1d;*/
+    height: 100%;
+    width: 50%;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    color: #000;
+    font-size: 24px;
+    text-align: center;
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+.dws-submit:hover {
+    background-color: #df6920;
+}
+
+.dws-input input:hover {
+    box-shadow: 0 0 6px 3px rgba(230, 230, 230, 1);
+}
+
+
 
 header nav {
     position: absolute;
@@ -24,17 +65,29 @@ header nav {
     box-sizing: border-box;
     transition: .3s;
     z-index: 9999999;
-    background-color: #0d0d0d;
 }
 
 header nav #logo a {
-    padding: 22px 20px;
+    padding: 0px 20px;
     height: 80px;
     float: left;
-    font-size: 24px;
+    font-size: 32px;
     transition: .3s;
     text-decoration: none;
-    color: #fff/*#151515*/;
+    color: #E2472F;
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+header nav #welcome {
+    /* padding: 0px 0px;*/
+    height: 50px;
+    text-align: center;
+    float: bottom;
+    font-size: 32px;
+    transition: .3s;
+    text-decoration: none;
+    color: #E2472F /*#151515*/;
+    font-family: 'Gloria Hallelujah', cursive;
 }
 
 header nav ul {
@@ -51,7 +104,7 @@ header nav ul li {
 
 header nav ul li a {
     line-height: 80px;
-    color: #fff/*#151515*/;
+    color: #fff /*#151515*/;
     padding: 12px 30px;
     text-decoration: none;
     text-transform: uppercase;
@@ -73,40 +126,7 @@ header nav ul li a:focus {
     color: #000;
 }
 
-ul.tabs {
-    float: left;
-    list-style: none;
-    height: 45px;
-    border-bottom: 1px solid silver;
-    width: 100%;
-}
 
-ul.tabs li {
-    float: left;
-    height: 45px;
-    width: 150px;
-    line-height: 45px;
-    background: #E2472F;
-    position: relative;
-}
-
-ul.tabs li a {
-    text-decoration: none;
-    text-align: center;
-    color: #000;
-    display: block;
-    font-size: 21px;
-    padding: 0 20px;
-    outline: none;
-}
-
-ul.tabs li a:hover {
-    background: #df6920;
-}
-
-ul.tabs li.active, ul.tabs li.active a:hover  {
-    background: #fff;
-}
 
 #top {
     margin-top: 120px;
@@ -142,41 +162,3 @@ tr:hover td {
     background: #e6e6e6;
 }
 
-.setting {
-    width: 450px;
-    height: 500px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.setting label {
-    font-size: 18px;
-}
-
-.setting input[type="text"], .setting input[type="password"] {
-    width: 300px;
-    height: 25px;
-    font-size: 18px;
-    margin-bottom: 25px;
-    border-radius: 4px;
-    padding-left: 10px;
-}
-
-.setting input[type="submit"] {
-    background-color: #E2472F;/*#c51a1d;*/
-    height: 45px;
-    width: 150px;
-    border-radius: 6px;
-    cursor: pointer;
-    border: none;
-    color: #000;
-    font-size: 18px;
-}
-
-.setting input[type="submit"]:hover {
-    background-color: #df6920;
-}
-
-.setting input[type="text"]:hover, .setting input[type="password"]:hover {
-    box-shadow: 0 0 6px 3px rgba(230, 230, 230, 1);
-}
