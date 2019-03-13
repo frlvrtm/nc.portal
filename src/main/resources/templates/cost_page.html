@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<title>Cost calculation</title>
@@ -11,32 +11,34 @@
 		
 		<h1>Cost calculation</h1>
 
-		<div class="main">
+		<form action="#" th:action="@{/cost_page}" th:object="${ordersDTO}" method="post">
 			<div class="dws-input">
 				<label>Start point:</label>
-				<input id="point_from" type="text" placeholder="Enter start_Point" value="" required>
+				<input id="point_from" type="text" placeholder="Enter start_Point" value="Россия, Воронеж, Красноармейская, 3a" th:field="*{point_from}" >
 			</div>
 			<div class="dws-input">
 				<label>End point:</label>
-				<input id="point_to" type="text" placeholder="Enter end_Point" value="" required>
+				<input id="point_to" type="text" placeholder="Enter end_Point" value="" th:field="*{point_to}" >
 			</div>
 			<div class="dws-input">
 				<label>Weight:</label>
-				<input id="weight" type="text" placeholder="Enter weight" value="" required>
+				<input id="weight" type="text" placeholder="Enter weight" value="" th:field="*{weight}" >
 			</div>
 			<div class="dws-input">
 				<label>Results:</label>
 				<input id="price" type="text" placeholder="Results" >
 			</div>
-			<input class="dws-button" type="button" value="Сalculate the cost" onclick="cost()"><br/><br/>
-			<a href="#" onclick="showFun('map'); return false">Show route on the map</a><br/>
+			<input class="dws-button" type="submit" name="submit" value="Сalculate the cost"><br/><br/>
+			<!--<input class="dws-button" type="button" value="Сalculate the cost" onclick="cost()"><br/><br/>
+			<a href="#" onclick="showFun('map'); return false">Show route on the map</a><br/>-->
+
 			<a href="/">Come back</a><br/>
 
 			<div id="map">
 
 			</div>
 
-		</div>
+		</form>
 
 		
 <!--
