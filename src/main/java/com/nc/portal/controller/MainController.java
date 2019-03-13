@@ -13,9 +13,4 @@ public class MainController {
         return "main";
     }
 
-    @GetMapping(value = "/cost_page")
-    public String getCost_Page() {
-        return "cost_page";
-    }
-
 }
