@@ -1,8 +1,6 @@
 package com.nc.portal.service;
 
 import com.nc.portal.model.CarDTO;
-import com.nc.portal.model.DriverDTO;
-import com.nc.portal.model.ListDriverDTO;
 import com.nc.portal.model.UserDTO;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,7 +15,7 @@ import java.util.List;
 @Service
 public class AdminService {
 
-    private final String URL_DRIVER = "http://localhost:8082/driver";
+    /*private final String URL_DRIVER = "http://localhost:8082/driver";
     private final String URL_CARS = "http://localhost:8082/car";
     private final String URL_CREATE = "http://localhost:8082/user/employee";
     private final String URL_UPDATE = "http://localhost:8082/user/update";
@@ -64,7 +62,7 @@ public class AdminService {
         }
     }
 
-    public int createEmployee(UserDTO userDTO) /*throws JSONException*/ {
+    public int createEmployee(UserDTO userDTO) *//*throws JSONException*//* {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -91,7 +89,7 @@ public class AdminService {
     }
 
 
-    public int updateUsers(ListDriverDTO listDriverDTO) /*throws JSONException*/ {
+    public int updateUsers(ListDriverDTO listDriverDTO) *//*throws JSONException*//* {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -127,5 +125,5 @@ public class AdminService {
             }
             return -1;
         }
-    }
+    }*/
 }

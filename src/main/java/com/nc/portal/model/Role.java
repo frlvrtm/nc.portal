@@ -1,3 +1,22 @@
 package com.nc.portal.model;
 
-public enum Role { ADMIN, OPERATOR, DRIVER, CUSTOMER,UNAUTHORIZED }
+import lombok.Data;
+import lombok.Getter;
+
+public enum Role {
+    UNAUTHORIZED("auth"),
+    ADMIN("admin"),
+    DRIVER("driver"),
+    OPERATOR("operator"),
+    CUSTOMER("customer");
+
+    @Getter
+    String url;
+
+    Role(String url) {
+        this.url = url;
+    }
+
+    Role() {
+    }
+}

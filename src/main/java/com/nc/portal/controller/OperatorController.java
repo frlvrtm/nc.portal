@@ -21,18 +21,20 @@ public class OperatorController {
 
     @Autowired
     OrdersService ordersService;
+
     @InitBinder//конвертер для пустой строки в дату
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
         // true passed to CustomDateEditor constructor means convert empty String to null
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));//пустая дата
-        binder.registerCustomEditor(String.class,new StringTrimmerEditor(true));//пустая строка
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));//пустая строка
     }
+
     @GetMapping
     public String getPage(Model model) {
-        if (UserDTO.getStaticRole().equals(Role.OPERATOR)) {
-            OrdersDTO[] ordersDTO= ordersService.getAllOrders();
+        if (UserDTO.staticRole.equals(Role.OPERATOR)) {
+            OrdersDTO[] ordersDTO = ordersService.getAllOrders();
             model.addAttribute("orders", ordersDTO);
             model.addAttribute("order", new OrdersDTO());
             return "operator";
@@ -41,11 +43,12 @@ public class OperatorController {
         return "redirect:/auth";
 
     }
+
     @PostMapping
-    public String updateOrder(@ModelAttribute OrdersDTO order ,Model model) {
-        if (UserDTO.getStaticRole().equals(Role.OPERATOR)) {
+    public String updateOrder(@ModelAttribute OrdersDTO order, Model model) {
+        if (UserDTO.staticRole.equals(Role.OPERATOR)) {
             ordersService.updateOrders(order);
-            OrdersDTO[] ordersDTO= ordersService.getAllOrders();
+            OrdersDTO[] ordersDTO = ordersService.getAllOrders();
             model.addAttribute("orders", ordersDTO);
             model.addAttribute("order", new OrdersDTO());
             return "operator";
@@ -54,5 +57,4 @@ public class OperatorController {
         return "redirect:/auth";
 
     }
-
 }

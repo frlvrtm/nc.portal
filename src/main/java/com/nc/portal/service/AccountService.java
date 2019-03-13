@@ -31,7 +31,7 @@ public class AccountService {
         String notEncoded = user + ":" + password;
         String encodedAuth = "Basic " + Base64.getEncoder().encodeToString(notEncoded.getBytes(Charset.forName("US-ASCII")));
         //
-        UserDTO.setBasicAuth(encodedAuth);
+        //UserDTO.setBasicAuth(encodedAuth);
         //
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -51,7 +51,7 @@ public class AccountService {
             ResponseEntity<String> response = restTemplate.exchange(URL, HttpMethod.GET, request, String.class);
             System.out.println("Result - status " + response.getBody());
             //  userDTO.setRole(response.getBody());
-            UserDTO.setStaticRole(Role.valueOf(response.getBody()));
+            UserDTO.staticRole = Role.valueOf(response.getBody());
         } catch (Exception e) {
             userDTO.setRole("UNAUTHORIZED");
             System.out.println("** Exception: " + e.getMessage());
@@ -93,7 +93,7 @@ public class AccountService {
 
     public void logout() {
         try {
-            UserDTO.setBasicAuth("");
+           // UserDTO.setBasicAuth("");
             HttpHeaders headers = new HttpHeaders();
             HttpEntity<String> request = new HttpEntity<String>(headers);
             ResponseEntity<String> response = restTemplate.exchange(URL_CLEAR, HttpMethod.GET, request, String.class);

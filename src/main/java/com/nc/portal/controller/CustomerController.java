@@ -19,7 +19,7 @@ public class CustomerController {
 
     @GetMapping
     public String getPage(Model model) {
-        if (UserDTO.getStaticRole().equals(Role.CUSTOMER)) {
+        if (UserDTO.staticRole.equals(Role.CUSTOMER)) {
             OrdersDTO[] ordersDTO = ordersService.getAllOrders();
             model.addAttribute("orders", ordersDTO);
             return "customer";
@@ -31,7 +31,7 @@ public class CustomerController {
     @RequestMapping(value = "/create")
     @GetMapping
     public String updateOrder(Model model) {
-        if (UserDTO.getStaticRole().equals(Role.CUSTOMER)) {
+        if (UserDTO.staticRole.equals(Role.CUSTOMER)) {
             model.addAttribute("order", new OrdersDTO());
             return "orderscreate";
         }

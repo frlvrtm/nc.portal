@@ -24,7 +24,7 @@ public class LogoutController {
     @GetMapping
     public String logout() {
         accountService.logout();
-        UserDTO.setStaticRole(Role.UNAUTHORIZED);
+        UserDTO.staticRole = Role.UNAUTHORIZED;
         return "redirect:/auth?logout";
     }
 

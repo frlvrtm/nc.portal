@@ -1,7 +1,4 @@
 package com.nc.portal.controller;
-
-import com.nc.portal.model.DriverDTO;
-import com.nc.portal.model.ListDriverDTO;
 import com.nc.portal.model.Role;
 import com.nc.portal.model.UserDTO;
 import com.nc.portal.service.AccountService;
@@ -31,7 +28,7 @@ public class AdminController {
      */
     @GetMapping()
     public String logInForAdmin(Model model) {
-        if (UserDTO.getStaticRole().equals(Role.ADMIN)) {
+        if (UserDTO.staticRole.equals(Role.ADMIN)) {
             return "redirect:/admin/page";
         }
         model.addAttribute("userDTO", new UserDTO());
@@ -45,7 +42,7 @@ public class AdminController {
      * @param model
      * @return
      */
-    @PostMapping
+   /* @PostMapping
     public String submit(@ModelAttribute UserDTO userDTO, Model model) {
         accountService.getRole(userDTO);
         if (UserDTO.getStaticRole().equals(Role.ADMIN)) {
@@ -64,12 +61,12 @@ public class AdminController {
         }
     }
 
-    /**
+    *//**
      * Страница админа
      *
      * @param model
      * @return
-     */
+     *//*
     @GetMapping("/page")
     public String getPageAddUser(Model model) {
         if (UserDTO.getStaticRole().equals(Role.ADMIN)) {
@@ -77,11 +74,11 @@ public class AdminController {
             model.addAttribute("drivers", new ListDriverDTO(list));
             model.addAttribute("userDTO", new UserDTO());
             model.addAttribute("cars", adminService.getFreeCars());
-/*            ListDriverDTO list = new ListDriverDTO();
+*//*            ListDriverDTO list = new ListDriverDTO();
             for (int i = 1; i <= 2; i++) {
                 list.add(new DriverDTO());
             }
-            model.addAttribute("form", list);*/
+            model.addAttribute("form", list);*//*
             return "admin";
         } else
             return "error/access-denied";
@@ -111,5 +108,5 @@ public class AdminController {
             return "redirect:/admin/page";
         } else
             return "error/access-denied";
-    }
+    }*/
 }
