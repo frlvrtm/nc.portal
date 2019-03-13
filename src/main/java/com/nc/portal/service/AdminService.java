@@ -13,12 +13,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AdminService {
+public class AdminService implements GlobalConstants {
 
-    /*private final String URL_DRIVER = "http://localhost:8082/driver";
-    private final String URL_CARS = "http://localhost:8082/car";
-    private final String URL_CREATE = "http://localhost:8082/user/employee";
-    private final String URL_UPDATE = "http://localhost:8082/user/update";
+    /*private String URL_DRIVER;
+    private String URL_CARS;
+    private String URL_CREATE;
+    private String URL_UPDATE;
+
+    public AdminService() {
+        this.URL_DRIVER = URL + "driver";
+        this.URL_CARS = URL + "car";
+        this.URL_CREATE = URL + "user/employee";
+        this.URL_UPDATE = URL + "user/update";
+    }
+
+    //private final String URL_DRIVER = "http://localhost:8082/driver";
+    //private final String URL_CARS = "http://localhost:8082/car";
+    //private final String URL_CREATE = "http://localhost:8082/user/employee";
+    //private final String URL_UPDATE = "http://localhost:8082/user/update";
     private final RestTemplate restTemplate = new RestTemplate();
 
     public List<DriverDTO> getAllDrivers() {

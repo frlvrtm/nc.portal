@@ -13,11 +13,21 @@ import java.nio.charset.Charset;
 import java.util.Base64;
 
 @Service
-public class AccountService {
+public class AccountService implements GlobalConstants {
 
-    private final String URL = "http://localhost:8082/auth/role";
+    private String URL_AUTH;
+    private String URL_CREATE;
+    private String URL_CLEAR;
+
+    public AccountService() {
+        this.URL_AUTH = URL + "auth/role";
+        this.URL_CREATE = URL + "user";
+        this.URL_CLEAR = URL + "auth/clear";
+    }
+
+    /*private final String URL = "http://localhost:8082/auth/role";
     private final String URL_CREATE = "http://localhost:8082/user";
-    private final String URL_CLEAR = "http://localhost:8082/auth/clear";
+    private final String URL_CLEAR = "http://localhost:8082/auth/clear";*/
     private final RestTemplate restTemplate = new RestTemplate();
 
     /**
@@ -48,7 +58,7 @@ public class AccountService {
         try {
             HttpHeaders headers = createHttpHeaders(userDTO.getUsername(), userDTO.getPassword());//new HttpHeaders();//createHttpHeaders(userDTO.getUsername(), userDTO.getPassword());
             HttpEntity<String> request = new HttpEntity<String>(headers);
-            ResponseEntity<String> response = restTemplate.exchange(URL, HttpMethod.GET, request, String.class);
+            ResponseEntity<String> response = restTemplate.exchange(URL_AUTH, HttpMethod.GET, request, String.class);
             System.out.println("Result - status " + response.getBody());
             //  userDTO.setRole(response.getBody());
             UserDTO.staticRole = Role.valueOf(response.getBody());

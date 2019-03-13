@@ -8,14 +8,21 @@ import org.springframework.web.client.RestTemplate;
 
 
 @Service
-public class OrdersService {
-    private final String URL = "http://localhost:8082/orders";
+public class OrdersService implements GlobalConstants {
+
+    private String URL_ORDERS;
+
+    public OrdersService() {
+        this.URL_ORDERS = URL + "orders";
+    }
+
+    //private final String URL = "http://localhost:8082/orders";
     private final ObjectMapper mapper = new ObjectMapper();
     private final RestTemplate restTemplate = new RestTemplate();
 
     public OrdersDTO[] getAllOrders() /*throws JSONException*/ {
         try {
-            ResponseEntity<OrdersDTO[]> responseEntity = restTemplate.getForEntity(URL, OrdersDTO[].class);
+            ResponseEntity<OrdersDTO[]> responseEntity = restTemplate.getForEntity(URL_ORDERS, OrdersDTO[].class);
             OrdersDTO[] objects = responseEntity.getBody();
             return objects;
         } catch (Exception e) {
@@ -26,7 +33,7 @@ public class OrdersService {
 
     public OrdersDTO[] getOrdersByCust(String custname) {
         try {
-            String GetURL = URL+"/customer?" +"custname=" + custname;
+            String GetURL = URL_ORDERS+"/customer?" +"custname=" + custname;
             ResponseEntity<OrdersDTO[]> responseEntity = restTemplate.getForEntity(GetURL, OrdersDTO[].class);
             OrdersDTO[] objects = responseEntity.getBody();
             return objects;
@@ -45,7 +52,7 @@ public class OrdersService {
             String request = mapper.writeValueAsString(ordersDTO);
 
             HttpEntity<String> entity = new HttpEntity<String>(request, headers);
-            ResponseEntity<String> response = restTemplate.exchange(URL, HttpMethod.POST, entity, String.class);
+            ResponseEntity<String> response = restTemplate.exchange(URL_ORDERS, HttpMethod.POST, entity, String.class);
             System.out.println("Result - status " + response.getStatusCode());
         }
         catch (Exception e) {
