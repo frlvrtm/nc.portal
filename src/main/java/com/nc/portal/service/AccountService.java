@@ -1,5 +1,6 @@
 package com.nc.portal.service;
 
+import com.nc.portal.model.Role;
 import com.nc.portal.model.UserDTO;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,7 +51,7 @@ public class AccountService {
             ResponseEntity<String> response = restTemplate.exchange(URL, HttpMethod.GET, request, String.class);
             System.out.println("Result - status " + response.getBody());
             //  userDTO.setRole(response.getBody());
-            UserDTO.setStaticRole(response.getBody());
+            UserDTO.setStaticRole(Role.valueOf(response.getBody()));
         } catch (Exception e) {
             userDTO.setRole("UNAUTHORIZED");
             System.out.println("** Exception: " + e.getMessage());

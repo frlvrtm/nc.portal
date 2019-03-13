@@ -1,6 +1,7 @@
 package com.nc.portal.controller;
 
 import com.nc.portal.model.OrdersDTO;
+import com.nc.portal.model.Role;
 import com.nc.portal.model.UserDTO;
 import com.nc.portal.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class OperatorController {
     }
     @GetMapping
     public String getPage(Model model) {
-        if (UserDTO.getStaticRole().equals("OPERATOR")) {
+        if (UserDTO.getStaticRole().equals(Role.OPERATOR)) {
             OrdersDTO[] ordersDTO= ordersService.getAllOrders();
             model.addAttribute("orders", ordersDTO);
             model.addAttribute("order", new OrdersDTO());
@@ -42,7 +43,7 @@ public class OperatorController {
     }
     @PostMapping
     public String updateOrder(@ModelAttribute OrdersDTO order ,Model model) {
-        if (UserDTO.getStaticRole().equals("OPERATOR")) {
+        if (UserDTO.getStaticRole().equals(Role.OPERATOR)) {
             ordersService.updateOrders(order);
             OrdersDTO[] ordersDTO= ordersService.getAllOrders();
             model.addAttribute("orders", ordersDTO);
@@ -53,14 +54,5 @@ public class OperatorController {
         return "redirect:/auth";
 
     }
-    @RequestMapping(value = "/create")
-    @GetMapping
-    public String updateOrder(Model model) {
-        if (UserDTO.getStaticRole().equals("OPERATOR")) {
-            model.addAttribute("order", new OrdersDTO());
-            return "orderscreate";
-        }
-        model.addAttribute("userDTO", new UserDTO());
-        return "redirect:/auth";
-    }
+
 }

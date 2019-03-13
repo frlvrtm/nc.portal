@@ -2,6 +2,7 @@ package com.nc.portal.controller;
 
 import com.nc.portal.model.DriverDTO;
 import com.nc.portal.model.ListDriverDTO;
+import com.nc.portal.model.Role;
 import com.nc.portal.model.UserDTO;
 import com.nc.portal.service.AccountService;
 import com.nc.portal.service.AdminService;
@@ -30,7 +31,7 @@ public class AdminController {
      */
     @GetMapping()
     public String logInForAdmin(Model model) {
-        if (UserDTO.getStaticRole().equals("ADMIN")) {
+        if (UserDTO.getStaticRole().equals(Role.ADMIN)) {
             return "redirect:/admin/page";
         }
         model.addAttribute("userDTO", new UserDTO());
@@ -47,16 +48,16 @@ public class AdminController {
     @PostMapping
     public String submit(@ModelAttribute UserDTO userDTO, Model model) {
         accountService.getRole(userDTO);
-        if (UserDTO.getStaticRole().equals("ADMIN")) {
+        if (UserDTO.getStaticRole().equals(Role.ADMIN)) {
             return "redirect:/admin/page";
         } else {
             String message = "";
-            if (UserDTO.getStaticRole().equals("UNAUTORIZED")) {
+            if (UserDTO.getStaticRole().equals(Role.UNAUTHORIZED)) {
                 message = "Incorrect name or password";
             } else {
-                message = "Incorrect role " + UserDTO.getStaticRole();
+                message = "Incorrect role " + UserDTO.getStaticRole().toString();
                 accountService.logout();
-                UserDTO.setStaticRole("UNAUTORIZED");
+                UserDTO.setStaticRole(Role.UNAUTHORIZED);
             }
             model.addAttribute("errorMessage", message);
             return "authadmin";
@@ -71,7 +72,7 @@ public class AdminController {
      */
     @GetMapping("/page")
     public String getPageAddUser(Model model) {
-        if (UserDTO.getStaticRole().equals("ADMIN")) {
+        if (UserDTO.getStaticRole().equals(Role.ADMIN)) {
             List<DriverDTO> list = adminService.getAllDrivers();
             model.addAttribute("drivers", new ListDriverDTO(list));
             model.addAttribute("userDTO", new UserDTO());
@@ -88,7 +89,7 @@ public class AdminController {
 
     @PostMapping("/page")
     public String addUser(@ModelAttribute UserDTO userDTO, Model model) {
-        if (UserDTO.getStaticRole().equals("ADMIN")) {
+        if (UserDTO.getStaticRole().equals(Role.ADMIN)) {
             int responseCode = adminService.createEmployee(userDTO);
             if (responseCode == 406) {
                 model.addAttribute("errorMessage", "Name already taken");
@@ -105,7 +106,7 @@ public class AdminController {
 
     @PostMapping("/update")
     public String update(@ModelAttribute("drivers") ListDriverDTO drivers, Model model) {
-        if (UserDTO.getStaticRole().equals("ADMIN")) {
+        if (UserDTO.getStaticRole().equals(Role.ADMIN)) {
             int code = adminService.updateUsers(drivers);
             return "redirect:/admin/page";
         } else

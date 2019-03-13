@@ -1,5 +1,6 @@
 package com.nc.portal.controller;
 
+import com.nc.portal.model.Role;
 import com.nc.portal.model.UserDTO;
 import com.nc.portal.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +18,16 @@ public class AuthController {
     @GetMapping
     public String getAuth(Model model) {
         switch (UserDTO.getStaticRole()) {
-            case "UNAUTHORIZED":
+            case UNAUTHORIZED:
                 model.addAttribute("userDTO", new UserDTO());
                 return "auth";
-            case "ADMIN":
+            case ADMIN:
                 return "redirect:/admin";
-            case "OPERATOR":
+            case OPERATOR:
                 return "redirect:/operator";
-            case "DRIVER":
+            case DRIVER:
                 return "redirect:/driver";
-            case "CUSTOMER":
+            case CUSTOMER:
                 return "redirect:/customer";
             default:
                 return "auth";
@@ -37,16 +38,16 @@ public class AuthController {
     public String submit(@ModelAttribute UserDTO userDTO, Model model) {
         accountService.getRole(userDTO);
         switch (UserDTO.getStaticRole()) {
-            case "UNAUTHORIZED":
+            case UNAUTHORIZED:
                 model.addAttribute("errorMessage", "incorrect name or password");
                 return "auth";
-            case "ADMIN":
+            case ADMIN:
                 return "redirect:/admin";
-            case "OPERATOR":
+            case OPERATOR:
                 return "redirect:/operator";
-            case "DRIVER":
+            case DRIVER:
                 return "redirect:/driver";
-            case "CUSTOMER":
+            case CUSTOMER:
                 return "redirect:/customer";
             default:
                 return "auth";

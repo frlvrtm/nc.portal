@@ -10,6 +10,7 @@ public class OrdersDTO {
     private String point_from;
     private String point_to;
     private double cost;
+    private String weight;
     private String description;
     private Date start_time;
     private Date end_time;

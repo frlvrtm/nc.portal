@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+	<title></title>
+	<link rel="stylesheet" href="../css/customer.css">
+	<script
+	src="https://code.jquery.com/jquery-3.3.1.js"
+	integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+	crossorigin="anonymous"></script>
+</head>
+<body>
+
+	<header>
+		<nav>
+			<div id="logo">
+				<a href="#">De Livery</a>
+			</div>
+			<ul>
+				<li><a href="/logout" class="active">Log Out</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<section id="top">
+		<div class="container">
+			<div class="tab_container">
+				<ul class="tabs">
+					<li class="active"><a href="#tab1">Orders</a></li>
+					<li class=""><a href="#tab2">History</a></li>
+					<li class=""><a href="#tab3">Setting</a></li>
+				</ul>
+				<div id="tab1" class="tab_content">
+					<table>
+						<tr><th>ID</th><th>Index1</th><th>Index2</th><th>Index3</th></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+					</table>
+				</div>
+				<div id="tab2" class="tab_content">
+					<table>
+						<tr><th>ID</th><th>Index1</th><th>Index2</th><th>Index3</th></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+					</table>
+					<!-- Контент -->
+				</div>
+				<div id="tab3" class="tab_content">
+					<div class="setting">
+						<form action="">
+							<div>
+								<label>First name:</label><br>
+								<input type="text" maxlength="25" size="40" name="firstname">
+							</div>
+							<div>
+								<label>E-mail:</label><br>
+								<input type="text" maxlength="25" size="40" name="email">
+							</div>
+							<div>
+								<label>Password:</label><br>
+								<input type="password" maxlength="25" size="40" name="password">
+							</div>
+							<input class="" type="submit" name="submit" value="Save">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+    	//Действия по умолчанию
+    	$(".tab_content").hide(); //скрыть весь контент
+    	$("ul.tabs li:first").addClass("active").show(); //Активировать первую вкладку
+    	$(".tab_content:first").show(); //Показать контент первой вкладки
+
+    	//Событие по клику
+    	$("ul.tabs li").click(function() {
+        	$("ul.tabs li").removeClass("active"); //Удалить "active" класс
+        	$(this).addClass("active"); //Добавить "active" для выбранной вкладки
+        	$(".tab_content").hide(); //Скрыть контент вкладки
+        	var activeTab = $(this).find("a").attr("href"); //Найти значение атрибута, чтобы определить активный таб + контент
+        	$(activeTab).fadeIn(); //Исчезновение активного контента
+        	return false;
+        });
+    });
+</script>
+</body>
+</html>
