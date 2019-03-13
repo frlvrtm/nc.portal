@@ -17,7 +17,7 @@ public class UserDTO {
     private String realPoint;
 
 
-
+    public static String staticUsername="";
     public static Role staticRole = Role.UNAUTHORIZED;
 
 /*    static String basicAuth = "";

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
 * {
     margin: 0;
     padding: 0;
@@ -8,10 +9,12 @@
     margin: 0 auto;
 }
 
-body {
+body,html {
     background-image: url(../img/bg11.jpg);
     background-repeat: no-repeat;
     height: 100%;
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 24px;
 }
 
 header nav {
@@ -142,41 +145,30 @@ tr:hover td {
     background: #e6e6e6;
 }
 
-.setting {
-    width: 450px;
-    height: 500px;
-    margin: 0 auto;
-    text-align: center;
-}
 
-.setting label {
-    font-size: 18px;
-}
-
-.setting input[type="text"], .setting input[type="password"] {
-    width: 300px;
-    height: 25px;
-    font-size: 18px;
-    margin-bottom: 25px;
-    border-radius: 4px;
-    padding-left: 10px;
-}
-
-.setting input[type="submit"] {
+.dws-submit {
     background-color: #E2472F;/*#c51a1d;*/
-    height: 45px;
+    height: 50px;
     width: 150px;
     border-radius: 6px;
     cursor: pointer;
     border: none;
     color: #000;
-    font-size: 18px;
+    font-size: 24px;
+    text-align: center;
+    font-family: 'Gloria Hallelujah', cursive;
 }
 
-.setting input[type="submit"]:hover {
+.dws-submit:hover {
     background-color: #df6920;
 }
 
-.setting input[type="text"]:hover, .setting input[type="password"]:hover {
-    box-shadow: 0 0 6px 3px rgba(230, 230, 230, 1);
+.dws-input {
+    width: 300px;
+    height: 50px;
+    font-size: 18px;
+    margin-bottom: 25px;
+    border-radius: 4px;
+    padding-left: 10px;
+    font-family: 'Gloria Hallelujah', cursive;
 }

@@ -25,6 +25,7 @@ public class LogoutController {
     public String logout() {
         accountService.logout();
         UserDTO.staticRole = Role.UNAUTHORIZED;
+        UserDTO.staticUsername="";
         return "redirect:/auth?logout";
     }
 

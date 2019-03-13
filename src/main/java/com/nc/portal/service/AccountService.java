@@ -52,8 +52,10 @@ public class AccountService {
             System.out.println("Result - status " + response.getBody());
             //  userDTO.setRole(response.getBody());
             UserDTO.staticRole = Role.valueOf(response.getBody());
+            UserDTO.staticUsername= userDTO.getUsername();
         } catch (Exception e) {
             userDTO.setRole("UNAUTHORIZED");
+            UserDTO.staticUsername= "";
             System.out.println("** Exception: " + e.getMessage());
         }
     }

@@ -15,8 +15,19 @@ public class OrdersService {
 
     public OrdersDTO[] getAllOrders() /*throws JSONException*/ {
         try {
-            HttpHeaders headers = new HttpHeaders();
             ResponseEntity<OrdersDTO[]> responseEntity = restTemplate.getForEntity(URL, OrdersDTO[].class);
+            OrdersDTO[] objects = responseEntity.getBody();
+            return objects;
+        } catch (Exception e) {
+            System.out.println("** Exception: " + e.getMessage());
+            return new OrdersDTO[0];
+        }
+    }
+
+    public OrdersDTO[] getOrdersByCust(String custname) {
+        try {
+            String GetURL = URL+"/customer?" +"custname=" + custname;
+            ResponseEntity<OrdersDTO[]> responseEntity = restTemplate.getForEntity(GetURL, OrdersDTO[].class);
             OrdersDTO[] objects = responseEntity.getBody();
             return objects;
         } catch (Exception e) {

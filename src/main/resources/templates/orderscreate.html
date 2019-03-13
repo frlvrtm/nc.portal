@@ -19,20 +19,12 @@
 
 <section id="top">
     <div class="container">
+        <p>Create order:</p>
         <form action="#" th:action="@{/operator/create}" th:object="${order}" method="post">
             <dl>
-                <div class="dws-input">
-                <dd><dt>id_order<input type="text" th:field="*{id_order}">
-                <dd><dt>customer<input type="text" th:field="*{customer}">
-                <dd><dt>point_from<input type="text" th:field="*{point_from}">
-                <dd><dt>point_to<input type="text" th:field="*{point_to}">
-                <dd><dt>cost<input type="text" th:field="*{cost}">
-                <dd><dt>start_time<input type="text" th:field="*{start_time}">
-                <dd><dt>end_time<input type="text" th:field="*{end_time}">
-                <dd><dt>driver<input type="text" th:field="*{driver}">
-                <dd><dt>status<input type="text" th:field="*{status}">
-                <dd><dt>description<input type="text" th:field="*{description}">
-                </div>
+                <dd><dt>point_from<input type="text" class="dws-input" th:field="*{point_from}">
+                <dd><dt>point_to<input type="text" class="dws-input" th:field="*{point_to}">
+                <dd><dt>description<input type="text" class="dws-input" th:field="*{description}">
                 <dd><input class="dws-submit" type="submit" name="submit" value="Create">
             </dl>
         </form>

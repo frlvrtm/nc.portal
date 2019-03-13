@@ -20,7 +20,7 @@ public class CustomerController {
     @GetMapping
     public String getPage(Model model) {
         if (UserDTO.staticRole.equals(Role.CUSTOMER)) {
-            OrdersDTO[] ordersDTO = ordersService.getAllOrders();
+            OrdersDTO[] ordersDTO = ordersService.getOrdersByCust(UserDTO.staticUsername);
             model.addAttribute("orders", ordersDTO);
             return "customer";
         }
