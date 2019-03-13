@@ -112,11 +112,12 @@
 
 
 <div id="id_top" class="container-table">
-    <form action="#" th:action="@{/admin/update}" th:object="${drivers}" method="post">
+    <form action="#" th:action="@{/admin/update}" th:object="${form}" method="post">
         <fieldset>
             <table>
                 <thead>
                 <tr>
+                    <th>role</th>
                     <th>username</th>
                     <th>first_name</th>
                     <th>last_name</th>
@@ -126,27 +127,42 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="driver, itemStat : *{list}">
-                    <td><input type="text"
-                               th:field="*{list[__${itemStat.index}__].username}" /></td>
-                    <td><input type="text"
-                               th:field="*{list[__${itemStat.index}__].firstName}"/></td>
-                    <td><input type="text"
-                               th:field="*{list[__${itemStat.index}__].lastName}"/></td>
-                    <td><input type="text"
-                               th:field="*{list[__${itemStat.index}__].phone}"/></td>
 
-                    <td>
-                        <select type="text" th:field="*{list[__${itemStat.index}__].carNumber}">
-                            <option th:if="${driver.carNumber}"
-                                    th:value="${driver.carNumber}"
-                                    th:utext="${driver.carNumber}"></option>
-                            <option th:unless="${driver.carNumber}" th:value="${driver.getCarNumber()}">--</option>
-                            <option th:each="car : ${cars}"
-                                    th:value="${car.number}"
-                                    th:utext="${car.number}"/>
-                        </select>
-                    </td>
+                <tr th:each="user, itemStat : *{list}">
+                        <td>
+                            <p type="text" th:text="*{list[__${itemStat.index}__].role}"></p>
+                            <input type="text" th:field="*{list[__${itemStat.index}__].role}" hidden/>
+                        </td>
+                        <td>
+                            <p type="text" th:text="*{list[__${itemStat.index}__].username}"></p>
+                            <input type="text" th:field="*{list[__${itemStat.index}__].username}" hidden/>
+                         <!--   <input type="text" th:value="${userDel.username}" hidden/>-->
+                        </td>
+                        <td><input type="text"
+                                   th:field="*{list[__${itemStat.index}__].firstName}"/></td>
+                        <td><input type="text"
+                                   th:field="*{list[__${itemStat.index}__].lastName}"/></td>
+                        <td><input type="text"
+                                   th:field="*{list[__${itemStat.index}__].phone}"/></td>
+
+                        <td th:if="${user.role == 'DRIVER'}">
+                            <select type="text" th:field="*{list[__${itemStat.index}__].carNumber}">
+                                <option th:if="${user.carNumber}"
+                                        th:value="${user.carNumber}"
+                                        th:utext="${user.carNumber}"></option>
+                                <option th:unless="${user.carNumber}" th:value="${user.carNumber}">--</option>
+                                <option th:each="car : ${cars}"
+                                        th:value="${car.number}"
+                                        th:utext="${car.number}"/>
+                            </select>
+                        </td>
+                        <td>
+                            <form name="f" th:action="@{/admin/delete}" method="post">
+                                <input type="hidden" name="username" th:value="*{list[__${itemStat.index}__].username}"/>
+                                <button type="submit">X</button>
+                            </form>
+                        </td>
+                </tr>
                 </tbody>
             </table>
             <input class="dws-submit" type="submit" name="submit" value="Update">
