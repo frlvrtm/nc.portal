@@ -1,5 +1,6 @@
 package com.nc.portal.controller;
 
+import com.nc.portal.model.Role;
 import com.nc.portal.model.UserDTO;
 import com.nc.portal.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class LogoutController {
     @GetMapping
     public String logout() {
         accountService.logout();
-        UserDTO.setStaticRole("UNAUTHORIZED");
+        UserDTO.staticRole = Role.UNAUTHORIZED;
         return "redirect:/auth?logout";
     }
 

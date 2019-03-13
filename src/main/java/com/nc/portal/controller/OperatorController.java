@@ -1,6 +1,7 @@
 package com.nc.portal.controller;
 
 import com.nc.portal.model.OrdersDTO;
+import com.nc.portal.model.Role;
 import com.nc.portal.model.UserDTO;
 import com.nc.portal.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +21,20 @@ public class OperatorController {
 
     @Autowired
     OrdersService ordersService;
+
     @InitBinder//конвертер для пустой строки в дату
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
         // true passed to CustomDateEditor constructor means convert empty String to null
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));//пустая дата
-        binder.registerCustomEditor(String.class,new StringTrimmerEditor(true));//пустая строка
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));//пустая строка
     }
+
     @GetMapping
     public String getPage(Model model) {
-        if (UserDTO.getStaticRole().equals("OPERATOR")) {
-            OrdersDTO[] ordersDTO= ordersService.getAllOrders();
+        if (UserDTO.staticRole.equals(Role.OPERATOR)) {
+            OrdersDTO[] ordersDTO = ordersService.getAllOrders();
             model.addAttribute("orders", ordersDTO);
             model.addAttribute("order", new OrdersDTO());
             return "operator";
@@ -40,11 +43,12 @@ public class OperatorController {
         return "redirect:/auth";
 
     }
+
     @PostMapping
-    public String updateOrder(@ModelAttribute OrdersDTO order ,Model model) {
-        if (UserDTO.getStaticRole().equals("OPERATOR")) {
+    public String updateOrder(@ModelAttribute OrdersDTO order, Model model) {
+        if (UserDTO.staticRole.equals(Role.OPERATOR)) {
             ordersService.updateOrders(order);
-            OrdersDTO[] ordersDTO= ordersService.getAllOrders();
+            OrdersDTO[] ordersDTO = ordersService.getAllOrders();
             model.addAttribute("orders", ordersDTO);
             model.addAttribute("order", new OrdersDTO());
             return "operator";
@@ -53,10 +57,11 @@ public class OperatorController {
         return "redirect:/auth";
 
     }
+
     @RequestMapping(value = "/create")
     @GetMapping
     public String updateOrder(Model model) {
-        if (UserDTO.getStaticRole().equals("OPERATOR")) {
+        if (UserDTO.staticRole.equals(Role.OPERATOR)) {
             model.addAttribute("order", new OrdersDTO());
             return "orderscreate";
         }

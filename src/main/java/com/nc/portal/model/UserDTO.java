@@ -16,23 +16,16 @@ public class UserDTO {
     private String carNumber;
     private String realPoint;
 
-    static String staticRole = "UNAUTHORIZED";
 
-    public static String getStaticRole() {
-        return staticRole;
-    }
+    public static Role staticRole = Role.UNAUTHORIZED;
 
-    public static void setStaticRole(String role){
-        staticRole = role;
-    }
-
-    static String basicAuth = "";
+/*    static String basicAuth = "";
 
     public static String getBasicAuth() {
         return basicAuth;
     }
 
-    public static void setBasicAuth(String basic){
+    public static void setBasicAuth(String basic) {
         basicAuth = basic;
-    }
+    }*/
 }
