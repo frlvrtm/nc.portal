@@ -40,7 +40,7 @@ public class OperatorController {
             return "operator";
         }
         model.addAttribute("userDTO", new UserDTO());
-        return "redirect:/auth";
+        return "error/access-denied";
 
     }
 
@@ -54,7 +54,7 @@ public class OperatorController {
             return "operator";
         }
         model.addAttribute("userDTO", new UserDTO());
-        return "redirect:/auth";
+        return "error/access-denied";
 
     }
 }

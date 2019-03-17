@@ -28,6 +28,7 @@ public class AdminService {
     private final String URL_CREATE;
     private final String URL_UPDATE;
     private final String URL_DELETE;
+
     public AdminService() {
         this.URL_ALL_EMPLOYEES = URL + "user";
         this.URL_CARS = URL + "car";
@@ -40,11 +41,6 @@ public class AdminService {
 
     public List<UserDTO> getAllEmployees() {
         try {
-            // HttpHeaders headers = new HttpHeaders();
-            // headers.setContentType(MediaType.APPLICATION_JSON);
-            // headers.set("Authorization", UserDTO.getBasicAuth());
-            //.. HttpEntity«DriverDTO[]> request = new HttpEntity<String>(headers);
-            // ResponseEntity<String> response = restTemplate.exchange(URL, HttpMethod.GET, request, String.class);
             HttpHeaders headers = new HttpHeaders();
             HttpEntity<String> request = new HttpEntity<String>(headers);
             ResponseEntity<String> response = restTemplate.exchange(URL_ALL_EMPLOYEES, HttpMethod.GET, request, String.class);

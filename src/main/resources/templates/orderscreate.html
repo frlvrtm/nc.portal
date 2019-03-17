@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Create orders</title>
-    <link rel="stylesheet" href="../css/operator.css">
+    <link rel="stylesheet" href="../css/custandop.css">
 </head>
 <body>
 
@@ -20,10 +20,11 @@
 <section id="top">
     <div class="container">
         <p>Create order:</p>
-        <form action="#" th:action="@{/operator/create}" th:object="${order}" method="post">
+        <form action="#" th:action="@{/customer/create}" th:object="${order}" method="post">
             <dl>
                 <dd><dt>point_from<input type="text" class="dws-input" th:field="*{point_from}">
                 <dd><dt>point_to<input type="text" class="dws-input" th:field="*{point_to}">
+                <dd><dt>weight<input type="text" class="dws-input" th:field="*{weight}">
                 <dd><dt>description<input type="text" class="dws-input" th:field="*{description}">
                 <dd><input class="dws-submit" type="submit" name="submit" value="Create">
             </dl>

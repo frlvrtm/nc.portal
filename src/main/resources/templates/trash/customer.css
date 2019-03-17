@@ -9,7 +9,7 @@
 }
 
 body {
-    background-image: url(../img/bg11.jpg);
+    background-image: url(../../static/img/bg11.jpg);
     background-repeat: no-repeat;
     height: 100%;
     overflow: hidden;
