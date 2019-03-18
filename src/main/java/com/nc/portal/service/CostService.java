@@ -21,14 +21,15 @@ public class CostService implements GlobalConstants {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             JSONObject request = new JSONObject();
-            //request.put("url", "https://geocode-maps.yandex.ru/1.x/?apikey=07aaccb9-d30b-458f-8c06-49710fbacfcd&format=json&geocode=" + ordersDTO.getPoint_from() + "&results=1");
             request.put("point_from", ordersDTO.getPoint_from());
-            /*request.put("point_to", ordersDTO.getPoint_to());
-            request.put("weight", ordersDTO.getWeight());*/
+            request.put("point_to", ordersDTO.getPoint_to());
+            request.put("weight", ordersDTO.getWeight());
+
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
             ResponseEntity<String> response = restTemplate.exchange(URL_COST, HttpMethod.POST, entity, String.class);
-            System.out.println("Result - status " + response.getStatusCode());
+            System.out.println("Result - " + response.getBody());
+            ordersDTO.setPrice(Double.parseDouble(response.getBody()));
         }
         catch (Exception e)
         {

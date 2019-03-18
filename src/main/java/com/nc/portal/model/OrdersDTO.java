@@ -17,4 +17,6 @@ public class OrdersDTO {
     private String status;
     private String driver;
     private String customer;
+
+    private double price;
 }

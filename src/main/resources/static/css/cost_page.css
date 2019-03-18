@@ -5,14 +5,10 @@ body, html {
 	background-repeat: no-repeat;
 	height: 100%;
 	overflow: hidden;
+	background-blend-mode: multiply;
+	background-color: #737e88bf;
 
 	font-family: 'Gloria Hallelujah', cursive;
-}
-
-#map {
-	display: none;
-	height: 300px;
-	width: 100%;
 }
 
 h1 {
@@ -26,7 +22,7 @@ h1 {
 	text-align: center;
 }
 
-input[type="text"] {
+input[type="text"], select {
 	width: 300px;
 	height: 50px;
 	font-size: 18px;
@@ -36,15 +32,18 @@ input[type="text"] {
 	font-family: 'Gloria Hallelujah', cursive;
 }
 
-#price {
-	background-color: #ffe6cc;
-	color: #ff3300;
+select {
+	width: 313px;
+}
+
+#weight {
+	display: none;
 }
 
 .dws-button {
 	background-color: #E2472F;
-	height: 100%;
-	width: 50%;
+	height: 50px;
+	width: 313px;
 	border-radius: 6px;
 	cursor: pointer;
 	border: none;
@@ -58,31 +57,54 @@ input[type="text"] {
 	background-color: #df6920;
 }
 
-.dws-input input:hover {
+.dws-input input:hover, select:hover {
 	box-shadow: 0 0 6px 3px rgba(230, 230, 230, 1);
 }
 
 .dws-input {
 	clear: both;
-	text-align: right;
-}
-
-.main {
-	margin-left: 250px;
-	float: left;
+	text-align: center;
 }
 
 label {
-	float: left;
-	padding-right: 10px;
+	font-size: 18px;
 }
 
 a {
-    color: #000;
-    font-size: 16px;
+	color: #000;
+	font-size: 16px;
 }
 
 a:hover {
-    text-decoration: none;
-    color: #fff;
+	text-decoration: none;
+	color: #fff;
+}
+
+.close {
+	font-size: 18px;
+	color: white;
+	padding: 10px 30px;
+	cursor: pointer;
+	background: #E2472F;
+	display: inline-block;
+	border-radius: 4px;
+}
+
+#dws-alert {
+	width: 500px;
+	overflow: hidden;
+	background: #f1f1f1;
+	box-shadow: 0 0 20px black;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 10px;
+	text-align: center;
+}
+
+#dws-alert span {
+	color: #000;
+	font-size: 40px;
+	margin: 20px 0;
 }

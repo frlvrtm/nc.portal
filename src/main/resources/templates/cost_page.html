@@ -11,53 +11,39 @@
 		
 		<h1>Cost calculation</h1>
 
-		<form action="#" th:action="@{/cost_page}" th:object="${ordersDTO}" method="post">
+		<div th:if="${Message}">
+			<div id="dws-alert">
+				<span th:text="${Message}"></span><br/>
+				<a href="" class="close">Close</a>
+			</div>
+		</div>
+
+		<form action="#" th:action="@{/cost_page}" th:object="${ordersDTO}" method="POST">
 			<div class="dws-input">
-				<label>Start point:</label>
-				<input id="point_from" type="text" placeholder="Enter start_Point" value="Россия, Воронеж, Красноармейская, 3a" th:field="*{point_from}" >
+				<label>Start point:</label><br/>
+				<input id="point_from" type="text" placeholder="Enter start_Point" th:field="*{point_from}" >
 			</div>
 			<div class="dws-input">
-				<label>End point:</label>
-				<input id="point_to" type="text" placeholder="Enter end_Point" value="" th:field="*{point_to}" >
+				<label>End point:</label><br/>
+				<input id="point_to" type="text" placeholder="Enter end_Point" th:field="*{point_to}" >
 			</div>
 			<div class="dws-input">
-				<label>Weight:</label>
-				<input id="weight" type="text" placeholder="Enter weight" value="" th:field="*{weight}" >
+				<input id="weight" type="text" th:field="*{weight}" >
 			</div>
 			<div class="dws-input">
-				<label>Results:</label>
-				<input id="price" type="text" placeholder="Results" >
+				<label>Type of car:</label><br/>
+				<select id="select_id" onchange="document.getElementById('weight').value=value">
+					<option value=""></option>
+					<option value="18">Gazelle (1.5 ton)</option>
+					<option value="22">Goby (3 ton)</option>
+				</select>
 			</div>
 			<input class="dws-button" type="submit" name="submit" value="Сalculate the cost"><br/><br/>
-			<!--<input class="dws-button" type="button" value="Сalculate the cost" onclick="cost()"><br/><br/>
-			<a href="#" onclick="showFun('map'); return false">Show route on the map</a><br/>-->
-
 			<a href="/">Come back</a><br/>
-
-			<div id="map">
-
-			</div>
-
 		</form>
 
-		
-<!--
-	<div id="distance">
-		
-	</div>
--->
 	</div>
 
-
-<script 
-src="https://api-maps.yandex.ru/2.1/?apikey=07aaccb9-d30b-458f-8c06-49710fbacfcd&lang=ru_RU" type="text/javascript">
-</script>
-<!--
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFAnKxruTfL_1VfoQAuE7EUL1MHaZMQxo&callback=initMap">
-</script>
--->
-<script type="text/javascript" src="../js/ymap.js"></script>
 </body>
 </html>
 

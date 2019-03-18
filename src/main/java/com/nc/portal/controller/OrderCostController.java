@@ -24,9 +24,9 @@ public class OrderCostController {
     }
 
     @PostMapping()
-    public void submit(@ModelAttribute OrdersDTO ordersDTO) {
+    public void submit(@ModelAttribute OrdersDTO ordersDTO, Model model) {
         costService.getInfo(ordersDTO);
-        System.out.println("ordersDTO POST: " + ordersDTO.getPoint_from());
+        model.addAttribute("Message", "Delivery will cost you - " + ordersDTO.getPrice());
     }
 
 }
