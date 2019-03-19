@@ -1,9 +1,10 @@
 package com.nc.portal.utils;
 
+import com.nc.portal.model.CarDTO;
 import com.nc.portal.model.UserDTO;
 import org.json.JSONObject;
 
-public class UserUtils {
+public class JSONUtils {
 
 
     public static UserDTO getUserOfJSON(JSONObject json) {
@@ -46,6 +47,19 @@ public class UserUtils {
             json.put("phone", userDTO.getPhone());
             if (!(userDTO.getCarNumber() == null))
                 json.put("carNumber", userDTO.getCarNumber());
+            return json;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public static JSONObject getJSONOfCar(CarDTO carDTO) {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("number", carDTO.getNumber());
+            json.put("model", carDTO.getModel());
+            json.put("color", carDTO.getColor());
             return json;
         } catch (Exception e) {
             System.out.println(e.getMessage());
