@@ -6,14 +6,14 @@ import java.sql.Date;
 
 @Data
 public class OrdersDTO {
-    private int id_order;
-    private String point_from;
-    private String point_to;
+    private int idOrder;
+    private String pointFrom;
+    private String pointTo;
     private double cost;
     private String weight;
     private String description;
-    private Date start_time;
-    private Date end_time;
+    private Date startTime;
+    private Date endTime;
     private String status;
     private String driver;
     private String customer;

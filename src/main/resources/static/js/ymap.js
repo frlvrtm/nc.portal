@@ -14,8 +14,8 @@ function init()
 
 function cost()
 {
-	point_1 = document.getElementById("point_from").value;
-	point_2 = document.getElementById("point_to").value;
+	point_1 = document.getElementById("pointFrom").value;
+	point_2 = document.getElementById("pointTo").value;
 	var weight = document.getElementById("weight").value;
 
 	ymaps.geocode(point_1, {
