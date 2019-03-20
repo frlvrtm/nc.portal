@@ -1,19 +1,23 @@
 package com.nc.portal.controller;
 
+import com.nc.portal.controller.validators.ListUserValidator;
 import com.nc.portal.model.CarDTO;
+import com.nc.portal.model.ListUser;
 import com.nc.portal.model.Role;
 import com.nc.portal.model.UserDTO;
 import com.nc.portal.service.AccountService;
 import com.nc.portal.service.AdminService;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,8 +32,21 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
+    @Autowired
+    ListUserValidator listUserValidator;
+
     //Словарь для добавления аттрибутов в модель
-    private Map<String, String> dictionary = new HashMap<String, String>();
+    private Map<String, String> dictionary = new HashMap<>();
+
+    @InitBinder("form")
+    public void initBinder(WebDataBinder binder, HttpServletRequest request) {
+        if (request.getMethod().equals("POST")) {
+            //проверка на дубликаты
+            binder.setValidator(listUserValidator);
+            //из "" сдеть null
+            binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+        }
+    }
 
     /**
      * Метод для отображения страницы входа для админа
@@ -39,7 +56,7 @@ public class AdminController {
      */
     @GetMapping()
     public String logInForAdmin(Model model) {
-        if (UserDTO.staticRole.equals(Role.ADMIN)) {
+        if (UserDTO.staticRole == Role.ADMIN) {
             return "redirect:/admin/page";
         }
         model.addAttribute("userDTO", new UserDTO());
@@ -56,7 +73,7 @@ public class AdminController {
     @PostMapping
     public String submit(@ModelAttribute UserDTO userDTO, Model model) {
         accountService.getRole(userDTO);
-        if (UserDTO.staticRole.equals(Role.ADMIN)) {
+        if (UserDTO.staticRole == Role.ADMIN) {
             return "redirect:/admin/page";
         } else {
             String message = "";
@@ -79,17 +96,30 @@ public class AdminController {
      * @return
      */
     @GetMapping("/page")
-    public String getPageAddUser(Model model) {
+    public String getPageAdd(Model model) {
         if (UserDTO.staticRole.equals(Role.ADMIN)) {
-            model = getAttributeModel(model);
+            //все сотрудники
+            model.addAttribute("form", new ListUser(adminService.getAllEmployees()));
+            //форма для заполнения нового юзера
+            model.addAttribute("userDTO", new UserDTO());
+            //форма для заполнения новой машины
+            model.addAttribute("carDTO", new CarDTO());
+            //Список всех машин без водителей
+            model.addAttribute("cars", adminService.getFreeCars());
+            //alert
+            for (String key : dictionary.keySet()) {
+                model.addAttribute(key, dictionary.get(key));
+            }
+            //очистить словарь
+            dictionary = new HashMap<>();
             return "admin";
         } else
             return "error/access-denied";
     }
 
     @PostMapping("/page")
-    public String addUser(@ModelAttribute UserDTO userDTO, Model model) {
-        if (UserDTO.staticRole.equals(Role.ADMIN)) {
+    public String addUser(@ModelAttribute UserDTO userDTO) {
+        if (UserDTO.staticRole == Role.ADMIN) {
             int code = adminService.createEmployee(userDTO);
             switch (code) {
                 case 201:
@@ -108,17 +138,19 @@ public class AdminController {
             return "error/access-denied";
     }
 
-
     @PostMapping("/update")
-    public String update(@ModelAttribute("form") ListUser listUser) {
-        if (UserDTO.staticRole.equals(Role.ADMIN)) {
-            int code = adminService.updateUsers(listUser.getList());
+    public String update(@ModelAttribute("form") @Valid ListUser listUser, BindingResult bindingResult) {
+        if (UserDTO.staticRole == Role.ADMIN) {
+            if (bindingResult.hasErrors()) {
+                dictionary.put("errorMessage", "1 car selected for 2 drivers");
+                dictionary.put("flag2", "2");
+                return "redirect:/admin/page";
+            }
+            List<UserDTO> list = listUser.getList();
+            int code = adminService.updateUsers(list);
             switch (code) {
                 case 0:
                     dictionary.put("infoMessage", "No changes, no need to update");
-                    break;
-                case 1:
-                    dictionary.put("errorMessage", "1 car selected for 2 drivers");
                     break;
                 case 201:
                     dictionary.put("infoMessage", "Updated");
@@ -167,41 +199,4 @@ public class AdminController {
         } else
             return "error/access-denied";
     }
-
-    private Model getAttributeModel(Model model) {
-        //все сотрудники
-        model.addAttribute("form", new ListUser(adminService.getAllEmployees()));
-        //форма для заполнения нового юзера
-        model.addAttribute("userDTO", new UserDTO());
-        //форма для заполнения новой машины
-        model.addAttribute("carDTO", new CarDTO());
-        //Список всех машин без водителей
-        model.addAttribute("cars", adminService.getFreeCars());
-        //alert
-        for (String key : dictionary.keySet()) {
-            model.addAttribute(key, dictionary.get(key));
-        }
-        //очистить словарь
-        dictionary = new HashMap<String, String>();
-        return model;
-    }
-
-
-    /**
-     * Внутренний класс для завертывания List<UserDTO> в объект и отправку на форму(html)
-     */
-    @Data
-    public static class ListUser {
-        private List<UserDTO> list;
-
-        public ListUser() {
-            this.list = new ArrayList<>();
-        }
-
-        public ListUser(List<UserDTO> list) {
-            this.list = list;
-        }
-    }
-
-
 }
