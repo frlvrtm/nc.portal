@@ -2,7 +2,7 @@ package com.nc.portal.service;
 
 import com.nc.portal.model.CarDTO;
 import com.nc.portal.model.UserDTO;
-import com.nc.portal.utils.UserUtils;
+import com.nc.portal.utils.JSONUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.*;
@@ -49,7 +49,7 @@ public class AdminService {
             List<UserDTO> list = new ArrayList<>();
 
             for (int i = 0; i < jsonArray.length(); i++) {
-                list.add(UserUtils.getUserOfJSON(jsonArray.getJSONObject(i)));
+                list.add(JSONUtils.getUserOfJSON(jsonArray.getJSONObject(i)));
             }
             return list;
         } catch (Exception e) {
@@ -74,31 +74,52 @@ public class AdminService {
         }
     }
 
-    public boolean createEmployee(UserDTO userDTO) {
+    public int createEmployee(UserDTO userDTO) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
-            HttpEntity<String> entity = new HttpEntity<String>(UserUtils.getJSONOfUser(userDTO).toString(), headers);
+            HttpEntity<String> entity = new HttpEntity<String>(JSONUtils.getJSONOfUser(userDTO).toString(), headers);
             ResponseEntity<String> response = restTemplate.exchange(URL_CREATE, HttpMethod.POST, entity, String.class);
-            return true;
+            return response.getStatusCode().value();
         } catch (HttpClientErrorException e) {
-            return false;
+            return e.getRawStatusCode();
         } catch (Exception e) {
-            //Пока не знаю как обрабатывать данную ситуацию
-            return false;
+            return -1;
         }
     }
 
 
     public int updateUsers(List<UserDTO> listUserUpdate) {
         try {
+            boolean duplicates = false;
+            for (int j = 0; j < listUserUpdate.size(); j++) {
+                for (int k = j + 1; k < listUserUpdate.size(); k++) {
+                    if ((listUserUpdate.get(k).getCarNumber() != null) && (listUserUpdate.get(j).getCarNumber() != null))
+                        if (k != j && listUserUpdate.get(k).getCarNumber().equals(listUserUpdate.get(j).getCarNumber())) {
+                            duplicates = true;
+                            break;
+                        }
+                }
+            }
+            //если одинаковые машины
+            if (duplicates)
+                return 1;
+
             List<UserDTO> listDriverOld = getAllEmployees();
+
+            //Форма возвращает вместо null значение "", как возвращать обратно  null хз, поэтому так
+            for (int i = 0; i < listUserUpdate.size(); i++) {
+                if (listUserUpdate.get(i).getRole().equals("DRIVER") &&
+                        listUserUpdate.get(i).getCarNumber().equals("")) {
+                    listUserUpdate.get(i).setCarNumber(null);
+                }
+            }
 
             JSONArray jsonArray = new JSONArray();
             for (int i = 0; i < listDriverOld.size(); i++) {
                 if (!listDriverOld.get(i).equals(listUserUpdate.get(i))) {
-                    jsonArray.put(UserUtils.getJSONOfUser(listUserUpdate.get(i)));
+                    jsonArray.put(JSONUtils.getJSONOfUser(listUserUpdate.get(i)));
                 }
             }
 
@@ -135,4 +156,20 @@ public class AdminService {
             return false;
         }
     }
+
+    public int addCar(CarDTO carDTO){
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<String> entity = new HttpEntity<String>(JSONUtils.getJSONOfCar(carDTO).toString(), headers);
+            ResponseEntity<String> response = restTemplate.exchange(URL_CARS, HttpMethod.POST, entity, String.class);
+            return response.getStatusCode().value();
+        } catch (HttpClientErrorException e) {
+            return e.getRawStatusCode();
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+
 }

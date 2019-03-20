@@ -18,14 +18,14 @@
 			</div>
 		</div>
 
-		<form action="#" th:action="@{/cost_page}" th:object="${ordersDTO}" method="POST">
+		<form action="#" th:action="@{/price_page}" th:object="${ordersDTO}" method="POST">
 			<div class="dws-input">
 				<label>Start point:</label><br/>
-				<input id="point_from" type="text" placeholder="Enter start_Point" th:field="*{point_from}" >
+				<input id="point_from" type="text" placeholder="Enter start_Point" th:field="*{pointFrom}" >
 			</div>
 			<div class="dws-input">
 				<label>End point:</label><br/>
-				<input id="point_to" type="text" placeholder="Enter end_Point" th:field="*{point_to}" >
+				<input id="point_to" type="text" placeholder="Enter end_Point" th:field="*{pointTo}" >
 			</div>
 			<div class="dws-input">
 				<input id="weight" type="text" th:field="*{weight}" >

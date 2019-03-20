@@ -8,6 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+//todo nikita
+//аннотацию @RequestMapping перенести над методами; туда же добавить method = либо get либо post; @GetMapping, @PostMapping
+//ctrl+alt+l - автоформатирование кода в идеи; убрать лишние строчки
+//AccountService переименовать в AuthService; shift+f6 - переименует везде
+//getAuth переименовать в getAuthPage; удалить атрибут model; все что в методе.. оставить только return auth page
+
 @Controller
 @RequestMapping(value = "/auth")
 public class AuthController {

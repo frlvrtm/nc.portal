@@ -14,9 +14,10 @@ public class OrdersService implements GlobalConstants {
 
     private String URL_ORDERS;
     private String URL_CREATE_ORDERS;
+
     public OrdersService() {
         this.URL_ORDERS = URL + "orders/";
-        this.URL_CREATE_ORDERS=URL_ORDERS + "create/";
+        this.URL_CREATE_ORDERS = URL_ORDERS + "create/";
     }
 
     //private final String URL = "http://localhost:8082/orders";
@@ -36,7 +37,7 @@ public class OrdersService implements GlobalConstants {
 
     public OrdersDTO[] getOrdersByCust(String custname) {
         try {
-            String GetURL = URL_ORDERS+"/customer?" +"custname=" + custname;
+            String GetURL = URL_ORDERS + "/customer?" + "custname=" + custname;
             ResponseEntity<OrdersDTO[]> responseEntity = restTemplate.getForEntity(GetURL, OrdersDTO[].class);
             OrdersDTO[] objects = responseEntity.getBody();
             return objects;
@@ -45,13 +46,13 @@ public class OrdersService implements GlobalConstants {
             return new OrdersDTO[0];
         }
     }
-    public void createOrder(OrdersDTO order)
-    {
+
+    public void createOrder(OrdersDTO order) {
         try {
             order.setCustomer(UserDTO.staticUsername);
             order.setStatus("open");
             Long curTime = System.currentTimeMillis();
-            order.setStart_time(new Date(curTime));
+            order.setStartTime(new Date(curTime));
             HttpHeaders headers = new HttpHeaders();//new HttpHeaders();//createHttpHeaders(userDTO.getUsername(), userDTO.getPassword());
             headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -61,14 +62,12 @@ public class OrdersService implements GlobalConstants {
             HttpEntity<String> entity = new HttpEntity<String>(request, headers);
             ResponseEntity<String> response = restTemplate.exchange(URL_CREATE_ORDERS, HttpMethod.POST, entity, String.class);
             System.out.println("Result - status " + response.getStatusCode());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
         }
     }
 
-    public void updateOrders(OrdersDTO ordersDTO)
-    {
+    public void updateOrders(OrdersDTO ordersDTO) {
         try {
             HttpHeaders headers = new HttpHeaders();//new HttpHeaders();//createHttpHeaders(userDTO.getUsername(), userDTO.getPassword());
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -79,8 +78,7 @@ public class OrdersService implements GlobalConstants {
             HttpEntity<String> entity = new HttpEntity<String>(request, headers);
             ResponseEntity<String> response = restTemplate.exchange(URL_ORDERS, HttpMethod.POST, entity, String.class);
             System.out.println("Result - status " + response.getStatusCode());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
         }
     }

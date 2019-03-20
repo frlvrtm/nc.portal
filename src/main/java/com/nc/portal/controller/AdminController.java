@@ -1,5 +1,6 @@
 package com.nc.portal.controller;
 
+import com.nc.portal.model.CarDTO;
 import com.nc.portal.model.Role;
 import com.nc.portal.model.UserDTO;
 import com.nc.portal.service.AccountService;
@@ -13,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping(value = "/admin")
 @Controller
@@ -24,6 +27,9 @@ public class AdminController {
 
     @Autowired
     AdminService adminService;
+
+    //Словарь для добавления аттрибутов в модель
+    private Map<String, String> dictionary = new HashMap<String, String>();
 
     /**
      * Метод для отображения страницы входа для админа
@@ -75,9 +81,7 @@ public class AdminController {
     @GetMapping("/page")
     public String getPageAddUser(Model model) {
         if (UserDTO.staticRole.equals(Role.ADMIN)) {
-            model.addAttribute("form", new ListUser(adminService.getAllEmployees()));
-            model.addAttribute("userDTO", new UserDTO());
-            model.addAttribute("cars", adminService.getFreeCars());
+            model = getAttributeModel(model);
             return "admin";
         } else
             return "error/access-denied";
@@ -86,16 +90,20 @@ public class AdminController {
     @PostMapping("/page")
     public String addUser(@ModelAttribute UserDTO userDTO, Model model) {
         if (UserDTO.staticRole.equals(Role.ADMIN)) {
-            if(adminService.createEmployee(userDTO)){
-                model.addAttribute("infoMessage", "User added");
-                model.addAttribute("userDTO", new UserDTO());
-            }else{
-                model.addAttribute("errorMessage", "Name already taken");
+            int code = adminService.createEmployee(userDTO);
+            switch (code) {
+                case 201:
+                    dictionary.put("infoMessage", "User added");
+                    break;
+                case 406:
+                    dictionary.put("errorMessage", "Name already taken");
+                    break;
+                case -1:
+                    dictionary.put("errorMessage", "Unexpected error");
+                    break;
             }
-            model.addAttribute("form", new ListUser(adminService.getAllEmployees()));
-            model.addAttribute("userDTO", new UserDTO());
-            model.addAttribute("cars", adminService.getFreeCars());
-            return "admin";
+            dictionary.put("flag1", "1");
+            return "redirect:/admin/page";
         } else
             return "error/access-denied";
     }
@@ -105,20 +113,78 @@ public class AdminController {
     public String update(@ModelAttribute("form") ListUser listUser) {
         if (UserDTO.staticRole.equals(Role.ADMIN)) {
             int code = adminService.updateUsers(listUser.getList());
+            switch (code) {
+                case 0:
+                    dictionary.put("infoMessage", "No changes, no need to update");
+                    break;
+                case 1:
+                    dictionary.put("errorMessage", "1 car selected for 2 drivers");
+                    break;
+                case 201:
+                    dictionary.put("infoMessage", "Updated");
+                    break;
+                case 400:
+                    dictionary.put("errorMessage", "Bad request");
+                    break;
+                case -1:
+                    dictionary.put("errorMessage", "Unexpected error");
+                    break;
+            }
+            dictionary.put("flag2", "2");
             return "redirect:/admin/page";
         } else
             return "error/access-denied";
     }
 
     @PostMapping("/delete")
-    public String delete(@ModelAttribute("form") ListUser listUser,@RequestParam String username) {
+    public String delete(@ModelAttribute("form") ListUser listUser, @RequestParam String username) {
         if (UserDTO.staticRole.equals(Role.ADMIN)) {
             adminService.deleteEmployee(username);
+            dictionary.put("infoMessage", username + " deleted");
+            dictionary.put("flag2", "2");
             return "redirect:/admin/page";
         } else
             return "error/access-denied";
     }
 
+    @PostMapping("/car")
+    public String addCar(@ModelAttribute() CarDTO carDTO) {
+        if (UserDTO.staticRole.equals(Role.ADMIN)) {
+            int code = adminService.addCar(carDTO);
+            switch (code) {
+                case 201:
+                    dictionary.put("infoMessage", "Car added");
+                    break;
+                case 406:
+                    dictionary.put("errorMessage", "Number already taken");
+                    break;
+                case -1:
+                    dictionary.put("errorMessage", "Unexpected error");
+                    break;
+            }
+            dictionary.put("flag3", "3");
+            return "redirect:/admin/page";
+        } else
+            return "error/access-denied";
+    }
+
+    private Model getAttributeModel(Model model) {
+        //все сотрудники
+        model.addAttribute("form", new ListUser(adminService.getAllEmployees()));
+        //форма для заполнения нового юзера
+        model.addAttribute("userDTO", new UserDTO());
+        //форма для заполнения новой машины
+        model.addAttribute("carDTO", new CarDTO());
+        //Список всех машин без водителей
+        model.addAttribute("cars", adminService.getFreeCars());
+        //alert
+        for (String key : dictionary.keySet()) {
+            model.addAttribute(key, dictionary.get(key));
+        }
+        //очистить словарь
+        dictionary = new HashMap<String, String>();
+        return model;
+    }
 
 
     /**
