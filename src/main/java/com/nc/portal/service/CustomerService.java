@@ -14,21 +14,26 @@ import static com.nc.portal.service.GlobalConstants.URL;
 public class CustomerService {
     private final String URL_ONE_CUST;
     private final RestTemplate restTemplate = new RestTemplate();
+
     public CustomerService() {
 
-        this.URL_ONE_CUST= URL + "customer/name";
+        this.URL_ONE_CUST = URL + "customer/name";
     }
+
     public UserDTO getUserByName(String name) {
         try {
             HttpHeaders headers = new HttpHeaders();
-            HttpEntity<String> request = new HttpEntity<String>(headers);
-            ResponseEntity<UserDTO> response = restTemplate.exchange(URL_ONE_CUST+"?name="+name, HttpMethod.GET, request, UserDTO.class);
+            HttpEntity<String> request = new HttpEntity<>(headers);
+            // string builder
+            ResponseEntity<UserDTO> response =
+                    restTemplate.exchange(URL_ONE_CUST + "?name=" + name, HttpMethod.GET, request, UserDTO.class);
             return response.getBody();
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
             return null;
         }
     }
+
     public int updateUser(UserDTO userUpdate) {
         try {
             JSONObject json = new JSONObject();
@@ -38,7 +43,7 @@ public class CustomerService {
             json.put("phone", userUpdate.getPhone());
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> entity = new HttpEntity<String>(json.toString(), headers);
+            HttpEntity<String> entity = new HttpEntity<>(json.toString(), headers);
             ResponseEntity<String> response = restTemplate.exchange(URL_ONE_CUST, HttpMethod.POST, entity, String.class);
             return response.getStatusCode().value();
         } catch (HttpClientErrorException e) {

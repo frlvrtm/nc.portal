@@ -21,46 +21,46 @@ public class CustomerController {
     OrdersService ordersService;
     @Autowired
     CustomerService customerService;
+
     @GetMapping
     public String getPage() {
         if (UserDTO.staticRole.equals(Role.CUSTOMER)) {
             return "customer";
-        }
-        else
+        } else
             return "error/access-denied";
     }
-    @RequestMapping(value = "/myorders",method = RequestMethod.GET)
+
+    @RequestMapping(value = "/myorders", method = RequestMethod.GET)
     public String getOrders(Model model) {
         if (UserDTO.staticRole.equals(Role.CUSTOMER)) {
             OrdersDTO[] ordersDTO = ordersService.getOrdersByCust(UserDTO.staticUsername);
             model.addAttribute("orders", ordersDTO);
             return "myorders";
-        }
-        else
+        } else
             return "error/access-denied";
     }
-    @RequestMapping(value = "/aboutme",method = RequestMethod.GET)
+
+    @RequestMapping(value = "/aboutme", method = RequestMethod.GET)
     public String getProfile(Model model) {
         if (UserDTO.staticRole.equals(Role.CUSTOMER)) {
-            UserDTO userDTO =customerService.getUserByName(UserDTO.staticUsername);
+            UserDTO userDTO = customerService.getUserByName(UserDTO.staticUsername);
             model.addAttribute("user", userDTO);
             return "aboutme";
-        }
-        else
+        } else
             return "error/access-denied";
     }
-    @RequestMapping(value = "/aboutme",method = RequestMethod.POST)
+
+    @RequestMapping(value = "/aboutme", method = RequestMethod.POST)
     public String setProfile(@ModelAttribute UserDTO user) {
         if (UserDTO.staticRole.equals(Role.CUSTOMER)) {
             customerService.updateUser(user);
             return "redirect:/customer";
-        }
-        else
+        } else
             return "error/access-denied";
     }
 
-    @RequestMapping(value = "/create",method = RequestMethod.GET)//works normally without annotation @GetMapping
-    public String createOrder1( Model model) {
+    @RequestMapping(value = "/create", method = RequestMethod.GET)//works normally without annotation @GetMapping
+    public String createOrder1(Model model) {
         if (UserDTO.staticRole.equals(Role.CUSTOMER)) {
             model.addAttribute("order", new OrdersDTO());
             return "orderscreate";
@@ -69,7 +69,7 @@ public class CustomerController {
         return "error/access-denied";
     }
 
-    @RequestMapping(value = "/create",method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createOrder2(@ModelAttribute OrdersDTO order, Model model) {
         if (UserDTO.staticRole.equals(Role.CUSTOMER)) {
             ordersService.createOrder(order);

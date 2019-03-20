@@ -24,7 +24,9 @@
             <dl>
                 <dd><dt>point_from<input type="text" class="dws-input" th:field="*{point_from}">
                 <dd><dt>point_to<input type="text" class="dws-input" th:field="*{point_to}">
-                <dd><dt>weight<input type="text" class="dws-input" th:field="*{weight}">
+                <dd><dt><select th:field="*{weight}" th:each="w : ${order.weightCat}">
+                <option selected th:value="${w}" th:text="${w}"></option>
+            </select>
                 <dd><dt>description<input type="text" class="dws-input" th:field="*{description}">
                 <dd><input class="dws-submit" type="submit" name="submit" value="Create">
             </dl>

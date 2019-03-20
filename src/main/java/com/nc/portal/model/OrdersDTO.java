@@ -17,6 +17,14 @@ public class OrdersDTO {
     private String status;
     private String driver;
     private String customer;
-
     private double price;
+    public enum orderStat {
+        OPEN,
+        ASSIGNED,
+        INPROGRESS,
+        CLOSED,
+        RESOLVED
+    }
+    public static String[] weightCat ={"less one kg","1-3 kg","3-10 kg","10-20 kg"};
+
 }
