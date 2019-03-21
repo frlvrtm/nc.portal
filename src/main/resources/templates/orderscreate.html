@@ -22,9 +22,11 @@
         <p>Create order:</p>
         <form action="#" th:action="@{/customer/create}" th:object="${order}" method="post">
             <dl>
-                <dd><dt>point_from<input type="text" class="dws-input" th:field="*{getPointFrom}">
-                <dd><dt>point_to<input type="text" class="dws-input" th:field="*{getPointTo}">
-                <dd><dt>weight<input type="text" class="dws-input" th:field="*{weight}">
+                <dd><dt>point_from<input type="text" class="dws-input" th:field="*{pointFrom}">
+                <dd><dt>point_to<input type="text" class="dws-input" th:field="*{pointTo}">
+                <dd><dt>weight<select class="dws-input" th:field="*{weight}" >
+                                <option selected th:each="w : ${order.weightCat}" th:value="${w}" th:text="${w}"></option>
+                        </select>
                 <dd><dt>description<input type="text" class="dws-input" th:field="*{description}">
                 <dd><input class="dws-submit" type="submit" name="submit" value="Create">
             </dl>

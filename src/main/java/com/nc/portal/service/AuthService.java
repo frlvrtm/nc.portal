@@ -2,7 +2,6 @@ package com.nc.portal.service;
 
 import com.nc.portal.model.Role;
 import com.nc.portal.model.UserDTO;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -13,13 +12,13 @@ import java.nio.charset.Charset;
 import java.util.Base64;
 
 @Service
-public class AccountService implements GlobalConstants {
+public class AuthService implements GlobalConstants {
 
     private String URL_AUTH;
     private String URL_CREATE;
     private String URL_CLEAR;
 
-    public AccountService() {
+    public AuthService() {
         this.URL_AUTH = URL + "auth/role";
         this.URL_CREATE = URL + "user";
         this.URL_CLEAR = URL + "auth/clear";
@@ -62,10 +61,10 @@ public class AccountService implements GlobalConstants {
             System.out.println("Result - status " + response.getBody());
             //  userDTO.setRole(response.getBody());
             UserDTO.staticRole = Role.valueOf(response.getBody());
-            UserDTO.staticUsername= userDTO.getUsername();
+            UserDTO.staticUsername = userDTO.getUsername();
         } catch (Exception e) {
             userDTO.setRole("UNAUTHORIZED");
-            UserDTO.staticUsername= "";
+            UserDTO.staticUsername = "";
             System.out.println("** Exception: " + e.getMessage());
         }
     }
@@ -105,7 +104,7 @@ public class AccountService implements GlobalConstants {
 
     public void logout() {
         try {
-           // UserDTO.setBasicAuth("");
+            // UserDTO.setBasicAuth("");
             HttpHeaders headers = new HttpHeaders();
             HttpEntity<String> request = new HttpEntity<String>(headers);
             ResponseEntity<String> response = restTemplate.exchange(URL_CLEAR, HttpMethod.GET, request, String.class);

@@ -5,7 +5,7 @@ import com.nc.portal.model.CarDTO;
 import com.nc.portal.model.ListUser;
 import com.nc.portal.model.Role;
 import com.nc.portal.model.UserDTO;
-import com.nc.portal.service.AccountService;
+import com.nc.portal.service.AuthService;
 import com.nc.portal.service.AdminService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ import java.util.Map;
 public class AdminController {
 
     @Autowired
-    AccountService accountService;
+    AuthService authService;
 
     @Autowired
     AdminService adminService;
@@ -72,7 +72,7 @@ public class AdminController {
      */
     @PostMapping
     public String submit(@ModelAttribute UserDTO userDTO, Model model) {
-        accountService.getRole(userDTO);
+        authService.getRole(userDTO);
         if (UserDTO.staticRole == Role.ADMIN) {
             return "redirect:/admin/page";
         } else {
@@ -81,7 +81,7 @@ public class AdminController {
                 message = "Incorrect name or password";
             } else {
                 message = "Incorrect role " + UserDTO.staticRole.toString();
-                accountService.logout();
+                authService.logout();
                 UserDTO.staticRole = Role.UNAUTHORIZED;
             }
             model.addAttribute("errorMessage", message);

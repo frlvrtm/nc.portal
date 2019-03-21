@@ -26,7 +26,7 @@
                         <th>cost</th><th>weight</th><th>start_time</th><th>end_time</th><th>driver</th>
                         <th>status</th><th>description</th><th>update</th>
                     </tr>
-                    <tr th:each="o : ${orders}">
+                    <tr th:each="o : *{orders}">
                         <form action="#" th:action="@{/operator}" th:object="${order}" method="post">
                         <td><input type="text" size="2" th:value="${o.getIdOrder}" id="id_order" name="id_order" disabled></td>
                         <td><input type="text" size="5" th:value="${o.customer}" id="customer" name="customer" disabled></td>
