@@ -1,6 +1,5 @@
 package com.nc.portal.model;
 
-import lombok.Data;
 import lombok.Getter;
 
 public enum Role {
@@ -15,8 +14,5 @@ public enum Role {
 
     Role(String url) {
         this.url = url;
-    }
-
-    Role() {
     }
 }

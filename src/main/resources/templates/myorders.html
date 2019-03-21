@@ -27,7 +27,7 @@
                         <th>cost</th><th>weight</th><th>start_time</th><th>end_time</th>
                         <th>status</th><th>description</th>
                     </tr>
-                    <tr th:each="o : ${orders}">
+                    <tr th:each="o : *{orders}">
                         <td><input type="text" size="1" th:value="${o.getIdOrder}" id="id_order" name="id_order" disabled></td>
                         <td><input type="text" th:value="${o.getPointFrom}" id="point_from" name="point_from" disabled></td>
                         <td><input type="text" th:value="${o.getPointTo}" id="point_to" name="point_to" disabled></td>
