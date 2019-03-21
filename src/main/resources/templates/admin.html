@@ -8,22 +8,22 @@
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
             crossorigin="anonymous">
     </script>
-<!--    <script th:inline="javascript" th:if="${errorMessage}">
-        window.onload = function () {
-            document.getElementById('id_con').style.visibility = 'visible';
-            document.getElementById('id_subreg').style.width = "400px"
-            document.getElementById('id_subreg1').style.width = "200px"
-        }
-    </script>
-    &lt;!&ndash;не знаю как сделать условие или&ndash;&gt;
-    <script th:inline="javascript" th:if="${infoMessage}">
-        window.onload = function () {
-            var elem = document.getElementById('id_con');
-            elem.style.visibility = 'visible';
-            var elem2 = document.getElementById('id_subreg');
-            elem2.style.width = "200px"
-        }
-    </script>-->
+    <!--    <script th:inline="javascript" th:if="${errorMessage}">
+            window.onload = function () {
+                document.getElementById('id_con').style.visibility = 'visible';
+                document.getElementById('id_subreg').style.width = "400px"
+                document.getElementById('id_subreg1').style.width = "200px"
+            }
+        </script>
+        &lt;!&ndash;не знаю как сделать условие или&ndash;&gt;
+        <script th:inline="javascript" th:if="${infoMessage}">
+            window.onload = function () {
+                var elem = document.getElementById('id_con');
+                elem.style.visibility = 'visible';
+                var elem2 = document.getElementById('id_subreg');
+                elem2.style.width = "200px"
+            }
+        </script>-->
 
     <script th:inline="javascript" th:if="${flag1}">
         window.onload = function () {
@@ -82,7 +82,7 @@
         <input class="dws-submit" id="id_submit_add" type="submit" name="submit" value="Add user">
     </form>
     <form name="click">
-        <input class="dws-submit" id="id_submit_user" type="submit" name="submit" value="Show users">
+        <input class="dws-submit" id="id_submit_show" type="submit" name="submit" value="Show">
     </form>
     <form name="click">
         <input class="dws-submit" id="id_submit_car" type="submit" name="submit" value="Create cars">
@@ -101,8 +101,9 @@
             else
                 elem.style.visibility = 'visible';
         });
-        document.getElementById('id_submit_user').addEventListener('click', function (e) {
+        document.getElementById('id_submit_show').addEventListener('click', function (e) {
             e.preventDefault();
+            /*document.getElementById('sub_update').style.width = "400px";*/
             document.getElementById('id_con').style.visibility = 'hidden';
             document.getElementById('id_car').style.visibility = 'hidden';
             var elem1 = document.getElementById('id_top');
@@ -174,6 +175,7 @@
     <ul class="tabs">
         <li class="active"><a href="#tab1">DRIVERS</a></li>
         <li class=""><a href="#tab2">OPERATORS</a></li>
+        <li class=""><a href="#tab3">CARS</a></li>
     </ul>
 
     <form action="#" th:action="@{/admin/update}" th:object="${form}" method="post">
@@ -215,7 +217,7 @@
                                     th:value="${user.carNumber}"
                                     th:utext="${user.carNumber}"></option>
                             <option th:unless="${user.carNumber}" th:value="${user.carNumber}">--</option>
-                            <option th:each="car : ${cars}"
+                            <option th:each="car : ${carsFree}"
                                     th:value="${car.number}"
                                     th:utext="${car.number}"/>
                         </select>
@@ -228,13 +230,13 @@
                         </form>
                     </td>
 
-                   <!-- <td th:if="${#fields.hasErrors('carNumber')}" th:errors="${user.carNumber}">Test Error</td>-->
+                    <!-- <td th:if="${#fields.hasErrors('carNumber')}" th:errors="${user.carNumber}">Test Error</td>-->
 
                 </tr>
                 </tbody>
             </table>
-            <input class="dws-submit" type="submit" name="submit" value="Update">
         </div>
+
         <div id="tab2" class="tab_content">
             <table>
                 <thead>
@@ -275,9 +277,43 @@
                 </tr>
                 </tbody>
             </table>
-            <input class="dws-submit" type="submit" name="submit" value="Update">
         </div>
+
+        <div id="tab3" class="tab_content">
+            <table>
+                <thead>
+                <tr>
+                    <th>number</th>
+                    <th>model</th>
+                    <th>color</th>
+                    <th>driver</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="car : ${carsAll}">
+                    <td><p type="text" th:text="${car.number}"></p></td>
+                    <td><p type="text" th:text="${car.model}"></p></td>
+                    <td><p type="text" th:text="${car.color}"></p></td>
+                    <td><p type="text" th:text="${car.driver}"></p></td>
+
+
+                    <td>
+                        <form name="f" th:action="@{/admin/delete}" method="post">
+                            <input type="hidden" name="number"
+                                   th:value="${car.number}"/>
+                            <button type="submit">X</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <input class="dws-submit" type="submit" name="submit" value="Update" id="sub_update">
     </form>
+
+
 
 
     <script type="text/javascript">

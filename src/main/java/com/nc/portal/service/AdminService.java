@@ -1,11 +1,7 @@
 package com.nc.portal.service;
 
 import com.nc.portal.model.CarDTO;
-import com.nc.portal.model.ListUser;
 import com.nc.portal.model.UserDTO;
-import com.nc.portal.utils.JSONUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -21,14 +17,16 @@ import static com.nc.portal.service.GlobalConstants.URL;
 public class AdminService {
 
     private final String URL_ALL_EMPLOYEES;
-    private final String URL_CARS;
+    private final String URL_CARS_FREE;
+    private final String URL_CARS_ALL;
     private final String URL_CREATE;
     private final String URL_UPDATE;
     private final String URL_DELETE;
 
     public AdminService() {
         this.URL_ALL_EMPLOYEES = URL + "user";
-        this.URL_CARS = URL + "car";
+        this.URL_CARS_FREE = URL + "car/free";
+        this.URL_CARS_ALL = URL + "car/all";
         this.URL_CREATE = URL + "user";
         this.URL_UPDATE = URL + "user/update";
         this.URL_DELETE = URL + "user/delete";
@@ -38,15 +36,12 @@ public class AdminService {
 
     public List<UserDTO> getAllEmployees() {
         try {
-            HttpHeaders headers = new HttpHeaders();
-            HttpEntity<String> request = new HttpEntity<String>(headers);
-            ResponseEntity<UserDTO[]> response = restTemplate.exchange(URL_ALL_EMPLOYEES, HttpMethod.GET, request, UserDTO[].class);
+            ResponseEntity<UserDTO[]> response = restTemplate.getForEntity(URL_ALL_EMPLOYEES, UserDTO[].class);
 
             List<UserDTO> list = new ArrayList<>();
             if (response.getBody() != null) {
                 list = Arrays.asList(response.getBody());
             }
-
             return list;
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
@@ -54,11 +49,28 @@ public class AdminService {
         }
     }
 
-    public CarDTO[] getFreeCars() {
+    public List<CarDTO> getFreeCars() {
         try {
-            ResponseEntity<CarDTO[]> responseEntity = restTemplate.getForEntity(URL_CARS, CarDTO[].class);
-            CarDTO[] listCars = responseEntity.getBody();
-            return listCars;
+            ResponseEntity<CarDTO[]> response = restTemplate.getForEntity(URL_CARS_FREE, CarDTO[].class);
+            List<CarDTO> list = new ArrayList<>();
+            if (response.getBody() != null) {
+                list = Arrays.asList(response.getBody());
+            }
+            return list;
+        } catch (Exception e) {
+            System.out.println("** Exception: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<CarDTO> getAllCars() {
+        try {
+            ResponseEntity<CarDTO[]> response = restTemplate.getForEntity(URL_CARS_ALL, CarDTO[].class);
+            List<CarDTO> list = new ArrayList<>();
+            if (response.getBody() != null) {
+                list = Arrays.asList(response.getBody());
+            }
+            return list;
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
             return null;
@@ -69,16 +81,17 @@ public class AdminService {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<UserDTO> entity = new HttpEntity<>(userDTO , headers);
-            ResponseEntity<String> response = restTemplate.exchange(URL_CREATE, HttpMethod.POST, entity, String.class);
+            HttpEntity<UserDTO> entity = new HttpEntity<>(userDTO, headers);
+            ResponseEntity<String> response = restTemplate.postForEntity(URL_CREATE, entity, String.class);
             return response.getStatusCode().value();
         } catch (HttpClientErrorException e) {
+            System.out.println("** Exception: " + e.getMessage());
             return e.getRawStatusCode();
         } catch (Exception e) {
+            System.out.println("** Exception: " + e.getMessage());
             return -1;
         }
     }
-
 
     public int updateUsers(List<UserDTO> listUpdate) {
         try {
@@ -104,8 +117,10 @@ public class AdminService {
 
             return response.getStatusCode().value();
         } catch (HttpClientErrorException e) {
+            System.out.println("** Exception: " + e.getMessage());
             return e.getRawStatusCode();
         } catch (Exception e) {
+            System.out.println("** Exception: " + e.getMessage());
             return -1;
         }
     }
@@ -118,8 +133,10 @@ public class AdminService {
             ResponseEntity<String> response = restTemplate.exchange(URL_DELETE, HttpMethod.DELETE, entity, String.class);
             return response.getStatusCode().value();
         } catch (HttpClientErrorException e) {
+            System.out.println("** Exception: " + e.getMessage());
             return e.getRawStatusCode();
         } catch (Exception e) {
+            System.out.println("** Exception: " + e.getMessage());
             return -1;
         }
     }
@@ -129,11 +146,13 @@ public class AdminService {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<CarDTO> entity = new HttpEntity<>(carDTO, headers);
-            ResponseEntity<CarDTO> response = restTemplate.exchange(URL_CARS, HttpMethod.POST, entity, CarDTO.class);
+            ResponseEntity<CarDTO> response = restTemplate.postForEntity(URL_CARS_FREE, entity, CarDTO.class);
             return response.getStatusCode().value();
         } catch (HttpClientErrorException e) {
+            System.out.println("** Exception: " + e.getMessage());
             return e.getRawStatusCode();
         } catch (Exception e) {
+            System.out.println("** Exception: " + e.getMessage());
             return -1;
         }
     }

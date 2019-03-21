@@ -7,4 +7,6 @@ public class CarDTO {
     private String number;
     private String model;
     private String color;
+
+    private String driver;
 }

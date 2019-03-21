@@ -105,7 +105,9 @@ public class AdminController {
             //форма для заполнения новой машины
             model.addAttribute("carDTO", new CarDTO());
             //Список всех машин без водителей
-            model.addAttribute("cars", adminService.getFreeCars());
+            model.addAttribute("carsFree", adminService.getFreeCars());
+            //Список всех машин
+            model.addAttribute("carsAll", adminService.getAllCars());
             //alert
             for (String key : dictionary.keySet()) {
                 model.addAttribute(key, dictionary.get(key));
