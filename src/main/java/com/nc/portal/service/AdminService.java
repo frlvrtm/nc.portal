@@ -1,6 +1,7 @@
 package com.nc.portal.service;
 
 import com.nc.portal.model.CarDTO;
+import com.nc.portal.model.ListUser;
 import com.nc.portal.model.UserDTO;
 import com.nc.portal.utils.JSONUtils;
 import org.json.JSONArray;
@@ -11,17 +12,13 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.nc.portal.service.GlobalConstants.URL;
 
 @Service
 public class AdminService {
-
-/*    private final String URL_ALL_EMPLOYEES = "http://localhost:8082/user";
-    private final String URL_CARS = "http://localhost:8082/car";
-    private final String URL_CREATE = "http://localhost:8082/user/employee";
-    private final String URL_UPDATE = "http://localhost:8082/user/update";*/
 
     private final String URL_ALL_EMPLOYEES;
     private final String URL_CARS;
@@ -43,14 +40,13 @@ public class AdminService {
         try {
             HttpHeaders headers = new HttpHeaders();
             HttpEntity<String> request = new HttpEntity<String>(headers);
-            ResponseEntity<String> response = restTemplate.exchange(URL_ALL_EMPLOYEES, HttpMethod.GET, request, String.class);
+            ResponseEntity<UserDTO[]> response = restTemplate.exchange(URL_ALL_EMPLOYEES, HttpMethod.GET, request, UserDTO[].class);
 
-            JSONArray jsonArray = new JSONArray(response.getBody());
             List<UserDTO> list = new ArrayList<>();
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                list.add(JSONUtils.getUserOfJSON(jsonArray.getJSONObject(i)));
+            if (response.getBody() != null) {
+                list = Arrays.asList(response.getBody());
             }
+
             return list;
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
@@ -60,11 +56,6 @@ public class AdminService {
 
     public CarDTO[] getFreeCars() {
         try {
-            // HttpHeaders headers = new HttpHeaders();
-            // headers.setContentType(MediaType.APPLICATION_JSON);
-            //  headers.set("Authorization", UserDTO.getBasicAuth());
-            //.. HttpEntity<<DriverDTO[]> request = new HttpEntity<String>(headers);
-            // ResponseEntity<String> response = restTemplate.exchange(URL, HttpMethod.GET, request, String.class);
             ResponseEntity<CarDTO[]> responseEntity = restTemplate.getForEntity(URL_CARS, CarDTO[].class);
             CarDTO[] listCars = responseEntity.getBody();
             return listCars;
@@ -78,8 +69,7 @@ public class AdminService {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-
-            HttpEntity<String> entity = new HttpEntity<String>(JSONUtils.getJSONOfUser(userDTO).toString(), headers);
+            HttpEntity<UserDTO> entity = new HttpEntity<>(userDTO , headers);
             ResponseEntity<String> response = restTemplate.exchange(URL_CREATE, HttpMethod.POST, entity, String.class);
             return response.getStatusCode().value();
         } catch (HttpClientErrorException e) {
@@ -90,46 +80,27 @@ public class AdminService {
     }
 
 
-    public int updateUsers(List<UserDTO> listUserUpdate) {
+    public int updateUsers(List<UserDTO> listUpdate) {
         try {
-            boolean duplicates = false;
-            for (int j = 0; j < listUserUpdate.size(); j++) {
-                for (int k = j + 1; k < listUserUpdate.size(); k++) {
-                    if ((listUserUpdate.get(k).getCarNumber() != null) && (listUserUpdate.get(j).getCarNumber() != null))
-                        if (k != j && listUserUpdate.get(k).getCarNumber().equals(listUserUpdate.get(j).getCarNumber())) {
-                            duplicates = true;
-                            break;
-                        }
+            List<UserDTO> listOld = getAllEmployees();
+
+            UserDTO[] users = new UserDTO[listOld.size()];
+            int count = 0;
+            for (int i = 0; i < listOld.size(); i++) {
+                if (!listOld.get(i).equals(listUpdate.get(i))) {
+                    users[count] = listUpdate.get(i);
+                    count++;
                 }
             }
-            //если одинаковые машины
-            if (duplicates)
-                return 1;
-
-            List<UserDTO> listDriverOld = getAllEmployees();
-
-            //Форма возвращает вместо null значение "", как возвращать обратно  null хз, поэтому так
-            for (int i = 0; i < listUserUpdate.size(); i++) {
-                if (listUserUpdate.get(i).getRole().equals("DRIVER") &&
-                        listUserUpdate.get(i).getCarNumber().equals("")) {
-                    listUserUpdate.get(i).setCarNumber(null);
-                }
-            }
-
-            JSONArray jsonArray = new JSONArray();
-            for (int i = 0; i < listDriverOld.size(); i++) {
-                if (!listDriverOld.get(i).equals(listUserUpdate.get(i))) {
-                    jsonArray.put(JSONUtils.getJSONOfUser(listUserUpdate.get(i)));
-                }
-            }
-
-            if (jsonArray.length() == 0)
+            if (count == 0)
                 return 0;
+
+            users = Arrays.copyOf(users, count);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> entity = new HttpEntity<String>(jsonArray.toString(), headers);
-            ResponseEntity<String> response = restTemplate.exchange(URL_UPDATE, HttpMethod.PUT, entity, String.class);
+            HttpEntity<UserDTO[]> entity = new HttpEntity<>(users, headers);
+            ResponseEntity<UserDTO[]> response = restTemplate.exchange(URL_UPDATE, HttpMethod.PUT, entity, UserDTO[].class);
 
             return response.getStatusCode().value();
         } catch (HttpClientErrorException e) {
@@ -139,30 +110,26 @@ public class AdminService {
         }
     }
 
-    public boolean deleteEmployee(String username) {
+    public int deleteEmployee(String username) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            JSONObject json = new JSONObject();
-            json.put("username", username);
-
-            HttpEntity<String> entity = new HttpEntity<String>(json.toString(), headers);
+            HttpEntity<String> entity = new HttpEntity<String>(username, headers);
             ResponseEntity<String> response = restTemplate.exchange(URL_DELETE, HttpMethod.DELETE, entity, String.class);
-            return true;
+            return response.getStatusCode().value();
         } catch (HttpClientErrorException e) {
-            return false;
+            return e.getRawStatusCode();
         } catch (Exception e) {
-            //Пока не знаю как обрабатывать данную ситуацию
-            return false;
+            return -1;
         }
     }
 
-    public int addCar(CarDTO carDTO){
+    public int addCar(CarDTO carDTO) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> entity = new HttpEntity<String>(JSONUtils.getJSONOfCar(carDTO).toString(), headers);
-            ResponseEntity<String> response = restTemplate.exchange(URL_CARS, HttpMethod.POST, entity, String.class);
+            HttpEntity<CarDTO> entity = new HttpEntity<>(carDTO, headers);
+            ResponseEntity<CarDTO> response = restTemplate.exchange(URL_CARS, HttpMethod.POST, entity, CarDTO.class);
             return response.getStatusCode().value();
         } catch (HttpClientErrorException e) {
             return e.getRawStatusCode();
