@@ -16,6 +16,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 //AuthService переименовать в AuthService; shift+f6 - переименует везде
 //getAuth переименовать в getAuthPage; удалить атрибут model; все что в методе.. оставить только return auth page
 
+//todo nikita
+//удалить старые комменты
+//com.nc.portal.controller.AuthController#getAuthPage должен просто возвращать страничку auth
+//подправить auth.html - раздел <form> - добавить name; action="/auth"; th:action="@{/auth}" th:object="${userDTO}" - удалить это
+//th:field="*{username}" - удалить, th:field="*{password}" - удалить; добавить <input type="hidden" name="role" value="customer">
+//com.nc.portal.controller.AuthController#submit переименовать в getAuth
+//+ найти способ как передать String login, String password в параметры метода..
+
 @Controller
 public class AuthController {
 
