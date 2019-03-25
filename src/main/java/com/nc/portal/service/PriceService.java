@@ -22,7 +22,7 @@ public class PriceService implements GlobalConstants {
             JSONObject json = new JSONObject();
             json.put("address1", ordersDTO.getPointFrom());
             json.put("address2", ordersDTO.getPointTo());
-            json.put("tariff", ordersDTO.getWeight());
+            //json.put("tariff", ordersDTO.getWeight());
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<String> entity = new HttpEntity<String>(json.toString(), headers);

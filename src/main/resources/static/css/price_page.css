@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
+
+body, html {
+    background-image: url(../img/bg11.jpg);
+    background-repeat: no-repeat;
+    height: 100%;
+    overflow: hidden;
+    background-blend-mode: multiply;
+    background-color: #737e88bf;
+}
+
+* {
+    box-sizing: border-box;	/*Применяется для изменения алгоритма расчета ширины и высоты элемента*/
+    font-size: 18px;
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+.container {
+    width: 600px;
+    height: 300px;
+    margin: 150px auto 0 auto;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+.col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+}
+
+.col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+    margin-bottom: 6px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px; /*Устанавливает значение полей вокруг содержимого элемента*/
+    border: 1px solid #ccc;	/*Универсальное свойство border позволяет одновременно установить толщину, стиль и цвет границы вокруг элемента*/
+    border-radius: 4px;	/*Устанавливает радиус скругления уголков рамки*/
+    resize: vertical;	/*Указывает, можно ли пользователю изменять размеры текстового поля*/
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+input[type="text"]:hover {
+    box-shadow: 0 0 6px 3px rgba(226, 71, 47, 0.5)/*rgba(230, 230, 230, 1)*/;
+}
+
+input[type="submit"] {
+    background-color: #E2472F;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 75%;
+    float: right;
+    margin-top: 6px;
+}
+
+input[type="submit"]:hover {
+    color: #000;
+    background-color: #df6920;
+}
+
+label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;	/*Генерирует блочный элемент, который обтекается другими элементами веб-страницы подобно встроенному элементу*/
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    width: 75%;
+    float: right;
+}
+
+a:hover {
+    color: #df6920;
+}
+
+.btn {
+    color: #fff;
+    padding: 10px 20px;
+    cursor: pointer;
+    background: #E2472F;
+    display: inline-block;
+    border-radius: 4px;
+    margin-right: 12%;
+}
+
+.btn:hover {
+    color: #000;
+    background-color: #df6920;
+}
+
+#alert {
+    width: 500px;
+    overflow: hidden;
+    background: #f1f1f1;
+    box-shadow: 0 0 20px black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    text-align: center;
+}
+
+#alert span {
+    color: #000;
+    font-size: 40px;
+    margin: 20px 0;
+}
+
+.col-75 .tooltiptext {
+    visibility: hidden;
+    width: 30%;
+    background-color: #000;
+    opacity: .8;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 4px;
+    position: absolute;
+}
+
+.col-75:hover .tooltiptext {
+    visibility: visible;
+}
