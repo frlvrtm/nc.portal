@@ -1,37 +1,51 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Create orders</title>
-    <link rel="stylesheet" href="../css/custandop.css">
+    <link rel="stylesheet" href="../css/styleCustPage.css">
 </head>
 <body>
-
-<header>
-    <nav>
-        <div id="logo">
-            <a href="#">De Livery</a>
+<div class="container">
+    <h1>Create order:</h1>
+    <form action="#" th:action="@{/customer/create}" th:object="${order}" method="post">
+        <div class="row">
+            <div class="col-25">
+                <label for="">pointFrom</label>
+            </div>
+            <div class="col-75">
+                <input type="text" th:field="*{pointFrom}">
+            </div>
         </div>
-        <ul>
-            <li><a href="/logout" class="active">Log Out</a></li>
-        </ul>
-    </nav>
-</header>
-
-<section id="top">
-    <div class="container">
-        <p>Create order:</p>
-        <form action="#" th:action="@{/customer/create}" th:object="${order}" method="post">
-            <dl>
-                <dd><dt>point_from<input type="text" class="dws-input" th:field="*{pointFrom}">
-                <dd><dt>point_to<input type="text" class="dws-input" th:field="*{pointTo}">
-                <dd><dt>weight<select class="dws-input" th:field="*{weight}" >
-                                <option selected th:each="w : ${order.weightCat}" th:value="${w}" th:text="${w}"></option>
-                        </select>
-                <dd><dt>description<input type="text" class="dws-input" th:field="*{description}">
-                <dd><input class="dws-submit" type="submit" name="submit" value="Create">
-            </dl>
-        </form>
-    </div>
-</section>
+        <div class="row">
+            <div class="col-25">
+                <label for="">pointTo</label>
+            </div>
+            <div class="col-75">
+                <input type="text" th:field="*{pointTo}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="">weight</label>
+            </div>
+            <div class="col-75">
+                <select th:field="*{weight}" >
+                    <option selected th:each="w : ${order.weightCat}" th:value="${w}" th:text="${w}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="">description</label>
+            </div>
+            <div class="col-75">
+                <input type="text" th:field="*{description}">
+            </div>
+        </div>
+        <div class="row">
+            <input type="submit" value="Create">
+        </div>
+    </form>
+</div>
 </body>
 </html>

@@ -1,34 +1,41 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>About me</title>
-    <link rel="stylesheet" href="../css/custandop.css">
+    <link rel="stylesheet" href="../css/styleCustPage.css">
 </head>
 <body>
-
-<header>
-    <nav>
-        <div id="logo">
-            <a href="#">De Livery</a>
+<div class="container">
+    <h1>Edit your account:</h1>
+    <form action="#" th:action="@{/customer/aboutme}" th:object="${user}" method="post">
+        <div class="row">
+            <div class="col-25">
+                <label for="">first Name:</label>
+            </div>
+            <div class="col-75">
+                <input type="text" th:value="${user.firstName}" id="firstName" name="firstName">
+            </div>
         </div>
-        <ul>
-            <li><a href="/logout" class="active">Log Out</a></li>
-        </ul>
-    </nav>
-</header>
-
-<section id="top">
-    <div class="container">
-        <p>Edit your account:</p>
-        <form action="#" th:action="@{/customer/aboutme}" th:object="${user}" method="post">
-            <dl>
-                <dd><dt>point_from<input type="text" class="dws-input" th:value="${user.firstName}" id="firstName" name="firstName">
-                <dd><dt>point_to<input type="text" class="dws-input" th:value="${user.lastName}" id="lastName" name="lastName">
-                <dd><dt>weight<input type="text" class="dws-input" th:value="${user.phone}" id="phone" name="phone">
-                <dd><input class="dws-submit" type="submit" name="submit" value="Edit">
-            </dl>
-        </form>
-    </div>
-</section>
+        <div class="row">
+            <div class="col-25">
+                <label for="">last Name:</label>
+            </div>
+            <div class="col-75">
+                <input type="text" th:value="${user.lastName}" id="lastName" name="lastName">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="">phone:</label>
+            </div>
+            <div class="col-75">
+                <input type="text" th:value="${user.phone}" id="phone" name="phone">
+            </div>
+        </div>
+        <div class="row">
+            <input type="submit" value="Edit">
+        </div>
+    </form>
+</div>
 </body>
 </html>

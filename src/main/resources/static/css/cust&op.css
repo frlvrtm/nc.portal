@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 600px;
+    height: auto;
+    margin: auto;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+body,html {
+    background-image: url(../img/bg11.jpg);
+    background-repeat: no-repeat;
+    height: 100%;
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 18px;
+    overflow: hidden;
+}
+
+header nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    padding: 10px 100px;
+    box-sizing: border-box;
+    transition: .3s;
+    z-index: 9999999;
+    background-color: #0d0d0d;
+}
+
+header nav #logo a {
+    padding: 22px 20px;
+    height: 80px;
+    float: left;
+    font-size: 24px;
+    transition: .3s;
+    text-decoration: none;
+    color: #fff/*#151515*/;
+}
+
+header nav ul {
+    list-style: none;
+    float: right;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+header nav ul li {
+    list-style: none;
+}
+
+header nav ul li a {
+    line-height: 80px;
+    color: #fff/*#151515*/;
+    padding: 12px 30px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: .3s;
+}
+
+header nav ul li a:focus {
+    outline: none;
+}
+
+.active {
+    background: #E2472F;
+    color: #fff;
+    border-radius: 6px;
+}
+
+.active:hover {
+    background: #df6920;
+    color: #000;
+}
+
+ul.tabs {
+    float: left;
+    list-style: none;
+    height: 45px;
+    border-bottom: 1px solid silver;
+    width: 100%;
+}
+
+ul.tabs li {
+    float: left;
+    height: 45px;
+    width: 150px;
+    line-height: 45px;
+    background: #E2472F;
+    position: relative;
+}
+
+ul.tabs li a {
+    text-decoration: none;
+    text-align: center;
+    color: #000;
+    display: block;
+    font-size: 21px;
+    padding: 0 20px;
+    outline: none;
+}
+
+ul.tabs li a:hover {
+    background: #df6920;
+}
+
+ul.tabs li.active, ul.tabs li.active a:hover  {
+    background: #fff;
+}
+
+#top {
+    margin-top: 120px;
+    height: 100vh;
+}
+
+
+
+
+.dws-submit {
+    background-color: #E2472F;/*#c51a1d;*/
+    height: 50px;
+    width: 150px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    color: #000;
+    font-size: 24px;
+    text-align: center;
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+.dws-submit:hover {
+    background-color: #df6920;
+}
+
+.dws-input {
+    width: 300px;
+    height: 50px;
+    font-size: 18px;
+    margin-bottom: 25px;
+    border-radius: 4px;
+    padding-left: 10px;
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+.menu {
+    position: fixed;
+    float: left; /* Обтекание справа */
+    border: 5px solid #E2472F; /* Параметры рамки вокруг */
+    width: 15%; /* Ширина колонки */
+    height: 35%;
+    padding: 5px; /* Поля вокруг текста */
+    margin: 10% 10px 20px 5px; /* Значения отступов */
+    font-size: 24px;
+    text-align: center;
+    font-family: 'Gloria Hallelujah', cursive;
+    color: black;
+}
+
+
+
+/*-------------------------------------------------------------*/
+
+.menuu {
+    width: 20%;
+    float: left;
+    height: 100%;
+}
+
+.content {
+    width: 80%;
+    float: right;
+    height: 100%;
+}
+
+ul {
+    list-style-type: none;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    width: 20%;
+    opacity: .9;
+    overflow: auto;
+}
+
+li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+li a.activee {
+    background-color: #4CAF50;
+    color: white;
+}
+
+li a:hover:not(.activee) {
+    background-color: #555;
+    color: white;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+}

@@ -2,25 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>Customer</title>
-	<link rel="stylesheet" href="../css/custandop.css">
+	<link rel="stylesheet" href="../css/cust&op.css">
 </head>
 <body>
-
-<header>
-	<nav>
-		<div id="logo">
-			<a href="#">De Livery</a>
-		</div>
-		<ul>
-			<li><a href="/logout" class="active">Log Out</a></li>
-		</ul>
-	</nav>
-</header>
-<div class="menu">
-	<h2>Menu</h2>
-	<a href="/customer/aboutme">My profile</a><br>
-	<a href="/customer/myorders">Get my orders</a><br>
-	<a href="/customer/create">Create order</a><br>
+<div class="menuu">
+	<ul>
+		<li><a href="#" class="activee">Menu</a></li>
+		<li><a href="/customer/aboutme" target="iframe1">My profile</a></li>
+		<li><a href="/customer/myorders" target="iframe1">Get my orders</a></li>
+		<li><a href="/customer/create" target="iframe1">Create order</a></li>
+		<li><a href="/logout">Log Out</a></li>
+	</ul>
+</div>
+<div class="content">
+	<iframe name="iframe1" src="" scrolling="no"></iframe>
 </div>
 </body>
 </html>

@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
+
+body, html {
+    /*background-image: url(bg11.jpg);
+    background-repeat: no-repeat;*/
+    height: 100%;
+    overflow: hidden;
+    /*background-blend-mode: multiply;
+    background-color: #737e88bf;*/
+}
+
+* {
+    box-sizing: border-box;	/*Применяется для изменения алгоритма расчета ширины и высоты элемента*/
+    font-size: 18px;
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+/*Позиционирование*/
+
+.container {
+    width: 600px;
+    height: auto;
+    margin: auto;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    opacity: .9;
+    padding: 20px;
+}
+
+.col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+}
+
+.col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+    margin-bottom: 6px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+/*поля*/
+
+input[type="text"], select {
+    width: 100%;
+    padding: 12px; /*Устанавливает значение полей вокруг содержимого элемента*/
+    border: 1px solid #ccc;	/*Универсальное свойство border позволяет одновременно установить толщину, стиль и цвет границы вокруг элемента*/
+    border-radius: 4px;	/*Устанавливает радиус скругления уголков рамки*/
+    resize: vertical;	/*Указывает, можно ли пользователю изменять размеры текстового поля*/
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+input[type="text"]:hover, select:hover {
+    box-shadow: 0 0 6px 3px rgba(226, 71, 47, 0.5)/*rgba(230, 230, 230, 1)*/;
+}
+
+/*кнопки*/
+
+input[type="submit"] {
+    background-color: #E2472F;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 75%;
+    float: right;
+    margin-top: 6px;
+}
+
+input[type="submit"]:hover {
+    color: #000;
+    background-color: #df6920;
+}
+
+/*лейблы*/
+
+label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;	/*Генерирует блочный элемент, который обтекается другими элементами веб-страницы подобно встроенному элементу*/
+}
+
+/*ссылки*/
+
+a {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    width: 75%;
+    float: right;
+}
+
+a:hover {
+    color: #df6920;
+}
+
+.createOrders {
+    background-color: #E2472F;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 25%;
+    margin-top: 15px;
+}
+
+.createOrders:hover {
+    color: #000;
+    background-color: #df6920;
+}
+
+/*h1*/
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+}
+
+/*таблица*/
+
+table {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size: 14px;
+    background: white;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    border-collapse: collapse;
+    text-align: left;
+    table-layout: auto;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+    /*background-color: #f5f5f5;*/
+}
+
+tr td input[type="text"] {
+    width: auto;
+    padding: 8px; /*Устанавливает значение полей вокруг содержимого элемента*/
+    border: none; /*Универсальное свойство border позволяет одновременно установить толщину, стиль и цвет границы вокруг элемента*/
+    resize: horizontal;
+    background-color: #fff;
+    color: #000;
+}
