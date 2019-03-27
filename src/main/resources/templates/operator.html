@@ -26,19 +26,23 @@
                         <th>cost</th><th>weight</th><th>start_time</th><th>end_time</th><th>driver</th>
                         <th>status</th><th>description</th><th>update</th>
                     </tr>
-                    <tr th:each="o : *{orders}">
+                    <tr th:each="o : ${orders}">
                         <form action="#" th:action="@{/operator}" th:object="${order}" method="post">
-                        <td><input type="text" size="2" th:value="${o.getIdOrder}" id="id_order" name="id_order" disabled></td>
-                        <td><input type="text" size="5" th:value="${o.customer}" id="customer" name="customer" disabled></td>
-                        <td><input type="text" th:value="${o.getPointFrom}" id="point_from" name="point_from" disabled></td>
-                        <td><input type="text" th:value="${o.getPointTo}" id="point_to" name="point_to" disabled></td>
-                        <td><input type="text" size="2" th:value="${o.cost}" id="cost" name="cost" disabled></td>
-                        <td><input type="text" size="2" th:value="${o.weight}" id="weight" name="weight" disabled></td>
-                        <td><input type="text" size="6" th:value="${o.getStartTime}" id="start_time" name="start_time" disabled></td>
-                        <td><input type="text" size="6" th:value="${o.getEndTime}" id="end_time" name="end_time" disabled></td>
+                        <td><input type="text" size="2" th:value="${o.idOrder}" id="idOrder" name="idOrder" readonly="readonly"></td>
+                        <td><input type="text" size="5" th:value="${o.customer}" id="customer" name="customer" readonly="readonly"></td>
+                        <td><input type="text" th:value="${o.pointFrom}" id="pointFrom" name="pointFrom" readonly="readonly"></td>
+                        <td><input type="text" th:value="${o.pointTo}" id="pointTo" name="pointTo" readonly="readonly"></td>
+                        <td><input type="text" size="2" th:value="${o.cost}" id="cost" name="cost" readonly="readonly"></td>
+                        <td><input type="text" size="2" th:value="${o.weight}" id="weight" name="weight" readonly="readonly"></td>
+                        <td><input type="text" size="6" th:value="${o.startTime}" id="startTime" name="startTime" readonly="readonly"></td>
+                        <td><input type="text" size="6" th:value="${o.endTime}" id="endTime" name="endTime" readonly="readonly"></td>
                         <td><input type="text" size="5" th:value="${o.driver}" id="driver" name="driver"></td>
-                        <td><input type="text" size="2" th:value="${o.status}" id="status" name="status"></td>
-                        <td><input type="text" th:value="${o.description}" id="description" name="description" disabled></td>
+                        <td><select th:field="*{status}" >
+
+                            <option selected th:each="s : ${order.orderCust}" th:if="${o.status.toLowerCase().equals(s.toLowerCase())}"  th:value="${s}"  th:text="${s}"></option>
+                            <option th:each="s : ${order.orderCust}" th:unless="${o.status.toLowerCase().equals(s.toLowerCase())}"  th:value="${s}"  th:text="${s}"></option>
+                            </select></td>
+                        <td><input type="text" th:value="${o.description}" id="description" name="description" readonly="readonly"></td>
                             <td><input type="submit" name="submit" value="Update"></td>
                         </form>
                     </tr>

@@ -21,13 +21,13 @@
                 <th>description</th>
             </tr>
             <tr th:each="o : *{orders}">
-                <td><input type="text" size="1" th:value="${o.getIdOrder}" id="id_order" name="id_order" disabled></td>
-                <td><input type="text" th:value="${o.getPointFrom}" id="point_from" name="point_from" disabled></td>
-                <td><input type="text" th:value="${o.getPointTo}" id="point_to" name="point_to" disabled></td>
+                <td><input type="text" size="1" th:value="${o.idOrder}" id="idOrder" name="idOrder" disabled></td>
+                <td><input type="text" th:value="${o.pointFrom}" id="pointFrom" name="pointFrom" disabled></td>
+                <td><input type="text" th:value="${o.pointTo}" id="pointTo" name="pointTo" disabled></td>
                 <td><input type="text" size="2" th:value="${o.cost}" id="cost" name="cost" disabled></td>
                 <td><input type="text" size="2" th:value="${o.weight}" id="weight" name="weight" disabled></td>
-                <td><input type="text" size="6" th:value="${o.getStartTime}" id="start_time" name="start_time" disabled></td>
-                <td><input type="text" size="6" th:value="${o.getEndTime}" id="end_time" name="end_time" disabled></td>
+                <td><input type="text" size="6" th:value="${o.startTime}" id="startTime" name="startTime" disabled></td>
+                <td><input type="text" size="6" th:value="${o.endTime}" id="endTime" name="endTime" disabled></td>
                 <td><input type="text" size="2" th:value="${o.status}" id="status" name="status" disabled></td>
                 <td><input type="text" th:value="${o.description}" id="description" name="description" disabled></td>
             </tr>

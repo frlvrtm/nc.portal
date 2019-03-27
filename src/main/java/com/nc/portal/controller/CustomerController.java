@@ -54,7 +54,7 @@ public class CustomerController {
     public String setProfile(@ModelAttribute UserDTO user) {
         if (UserDTO.staticRole.equals(Role.CUSTOMER)) {
             customerService.updateUser(user);
-            return "redirect:/customer";
+            return "empty";
         } else
             return "error/access-denied";
     }
@@ -65,7 +65,7 @@ public class CustomerController {
             model.addAttribute("order", new OrdersDTO());
             return "orderscreate";
         }
-        model.addAttribute("userDTO", new UserDTO());
+
         return "error/access-denied";
     }
 
@@ -74,7 +74,7 @@ public class CustomerController {
         if (UserDTO.staticRole.equals(Role.CUSTOMER)) {
             ordersService.createOrder(order);
             model.addAttribute("order", new OrdersDTO());
-            return "redirect:/customer";
+            return "empty";
         }
         model.addAttribute("userDTO", new UserDTO());
         return "error/access-denied";

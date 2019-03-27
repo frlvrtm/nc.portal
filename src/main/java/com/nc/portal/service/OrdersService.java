@@ -1,5 +1,6 @@
 package com.nc.portal.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nc.portal.model.OrdersDTO;
 import com.nc.portal.model.UserDTO;
@@ -46,6 +47,13 @@ public class OrdersService implements GlobalConstants {
             return new OrdersDTO[0];
         }
     }
+    private HttpEntity<String> createEntity(OrdersDTO order) throws JsonProcessingException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        // create request body
+        String request = mapper.writeValueAsString(order);
+        return new HttpEntity<>(request, headers);
+    }
 
     public void createOrder(OrdersDTO order) {
         try {
@@ -53,13 +61,7 @@ public class OrdersService implements GlobalConstants {
             order.setStatus("open");
             Long curTime = System.currentTimeMillis();
             order.setStartTime(new Date(curTime));
-            HttpHeaders headers = new HttpHeaders();//new HttpHeaders();//createHttpHeaders(userDTO.getUsername(), userDTO.getPassword());
-            headers.setContentType(MediaType.APPLICATION_JSON);
-
-            // create request body
-            String request = mapper.writeValueAsString(order);
-
-            HttpEntity<String> entity = new HttpEntity<String>(request, headers);
+            HttpEntity<String> entity = createEntity(order);
             ResponseEntity<String> response = restTemplate.exchange(URL_CREATE_ORDERS, HttpMethod.POST, entity, String.class);
             System.out.println("Result - status " + response.getStatusCode());
         } catch (Exception e) {
@@ -67,15 +69,9 @@ public class OrdersService implements GlobalConstants {
         }
     }
 
-    public void updateOrders(OrdersDTO ordersDTO) {
+    public void updateOrders(OrdersDTO order) {
         try {
-            HttpHeaders headers = new HttpHeaders();//new HttpHeaders();//createHttpHeaders(userDTO.getUsername(), userDTO.getPassword());
-            headers.setContentType(MediaType.APPLICATION_JSON);
-
-            // create request body
-            String request = mapper.writeValueAsString(ordersDTO);
-
-            HttpEntity<String> entity = new HttpEntity<String>(request, headers);
+            HttpEntity<String> entity = createEntity(order);
             ResponseEntity<String> response = restTemplate.exchange(URL_ORDERS, HttpMethod.POST, entity, String.class);
             System.out.println("Result - status " + response.getStatusCode());
         } catch (Exception e) {
