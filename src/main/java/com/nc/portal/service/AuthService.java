@@ -50,20 +50,17 @@ public class AuthService implements GlobalConstants {
 
     /**
      * Запрос на получение роли пользователя
-     *
-     * @param userDTO
      */
-    public void getRole(UserDTO userDTO) {
+    public void getRole(String username, String password) {
         try {
-            HttpHeaders headers = createHttpHeaders(userDTO.getUsername(), userDTO.getPassword());//new HttpHeaders();//createHttpHeaders(userDTO.getUsername(), userDTO.getPassword());
+            HttpHeaders headers = createHttpHeaders(username, password);//new HttpHeaders();//createHttpHeaders(userDTO.getUsername(), userDTO.getPassword());
             HttpEntity<String> request = new HttpEntity<String>(headers);
             ResponseEntity<String> response = restTemplate.exchange(URL_AUTH, HttpMethod.GET, request, String.class);
             System.out.println("Result - status " + response.getBody());
-            //  userDTO.setRole(response.getBody());
             UserDTO.staticRole = Role.valueOf(response.getBody());
-            UserDTO.staticUsername = userDTO.getUsername();
+            UserDTO.staticUsername = username;
         } catch (Exception e) {
-            userDTO.setRole("UNAUTHORIZED");
+            UserDTO.staticRole = Role.UNAUTHORIZED;
             UserDTO.staticUsername = "";
             System.out.println("** Exception: " + e.getMessage());
         }
@@ -89,8 +86,10 @@ public class AuthService implements GlobalConstants {
             } else
                 request.put("role", userDTO.getRole());
 
-            HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
+            HttpEntity<String> entity = new HttpEntity<>(request.toString(), headers);
             ResponseEntity<String> response = restTemplate.exchange(URL_CREATE, HttpMethod.POST, entity, String.class);
+            UserDTO.staticRole = Role.CUSTOMER;
+            UserDTO.staticUsername = userDTO.getUsername();
             return response.getStatusCode().value();
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
@@ -106,7 +105,7 @@ public class AuthService implements GlobalConstants {
         try {
             // UserDTO.setBasicAuth("");
             HttpHeaders headers = new HttpHeaders();
-            HttpEntity<String> request = new HttpEntity<String>(headers);
+            HttpEntity<String> request = new HttpEntity<>(headers);
             ResponseEntity<String> response = restTemplate.exchange(URL_CLEAR, HttpMethod.GET, request, String.class);
             System.out.println("Result - status " + response.getBody());
         } catch (Exception e) {

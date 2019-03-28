@@ -6,15 +6,10 @@ import com.nc.portal.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-//todo nikita
-//аннотацию @RequestMapping перенести над методами; туда же добавить method = либо get либо post; @GetMapping, @PostMapping
-//ctrl+alt+l - автоформатирование кода в идеи; убрать лишние строчки
-//AuthService переименовать в AuthService; shift+f6 - переименует везде
-//getAuth переименовать в getAuthPage; удалить атрибут model; все что в методе.. оставить только return auth page
 
 //todo nikita
 //удалить старые комменты
@@ -31,18 +26,15 @@ public class AuthController {
     AuthService authService;
 
     @RequestMapping(value = "/auth", method = RequestMethod.GET)
-    public String getAuthPage(Model model) {
-        if (UserDTO.staticRole.equals(Role.UNAUTHORIZED)) {
-            model.addAttribute("userDTO", new UserDTO());
-            return "auth";
-        } else {
-            return "redirect:/" + UserDTO.staticRole.getUrl();
-        }
+    public String getAuthPage() {
+        UserDTO.staticRole = Role.UNAUTHORIZED;
+        return "auth";
     }
 
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
-    public String submit(@ModelAttribute UserDTO userDTO, Model model) {
-        authService.getRole(userDTO);
+    public String getAuth(@RequestParam("username") String username,
+                          @RequestParam("password") String password, Model model) {
+        authService.getRole(username,password);
         if (UserDTO.staticRole.equals(Role.UNAUTHORIZED)) {
             model.addAttribute("errorMessage", "incorrect name or password");
             return "auth";

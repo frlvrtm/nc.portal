@@ -24,11 +24,10 @@ public class RegController {
     }
 
     @PostMapping
-    public String submit(@ModelAttribute UserDTO userDTO, Model model) {
+    public String createUser(@ModelAttribute UserDTO userDTO) {
         authService.createUser(userDTO);
         System.out.println("UserDTO created: " + userDTO.getUsername());
-        //model.addAttribute("userDTO", userDTO);
-        return "customer";
+        return "redirect:/customer";
     }
 
 }

@@ -5,9 +5,8 @@ import com.nc.portal.model.CarDTO;
 import com.nc.portal.model.ListUser;
 import com.nc.portal.model.Role;
 import com.nc.portal.model.UserDTO;
-import com.nc.portal.service.AuthService;
 import com.nc.portal.service.AdminService;
-import lombok.Data;
+import com.nc.portal.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -59,20 +58,18 @@ public class AdminController {
         if (UserDTO.staticRole == Role.ADMIN) {
             return "redirect:/admin/page";
         }
-        model.addAttribute("userDTO", new UserDTO());
         return "authadmin";
     }
 
     /**
      * Форма для проверки введенных данных для админа
      *
-     * @param userDTO
      * @param model
      * @return
      */
     @PostMapping
-    public String submit(@ModelAttribute UserDTO userDTO, Model model) {
-        authService.getRole(userDTO);
+    public String getAuth(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
+        authService.getRole(username, password);
         if (UserDTO.staticRole == Role.ADMIN) {
             return "redirect:/admin/page";
         } else {
