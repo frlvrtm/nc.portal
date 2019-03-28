@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /*Применяется для изменения алгоритма расчета ширины и высоты элемента*/
+    font-size: 18px;
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+body, html {
+    background-image: url(../img/bg11.jpg);
+    background-repeat: no-repeat;
+    height: 100%;
+    overflow: hidden;
+}
+
+.alert {
+    position: fixed;
+    width: 450px;
+    height: 50px;
+    margin-top: 100px;
+    margin-left: 25%;
+    font-size: 24px;
+    text-align: center;
+}
+
+/*tab-menu*/
+
+ul.tabs {
+    float: left;
+    list-style-type: none;
+    height: 5.3%;
+    width: 100%;
+    opacity: .9;
+    overflow: auto;
+    position: fixed;
+    list-style-type: none;
+    background-color: #f1f1f1;
+}
+
+ul.tabs li {
+    float: left;
+    height: 52px;
+    width: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+ul.tabs li a {
+    display: block;
+    padding: 8px 16px;
+    text-decoration: none;
+    background-color: #f1f1f1;
+    color: #000;
+}
+
+ul.tabs li a:hover {
+    background: #555;
+}
+
+ul.tabs li.active a:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.active {
+    background: #E2472F;
+    color: #fff;
+}
+
+/*таблица*/
+
+.table {
+    background: white;
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    table-layout: auto;
+    margin-top: 3%;
+}
+
+
+/*--------------------------------------*/
+
+.menuu {
+    width: 20%;
+    float: left;
+    height: 100%;
+}
+
+.content {
+    width: 80%;
+    float: right;
+    height: 100%;
+}
+
+ul.menu {
+    list-style-type: none;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    width: 20%;
+    opacity: .9;
+    overflow: auto;
+}
+
+ul.menu li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+ul.menu li a.activee {
+    background-color: #4CAF50;
+    color: white;
+}
+
+ul.menu li a:hover:not(.activee) {
+    background-color: #555;
+    color: white;
+}
+
+/*Позиционирование*/
+
+.container_ {
+    width: 600px;
+    height: auto;
+    margin-left: 20%;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    opacity: .9;
+    padding: 20px;
+    position: fixed;
+}
+
+.tab_content:after {
+    content: "";
+    display: table;
+    clear: both;
+    margin-bottom: 6px;
+}
+
+#id_top {
+    visibility: hidden;
+}
+
+#id_con {
+    visibility: hidden;
+}
+
+#id_car {
+    visibility: hidden;
+}
