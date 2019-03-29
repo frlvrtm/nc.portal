@@ -8,6 +8,12 @@
 <body>
 <div class="container">
 
+    <!--todo artem
+price_page - убрать белую формочку (сделать прозрачной); template который вылезает - его нужно сделать либо по ширине input поля, либо сдвинуть влево (чтоб по центру было);
+кнопочка calculate the cost - давай везде где красный сделаем зеленый.. =)
+nc.test.service.impl.CostService#getPrice (server) добавить логирования для входных данных - address1, address2, tariff
+окошечко "delivery will cost you" кнопочки уменьшить, сделать в одну строчку, слева - add order (переименовать в оформить доставку), справа - close-->
+
     <div th:if="${Message}">
         <div id="alert">
             <span th:text="${Message}"></span><br/>
