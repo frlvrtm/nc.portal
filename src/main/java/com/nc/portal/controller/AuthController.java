@@ -19,6 +19,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 //com.nc.portal.controller.AuthController#submit переименовать в getAuth
 //+ найти способ как передать String login, String password в параметры метода..
 
+//todo nikita
+//удалить старые комменты
+//ctrl+alt+l - автоформатирование - юзать !!!
+//auth.html - xmlns:th="http://www.thymeleaf.org" - удалить, div with ${errorMessage} - пока удалить, комменты про javascript - удалить
+//com.nc.portal.controller.AuthController#getAuth - model из input пока удалить (ошибка будет падать),
+//добавить в параметры HttpServletRequest request, HttpServletResponse response будем их использовать в запросах
+//в com.nc.portal.service.AuthService создать метод getToken; принимать login, password, возвращать token
+//тут com.nc.portal.service.AuthService#createHttpHeaders что то похожее на правду..
+//создать класс com.netcracker.demo.models.AuthThreadLocalTO с private static final полем java.lang.ThreadLocal
+//здесь com.nc.portal.controller.AuthController#getAuth сначала получать token, потом ставить токет в это поле..
+//потом делать вызов getRole с request, response из input
+
 @Controller
 public class AuthController {
 
