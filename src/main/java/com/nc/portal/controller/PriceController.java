@@ -10,6 +10,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+//todo artem
+//com.nc.portal.controller.PriceController - @RequestMapping перенести надо методами, добавить method = RequestMethod.GET or POST, @GetMapping, @PostMapping - убрать
+//com.nc.portal.controller.PriceController#getCost_Page - переименовать в getPricePage; input parametrs убрать, model.addAttribute("ordersDTO", new OrdersDTO()); - убрать
+//price_page.html - убрать th:field="*{pointFrom}, th:field="*{pointTo},
+//добавить name = "pointFrom", name = "pointTo" - это позволить юзать значения во входных параметрах методов через @RequestParam("parameter_name");
+//th:action="@{/price_page}" th:object="${ordersDTO}" - убрать, в action прописать "/price_page"
+//com.nc.portal.controller.PriceController#submit переименовать в getPrice; input parameters - pointFrom, pointTo; model - оставляем.. чтобы message кидать
+
 @Controller
 @RequestMapping(value = "/price_page")
 public class PriceController {
