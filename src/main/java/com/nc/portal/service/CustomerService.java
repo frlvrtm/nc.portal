@@ -19,10 +19,16 @@ public class CustomerService {
 
         this.URL_ONE_CUST = URL + "customer/name";
     }
-
-    public UserDTO getUserByName(String name) {
+    private HttpHeaders createTokenHttpHeaders(String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("x-auth-token", token);
+        return headers;
+    }
+    public UserDTO getUserByName(String token) {
         try {
-            HttpHeaders headers = new HttpHeaders();
+            String name=token.split(":")[0];
+            HttpHeaders headers = createTokenHttpHeaders(token);
             HttpEntity<String> request = new HttpEntity<>(headers);
             // string builder
             ResponseEntity<UserDTO> response =

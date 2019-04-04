@@ -10,14 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-//todo nikita
-//удалить старые комменты
-//com.nc.portal.controller.AuthController#getAuthPage должен просто возвращать страничку auth
-//подправить auth.html - раздел <form> - добавить name; action="/auth"; th:action="@{/auth}" th:object="${userDTO}" - удалить это
-//th:field="*{username}" - удалить, th:field="*{password}" - удалить; добавить <input type="hidden" name="role" value="customer">
-//com.nc.portal.controller.AuthController#submit переименовать в getAuth
-//+ найти способ как передать String login, String password в параметры метода..
+import javax.servlet.http.HttpServletRequest;
 
 //todo nikita
 //удалить старые комменты
@@ -45,12 +38,13 @@ public class AuthController {
 
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     public String getAuth(@RequestParam("username") String username,
-                          @RequestParam("password") String password, Model model) {
-        authService.getRole(username,password);
+                          @RequestParam("password") String password, Model model,HttpServletRequest resp) {
+        String token = authService.getRole(username,password);
         if (UserDTO.staticRole.equals(Role.UNAUTHORIZED)) {
             model.addAttribute("errorMessage", "incorrect name or password");
             return "auth";
         } else {
+            resp.getSession().setAttribute("x-auth-token",token);
             return "redirect:/" + UserDTO.staticRole.getUrl();
         }
     }

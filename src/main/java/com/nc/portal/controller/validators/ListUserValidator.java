@@ -1,6 +1,5 @@
 package com.nc.portal.controller.validators;
 
-import com.nc.portal.controller.AdminController;
 import com.nc.portal.model.ListUser;
 import com.nc.portal.model.UserDTO;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,7 @@ public class ListUserValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        ListUser listUser = (ListUser)target;
+        ListUser listUser = (ListUser) target;
         List<UserDTO> list = listUser.getList();
         //Проверка на дубликаты carName
         boolean duplicates = false;

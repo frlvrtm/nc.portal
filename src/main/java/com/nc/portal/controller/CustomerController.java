@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping(value = "/customer")
 public class CustomerController {
@@ -41,9 +43,9 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/aboutme", method = RequestMethod.GET)
-    public String getProfile(Model model) {
+    public String getProfile(Model model, HttpServletRequest request) {
         if (UserDTO.staticRole.equals(Role.CUSTOMER)) {
-            UserDTO userDTO = customerService.getUserByName(UserDTO.staticUsername);
+            UserDTO userDTO = customerService.getUserByName((String)request.getSession().getAttribute("x-auth-token"));
             model.addAttribute("user", userDTO);
             return "aboutme";
         } else

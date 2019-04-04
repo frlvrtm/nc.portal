@@ -14,14 +14,16 @@ import java.util.Base64;
 @Service
 public class AuthService implements GlobalConstants {
 
-    private String URL_AUTH;
+    private String URL_ROLE;
     private String URL_CREATE;
     private String URL_CLEAR;
+    private String URL_AUTH;
 
     public AuthService() {
-        this.URL_AUTH = URL + "auth/role";
+        this.URL_ROLE = URL + "auth/role";
         this.URL_CREATE = URL + "user";
         this.URL_CLEAR = URL + "auth/clear";
+        this.URL_AUTH = URL + "auth/login";
     }
 
     /*private final String URL = "http://localhost:8082/auth/role";
@@ -51,18 +53,21 @@ public class AuthService implements GlobalConstants {
     /**
      * Запрос на получение роли пользователя
      */
-    public void getRole(String username, String password) {
+    public String getRole(String username, String password) {
         try {
             HttpHeaders headers = createHttpHeaders(username, password);//new HttpHeaders();//createHttpHeaders(userDTO.getUsername(), userDTO.getPassword());
-            HttpEntity<String> request = new HttpEntity<String>(headers);
+            HttpEntity<String> request = new HttpEntity<>(headers);
             ResponseEntity<String> response = restTemplate.exchange(URL_AUTH, HttpMethod.GET, request, String.class);
             System.out.println("Result - status " + response.getBody());
-            UserDTO.staticRole = Role.valueOf(response.getBody());
+            String st=response.getBody();
+            UserDTO.staticRole = Role.valueOf(st.split(":")[1]);
             UserDTO.staticUsername = username;
+            return st;
         } catch (Exception e) {
             UserDTO.staticRole = Role.UNAUTHORIZED;
             UserDTO.staticUsername = "";
             System.out.println("** Exception: " + e.getMessage());
+            return null;
         }
     }
 
