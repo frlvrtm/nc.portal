@@ -1,10 +1,7 @@
 package com.nc.portal.controller;
 
 import com.nc.portal.controller.validators.ListUserValidator;
-import com.nc.portal.model.CarDTO;
-import com.nc.portal.model.ListUser;
-import com.nc.portal.model.Role;
-import com.nc.portal.model.UserDTO;
+import com.nc.portal.model.*;
 import com.nc.portal.service.AdminService;
 import com.nc.portal.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +52,10 @@ public class AdminController {
      */
     @GetMapping()
     public String logInForAdmin(Model model) {
-        if (UserDTO.staticRole == Role.ADMIN) {
-            return "redirect:/admin/page";
-        }
-        return "authadmin";
+        //if (UserDTO.staticRole == Role.ADMIN) {
+        return "redirect:/admin/page";
+        // }
+        // return "authadmin";
     }
 
     /**
@@ -94,7 +91,9 @@ public class AdminController {
      */
     @GetMapping("/page")
     public String getPageAdd(Model model) {
-        if (UserDTO.staticRole.equals(Role.ADMIN)) {
+        Role role = RoleThreadLocal.getRole();
+        System.out.println(Thread.currentThread().getName() + " " + Thread.currentThread().getId());
+        if (role == Role.ADMIN) {
             //все сотрудники
             model.addAttribute("form", new ListUser(adminService.getAllEmployees()));
             //форма для заполнения нового юзера

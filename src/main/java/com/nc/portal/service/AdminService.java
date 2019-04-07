@@ -2,6 +2,8 @@ package com.nc.portal.service;
 
 import com.nc.portal.model.CarDTO;
 import com.nc.portal.model.UserDTO;
+import com.nc.portal.utils.RestTemplateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -24,7 +26,7 @@ public class AdminService {
     private final String URL_DELETE;
 
     public AdminService() {
-        this.URL_ALL_EMPLOYEES = URL + "user";
+        this.URL_ALL_EMPLOYEES =  "user";
         this.URL_CARS_FREE = URL + "car/free";
         this.URL_CARS_ALL = URL + "car/all";
         this.URL_CREATE = URL + "user";
@@ -34,9 +36,14 @@ public class AdminService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
+    @Autowired
+    RestTemplateUtil restTemplateUtil;
+
     public List<UserDTO> getAllEmployees() {
         try {
-            ResponseEntity<UserDTO[]> response = restTemplate.getForEntity(URL_ALL_EMPLOYEES, UserDTO[].class);
+            //ResponseEntity<UserDTO[]> response = restTemplate.getForEntity(URL_ALL_EMPLOYEES, UserDTO[].class);
+
+            ResponseEntity<UserDTO[]> response = restTemplateUtil.exchange(URL_ALL_EMPLOYEES, HttpMethod.GET, UserDTO[].class);
 
             List<UserDTO> list = new ArrayList<>();
             if (response.getBody() != null) {
