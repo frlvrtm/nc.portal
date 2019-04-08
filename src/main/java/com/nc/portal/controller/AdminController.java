@@ -4,6 +4,7 @@ import com.nc.portal.controller.validators.ListUserValidator;
 import com.nc.portal.model.*;
 import com.nc.portal.service.AdminService;
 import com.nc.portal.service.AuthService;
+import com.nc.portal.utils.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -66,7 +67,7 @@ public class AdminController {
      */
     @PostMapping
     public String getAuth(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
-        authService.getRole(username, password);
+       // authService.getRole(username, password);
         if (UserDTO.staticRole == Role.ADMIN) {
             return "redirect:/admin/page";
         } else {
@@ -90,12 +91,13 @@ public class AdminController {
      * @return
      */
     @GetMapping("/page")
-    public String getPageAdd(Model model) {
-        Role role = RoleThreadLocal.getRole();
+    public String getPageAdd(HttpServletRequest request, Model model) {
+        Role role = CookieUtil.getRole(request);
+        Role role1 = RoleThreadLocal.getRole();
         System.out.println(Thread.currentThread().getName() + " " + Thread.currentThread().getId());
         if (role == Role.ADMIN) {
             //все сотрудники
-            model.addAttribute("form", new ListUser(adminService.getAllEmployees()));
+            model.addAttribute("form", new ListUser(adminService.getAllEmployees(request)));
             //форма для заполнения нового юзера
             model.addAttribute("userDTO", new UserDTO());
             //форма для заполнения новой машины
@@ -116,7 +118,7 @@ public class AdminController {
     }
 
     @PostMapping("/page")
-    public String addUser(@ModelAttribute UserDTO userDTO) {
+    public String addUser(@ModelAttribute UserDTO userDTO ) {
         if (UserDTO.staticRole == Role.ADMIN) {
             int code = adminService.createEmployee(userDTO);
             switch (code) {
@@ -137,7 +139,7 @@ public class AdminController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute("form") @Valid ListUser listUser, BindingResult bindingResult) {
+    public String update(@ModelAttribute("form") @Valid ListUser listUser, BindingResult bindingResult, HttpServletRequest request) {
         if (UserDTO.staticRole == Role.ADMIN) {
             if (bindingResult.hasErrors()) {
                 dictionary.put("errorMessage", "1 car selected for 2 drivers");
@@ -145,7 +147,7 @@ public class AdminController {
                 return "redirect:/admin/page";
             }
             List<UserDTO> list = listUser.getList();
-            int code = adminService.updateUsers(list);
+            int code = adminService.updateUsers(request, list);
             switch (code) {
                 case 0:
                     dictionary.put("infoMessage", "No changes, no need to update");

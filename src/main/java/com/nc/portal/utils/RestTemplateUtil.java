@@ -29,8 +29,11 @@ public class RestTemplateUtil {
         this.restTemplate = new RestTemplate();
     }
 
-    public <T> ResponseEntity<T> exchange(String url, HttpMethod method, Class<T> responseType) {
-        HttpEntity<String> entity = new HttpEntity<>(addHeaders());
+    public <T> ResponseEntity<T> exchange(HttpServletRequest req,
+                                          String url,
+                                          HttpMethod method,
+                                          Class<T> responseType) {
+        HttpEntity<String> entity = new HttpEntity<>(addHeaders(req));
         try {
             return restTemplate.exchange(BASE_URL + url, method, entity, responseType);
         } catch (HttpStatusCodeException e) {
@@ -76,16 +79,21 @@ public class RestTemplateUtil {
 
     //остальные методы так же
 
-    private HttpHeaders addHeaders(/*HttpServletRequest req, HttpServletResponse res*/) {
+    private HttpHeaders addHeaders(HttpServletRequest req/*, HttpServletResponse res*/) {
         HttpHeaders headers = new HttpHeaders();
+        String cookie = CookieUtil.getValueByName(req, CookieUtil.COOKIE_AUTH);
         String token = AuthThreadLocal.getAuth();
         //проверка что токен не пуст еще будет
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.add(HttpHeaders.AUTHORIZATION, token);
+        if (cookie != null) {
+            headers.add(HttpHeaders.AUTHORIZATION, cookie);
+        } else {
+            headers.add(HttpHeaders.AUTHORIZATION, token);
+        }
         return headers;
     }
 
-        public void createToken(String user, String password) {
+    public void createToken(String user, String password) {
         String notEncoded = user + ":" + password;
         String encodedAuth = "Basic " + Base64.getEncoder().encodeToString(notEncoded.getBytes(Charset.forName("US-ASCII")));
         AuthThreadLocal.setAuth(encodedAuth);

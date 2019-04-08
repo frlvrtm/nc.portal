@@ -4,6 +4,7 @@ import com.nc.portal.model.Role;
 import com.nc.portal.model.RoleThreadLocal;
 import com.nc.portal.model.UserDTO;
 import com.nc.portal.service.AuthService;
+import com.nc.portal.utils.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class AuthController {
@@ -26,10 +28,15 @@ public class AuthController {
 
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     public String getAuth(@RequestParam("username") String username,
-                          @RequestParam("password") String password, Model model) {
+                          @RequestParam("password") String password,
+                          Model model,
+                          HttpServletRequest request,
+                          HttpServletResponse response) {
 
-        System.out.println(Thread.currentThread().getName() + " " + Thread.currentThread().getId());
-        authService.getRole(username, password);
+        //System.out.println(Thread.currentThread().getName() + " " + Thread.currentThread().getId());
+        authService.getRole(username, password, request, response);
+
+        //Role role = CookieUtil.getRole(request);
         Role role = RoleThreadLocal.getRole();
         if (role == Role.UNAUTHORIZED) {
             model.addAttribute("errorMessage", "incorrect name or password");

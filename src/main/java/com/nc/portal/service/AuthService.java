@@ -4,6 +4,7 @@ import com.nc.portal.model.AuthThreadLocal;
 import com.nc.portal.model.Role;
 import com.nc.portal.model.RoleThreadLocal;
 import com.nc.portal.model.UserDTO;
+import com.nc.portal.utils.CookieUtil;
 import com.nc.portal.utils.RestTemplateUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.List;
@@ -39,12 +42,13 @@ public class AuthService implements GlobalConstants {
     /**
      * Запрос на получение роли пользователя
      */
-    public void getRole(String username, String password) {
+    public void getRole(String username, String password, HttpServletRequest req, HttpServletResponse res) {
         try {
             //Добавляем токен в поток
             restTemplateUtil.createToken(username, password);
+            CookieUtil.create(res, CookieUtil.COOKIE_AUTH, AuthThreadLocal.getAuth().toString(), -1, req.getServerName());
             //Отправляем запрос
-            ResponseEntity<String> response = restTemplateUtil.exchange(URL_ROLE, HttpMethod.GET, String.class);
+            ResponseEntity<String> response = restTemplateUtil.exchange(req, URL_ROLE, HttpMethod.GET, String.class);
             //Добавляем новый токен
             List<String> header = response.getHeaders().getValuesAsList(HttpHeaders.AUTHORIZATION);
             AuthThreadLocal.setAuth(header.get(0));
@@ -52,9 +56,13 @@ public class AuthService implements GlobalConstants {
             Role role = Role.valueOf(response.getBody());
 
             RoleThreadLocal.setRole(role);
+            CookieUtil.create(res, CookieUtil.COOKIE_AUTH, AuthThreadLocal.getAuth(), -1, req.getServerName());
+            CookieUtil.create(res, CookieUtil.COOKIE_ROLE, RoleThreadLocal.getRole().toString(), -1, req.getServerName());
+
             //return response.getBody();
         } catch (Exception e) {
             //не знаю где надо будет обрабатывать ошибки 401 и 403, надо подумать над этим
+            CookieUtil.create(res, CookieUtil.COOKIE_ROLE, Role.UNAUTHORIZED.toString(), -1, req.getServerName());
             RoleThreadLocal.setRole(Role.UNAUTHORIZED);
             System.out.println("** Exception getRole(): " + e.getMessage());
             // return null;

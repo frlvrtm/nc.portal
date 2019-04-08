@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,11 +40,11 @@ public class AdminService {
     @Autowired
     RestTemplateUtil restTemplateUtil;
 
-    public List<UserDTO> getAllEmployees() {
+    public List<UserDTO> getAllEmployees(HttpServletRequest request) {
         try {
             //ResponseEntity<UserDTO[]> response = restTemplate.getForEntity(URL_ALL_EMPLOYEES, UserDTO[].class);
 
-            ResponseEntity<UserDTO[]> response = restTemplateUtil.exchange(URL_ALL_EMPLOYEES, HttpMethod.GET, UserDTO[].class);
+            ResponseEntity<UserDTO[]> response = restTemplateUtil.exchange(request, URL_ALL_EMPLOYEES, HttpMethod.GET, UserDTO[].class);
 
             List<UserDTO> list = new ArrayList<>();
             if (response.getBody() != null) {
@@ -100,9 +101,9 @@ public class AdminService {
         }
     }
 
-    public int updateUsers(List<UserDTO> listUpdate) {
+    public int updateUsers(HttpServletRequest request , List<UserDTO> listUpdate) {
         try {
-            List<UserDTO> listOld = getAllEmployees();
+            List<UserDTO> listOld = getAllEmployees(request);
 
             UserDTO[] users = new UserDTO[listOld.size()];
             int count = 0;

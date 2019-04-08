@@ -1,5 +1,10 @@
 package com.nc.portal.utils;
 
+import com.nc.portal.model.Role;
+import org.apache.tomcat.util.http.LegacyCookieProcessor;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
@@ -8,9 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CookieUtil {
 
-    public static final String COOKIE_NAME = "AUTH";
+    public static final String COOKIE_AUTH = "AUTH";
+    public static final String COOKIE_ROLE = "ROLE";
 
-    public static void create(HttpServletResponse httpServletResponse, String name, String value, Integer maxAge, String domain) {
+    public static void create(HttpServletResponse httpServletResponse,
+                              String name,
+                              String value,
+                              Integer maxAge,
+                              String domain) {
 
         Cookie cookie = new Cookie(name, value);
         cookie.setDomain(domain);
@@ -40,6 +50,12 @@ public class CookieUtil {
     public static String getValueByName(HttpServletRequest httpServletRequest, String name) {
         Cookie cookie = WebUtils.getCookie(httpServletRequest, name);
         return cookie != null ? cookie.getValue() : null;
+    }
+
+
+    public static Role getRole(HttpServletRequest httpServletRequest){
+        Role role = Role.valueOf(getValueByName(httpServletRequest, COOKIE_ROLE));
+        return role;
     }
 }
 
