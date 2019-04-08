@@ -14,12 +14,12 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping(value = "/admin")
 @Controller
 public class AdminController {
 
@@ -47,37 +47,37 @@ public class AdminController {
 
     /**
      * Метод для отображения страницы входа для админа
-     *
-     * @param model
-     * @return
      */
-    @GetMapping()
-    public String logInForAdmin(Model model) {
-        //if (UserDTO.staticRole == Role.ADMIN) {
-        return "redirect:/admin/page";
-        // }
-        // return "authadmin";
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public String logInForAdmin(HttpServletRequest request) {
+        Role role = CookieUtil.getRole(request);
+        if (role == Role.ADMIN) {
+            return "redirect:/admin/page";
+        }
+        return "authadmin";
     }
 
     /**
-     * Форма для проверки введенных данных для админа
-     *
-     * @param model
-     * @return
+     * Форма для проверки введенных данных для админа (доделать идею)
      */
-    @PostMapping
-    public String getAuth(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
-       // authService.getRole(username, password);
-        if (UserDTO.staticRole == Role.ADMIN) {
+    @RequestMapping(value = "/admin", method = RequestMethod.POST)
+    public String getAuth(HttpServletRequest request,
+                          HttpServletResponse response,
+                          @RequestParam("username") String username,
+                          @RequestParam("password") String password,
+                          Model model) {
+        authService.getRole(request, response, username, password);
+        Role role = CookieUtil.getRole(request);
+        if (role == Role.ADMIN) {
             return "redirect:/admin/page";
         } else {
             String message = "";
-            if (UserDTO.staticRole.equals(Role.UNAUTHORIZED)) {
+            if (role == Role.UNAUTHORIZED) {
                 message = "Incorrect name or password";
             } else {
                 message = "Incorrect role " + UserDTO.staticRole.toString();
-                authService.logout();
-                UserDTO.staticRole = Role.UNAUTHORIZED;
+                //authService.logout();
+                //UserDTO.staticRole = Role.UNAUTHORIZED;
             }
             model.addAttribute("errorMessage", message);
             return "authadmin";
@@ -86,15 +86,11 @@ public class AdminController {
 
     /*
      * Страница админа
-     *
-     * @param model
-     * @return
      */
-    @GetMapping("/page")
-    public String getPageAdd(HttpServletRequest request, Model model) {
+    @RequestMapping(value = "/admin/page", method = RequestMethod.GET)
+    public String getPageAdd(HttpServletRequest request,
+                             Model model) {
         Role role = CookieUtil.getRole(request);
-        Role role1 = RoleThreadLocal.getRole();
-        System.out.println(Thread.currentThread().getName() + " " + Thread.currentThread().getId());
         if (role == Role.ADMIN) {
             //все сотрудники
             model.addAttribute("form", new ListUser(adminService.getAllEmployees(request)));
@@ -103,9 +99,9 @@ public class AdminController {
             //форма для заполнения новой машины
             model.addAttribute("carDTO", new CarDTO());
             //Список всех машин без водителей
-            model.addAttribute("carsFree", adminService.getFreeCars());
+            model.addAttribute("carsFree", adminService.getFreeCars(request));
             //Список всех машин
-            model.addAttribute("carsAll", adminService.getAllCars());
+            model.addAttribute("carsAll", adminService.getAllCars(request));
             //alert
             for (String key : dictionary.keySet()) {
                 model.addAttribute(key, dictionary.get(key));
@@ -117,10 +113,12 @@ public class AdminController {
             return "error/access-denied";
     }
 
-    @PostMapping("/page")
-    public String addUser(@ModelAttribute UserDTO userDTO ) {
-        if (UserDTO.staticRole == Role.ADMIN) {
-            int code = adminService.createEmployee(userDTO);
+    @RequestMapping(value = "/admin/page", method = RequestMethod.POST)
+    public String addUser(HttpServletRequest request,
+                          @ModelAttribute UserDTO userDTO) {
+        Role role = CookieUtil.getRole(request);
+        if (role == Role.ADMIN) {
+            int code = adminService.createEmployee(request, userDTO);
             switch (code) {
                 case 201:
                     dictionary.put("infoMessage", "User added");
@@ -138,9 +136,12 @@ public class AdminController {
             return "error/access-denied";
     }
 
-    @PostMapping("/update")
-    public String update(@ModelAttribute("form") @Valid ListUser listUser, BindingResult bindingResult, HttpServletRequest request) {
-        if (UserDTO.staticRole == Role.ADMIN) {
+    @RequestMapping(value = "/admin/update", method = RequestMethod.POST)
+    public String update(HttpServletRequest request,
+                         @ModelAttribute("form") @Valid ListUser listUser,
+                         BindingResult bindingResult) {
+        Role role = CookieUtil.getRole(request);
+        if (role == Role.ADMIN) {
             if (bindingResult.hasErrors()) {
                 dictionary.put("errorMessage", "1 car selected for 2 drivers");
                 dictionary.put("flag2", "2");
@@ -168,10 +169,13 @@ public class AdminController {
             return "error/access-denied";
     }
 
-    @PostMapping("/delete")
-    public String delete(@ModelAttribute("form") ListUser listUser, @RequestParam String username) {
-        if (UserDTO.staticRole.equals(Role.ADMIN)) {
-            adminService.deleteEmployee(username);
+    @RequestMapping(value = "/admin/delete", method = RequestMethod.POST)
+    public String delete(HttpServletRequest request,
+                         @ModelAttribute("form") ListUser listUser,
+                         @RequestParam String username) {
+        Role role = CookieUtil.getRole(request);
+        if (role == Role.ADMIN) {
+            adminService.deleteEmployee(request, username);
             dictionary.put("infoMessage", username + " deleted");
             dictionary.put("flag2", "2");
             return "redirect:/admin/page";
@@ -179,10 +183,12 @@ public class AdminController {
             return "error/access-denied";
     }
 
-    @PostMapping("/car")
-    public String addCar(@ModelAttribute() CarDTO carDTO) {
-        if (UserDTO.staticRole.equals(Role.ADMIN)) {
-            int code = adminService.addCar(carDTO);
+    @RequestMapping(value = "/admin/car", method = RequestMethod.POST)
+    public String addCar(HttpServletRequest request,
+                         @ModelAttribute() CarDTO carDTO) {
+        Role role = CookieUtil.getRole(request);
+        if (role == Role.ADMIN) {
+            int code = adminService.addCar(request, carDTO);
             switch (code) {
                 case 201:
                     dictionary.put("infoMessage", "Car added");

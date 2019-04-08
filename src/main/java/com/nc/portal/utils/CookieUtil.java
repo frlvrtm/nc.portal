@@ -53,8 +53,11 @@ public class CookieUtil {
     }
 
 
-    public static Role getRole(HttpServletRequest httpServletRequest){
+    public static Role getRole(HttpServletRequest httpServletRequest) {
         Role role = Role.valueOf(getValueByName(httpServletRequest, COOKIE_ROLE));
+        if (role == null) {
+            return Role.UNAUTHORIZED;
+        }
         return role;
     }
 }

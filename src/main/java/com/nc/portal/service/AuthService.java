@@ -22,17 +22,11 @@ import java.util.List;
 @Service
 public class AuthService implements GlobalConstants {
 
-    private String URL_ROLE;
-    private String URL_CREATE;
-    private String URL_CLEAR;
-    private String URL_AUTH;
-
-    public AuthService() {
-        this.URL_ROLE = "auth/role";
-        this.URL_CREATE = URL + "user";
-        this.URL_CLEAR = URL + "auth/clear";
-        this.URL_AUTH = URL + "auth/login";
-    }
+    private static String URL_ROLE = "auth/role";
+    ;
+    private static String URL_CREATE = "user/customer";
+    private static String URL_LOGOUT = "auth/logout";
+    // private String URL_AUTH;
 
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -42,27 +36,27 @@ public class AuthService implements GlobalConstants {
     /**
      * Запрос на получение роли пользователя
      */
-    public void getRole(String username, String password, HttpServletRequest req, HttpServletResponse res) {
+    public void getRole(HttpServletRequest request, HttpServletResponse res, String username, String password) {
         try {
             //Добавляем токен в поток
             restTemplateUtil.createToken(username, password);
-            CookieUtil.create(res, CookieUtil.COOKIE_AUTH, AuthThreadLocal.getAuth().toString(), -1, req.getServerName());
             //Отправляем запрос
-            ResponseEntity<String> response = restTemplateUtil.exchange(req, URL_ROLE, HttpMethod.GET, String.class);
+            ResponseEntity<String> response = restTemplateUtil.exchange(request, URL_ROLE, null, HttpMethod.GET, String.class);
             //Добавляем новый токен
             List<String> header = response.getHeaders().getValuesAsList(HttpHeaders.AUTHORIZATION);
             AuthThreadLocal.setAuth(header.get(0));
 
             Role role = Role.valueOf(response.getBody());
-
+            //Для того чтобы можно было узнать роль в AuthController.getAuth()
             RoleThreadLocal.setRole(role);
-            CookieUtil.create(res, CookieUtil.COOKIE_AUTH, AuthThreadLocal.getAuth(), -1, req.getServerName());
-            CookieUtil.create(res, CookieUtil.COOKIE_ROLE, RoleThreadLocal.getRole().toString(), -1, req.getServerName());
+            //Добавляем куки
+            CookieUtil.create(res, CookieUtil.COOKIE_AUTH, AuthThreadLocal.getAuth(), -1, request.getServerName());
+            CookieUtil.create(res, CookieUtil.COOKIE_ROLE, RoleThreadLocal.getRole().toString(), -1, request.getServerName());
 
             //return response.getBody();
         } catch (Exception e) {
             //не знаю где надо будет обрабатывать ошибки 401 и 403, надо подумать над этим
-            CookieUtil.create(res, CookieUtil.COOKIE_ROLE, Role.UNAUTHORIZED.toString(), -1, req.getServerName());
+            CookieUtil.create(res, CookieUtil.COOKIE_ROLE, Role.UNAUTHORIZED.toString(), -1, request.getServerName());
             RoleThreadLocal.setRole(Role.UNAUTHORIZED);
             System.out.println("** Exception getRole(): " + e.getMessage());
             // return null;
@@ -104,15 +98,7 @@ public class AuthService implements GlobalConstants {
         }
     }
 
-    public void logout() {
-        try {
-            // UserDTO.setBasicAuth("");
-            HttpHeaders headers = new HttpHeaders();
-            HttpEntity<String> request = new HttpEntity<>(headers);
-            ResponseEntity<String> response = restTemplate.exchange(URL_CLEAR, HttpMethod.GET, request, String.class);
-            System.out.println("Result - status " + response.getBody());
-        } catch (Exception e) {
-            System.out.println("** Exception: " + e.getMessage());
-        }
+    public void logout(HttpServletRequest request) {
+        restTemplateUtil.exchange(request, URL_LOGOUT, null, HttpMethod.GET, String.class);
     }
 }

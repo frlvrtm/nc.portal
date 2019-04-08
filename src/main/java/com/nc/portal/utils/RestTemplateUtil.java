@@ -29,41 +29,66 @@ public class RestTemplateUtil {
         this.restTemplate = new RestTemplate();
     }
 
-    public <T> ResponseEntity<T> exchange(HttpServletRequest req,
+    public <T> ResponseEntity<T> exchange(HttpServletRequest request,
                                           String url,
+                                          T requestBody,
                                           HttpMethod method,
                                           Class<T> responseType) {
-        HttpEntity<String> entity = new HttpEntity<>(addHeaders(req));
+
+        HttpEntity<T> entity = requestBody == null ?
+                new HttpEntity<>(addHeaders(request)) :
+                new HttpEntity<>(requestBody, addHeaders(request));
         try {
             return restTemplate.exchange(BASE_URL + url, method, entity, responseType);
         } catch (HttpStatusCodeException e) {
-            //AuthService.sendRedirectIfError(e, req, res);
             System.out.println(e.getMessage());
             return null;
         }
     }
 
-
-/*    public <T> T postForObject(HttpServletRequest req, HttpServletResponse res, String additionUrl,
-                               T requestBody,
-                               Class<T> responseType) {
-        HttpEntity<T> entity = new HttpEntity<>(requestBody, addHeaders(req, res));
+/*    //пока так
+    public <T> int postForEntity(HttpServletRequest req,
+                                 String url,
+                                 T requestBody,
+                                 Class<T> responseType) {
+        HttpEntity<T> entity = new HttpEntity<>(requestBody, addHeaders(req));
         try {
-            T t = restTemplate.postForObject(BASE_URL + additionUrl, entity, responseType);
-            return t;
-
+            ResponseEntity<T> response = restTemplate.postForEntity(BASE_URL + url, entity, responseType);
+            return response.getStatusCode().value();
         } catch (HttpStatusCodeException e) {
-            //проверяем, если пишла 500, но нет хедеа, значит причина не в полях
-            if (e.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR && (e.getResponseHeaders().get("Error message").get(0) != null)) {
-                String errorMessage = e.getResponseHeaders().get("Error message").get(0);
-                throw new IllegalArgumentException(errorMessage);
-            } else {
-                AuthService.sendRedirectIfError(e, req, res);
-                return null;
-            }
+            System.out.println(e.getMessage());
+            return -1;
         }
     }
 
+    public <T> int patchForEntity(HttpServletRequest req,
+                                String url,
+                                T requestBody,
+                                Class<T> responseType) {
+        HttpEntity<T> entity = new HttpEntity<>(requestBody, addHeaders(req));
+        try {
+            ResponseEntity<T> response = restTemplate.(BASE_URL + url, entity, responseType);
+            return restTemplate.patchForObject(BASE_URL + url, entity, responseType);
+        } catch (HttpStatusCodeException e) {
+            System.out.println(e.getMessage());
+            return -1;
+        }
+    }*/
+
+/*    public <T> T postForEntity(HttpServletRequest req,
+                               String url,
+                               T requestBody,
+                               Class<T> responseType) {
+        HttpEntity<T> entity = new HttpEntity<>(requestBody, addHeaders(req));
+        try {
+            T t = restTemplate.postForEntity(BASE_URL + url, entity, responseType);
+            return t;
+        } catch (HttpStatusCodeException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }*/
+/*
     public <T> T patchForObject(HttpServletRequest req, HttpServletResponse res, String additionUrl,
                                 T requestBody,
                                 Class<T> responseType) {
@@ -79,9 +104,12 @@ public class RestTemplateUtil {
 
     //остальные методы так же
 
-    private HttpHeaders addHeaders(HttpServletRequest req/*, HttpServletResponse res*/) {
+    private HttpHeaders addHeaders(HttpServletRequest request) {
+
         HttpHeaders headers = new HttpHeaders();
-        String cookie = CookieUtil.getValueByName(req, CookieUtil.COOKIE_AUTH);
+        //если запрос с Session
+        String cookie = CookieUtil.getValueByName(request, CookieUtil.COOKIE_AUTH);
+        //Если идет из getRole()
         String token = AuthThreadLocal.getAuth();
         //проверка что токен не пуст еще будет
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -90,6 +118,8 @@ public class RestTemplateUtil {
         } else {
             headers.add(HttpHeaders.AUTHORIZATION, token);
         }
+        //нужно ли?
+        //headers.setContentType(MediaType.APPLICATION_JSON);
         return headers;
     }
 

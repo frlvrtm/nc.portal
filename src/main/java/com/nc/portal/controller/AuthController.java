@@ -34,7 +34,7 @@ public class AuthController {
                           HttpServletResponse response) {
 
         //System.out.println(Thread.currentThread().getName() + " " + Thread.currentThread().getId());
-        authService.getRole(username, password, request, response);
+        authService.getRole(request, response, username, password);
 
         //Role role = CookieUtil.getRole(request);
         Role role = RoleThreadLocal.getRole();
