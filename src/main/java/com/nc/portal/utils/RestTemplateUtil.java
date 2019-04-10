@@ -113,7 +113,7 @@ public class RestTemplateUtil {
         String token = AuthThreadLocal.getAuth();
         //проверка что токен не пуст еще будет
         headers.setContentType(MediaType.APPLICATION_JSON);
-        if (cookie != null) {
+        if (cookie != null && cookie !="") {
             headers.add(HttpHeaders.AUTHORIZATION, cookie);
         } else {
             headers.add(HttpHeaders.AUTHORIZATION, token);
@@ -128,5 +128,6 @@ public class RestTemplateUtil {
         String encodedAuth = "Basic " + Base64.getEncoder().encodeToString(notEncoded.getBytes(Charset.forName("US-ASCII")));
         AuthThreadLocal.setAuth(encodedAuth);
     }
+
 
 }
