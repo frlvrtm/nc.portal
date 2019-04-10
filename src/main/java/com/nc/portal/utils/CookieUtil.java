@@ -7,47 +7,62 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.util.WebUtils;
 
+import javax.crypto.Cipher;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigInteger;
+import java.util.Arrays;
 
 public class CookieUtil {
 
-    public static final String COOKIE_AUTH = "AUTH";
-    public static final String COOKIE_ROLE = "ROLE";
+    private static final String COOKIE_NAME = "COOKIE";
+    //public static final String COOKIE_ROLE = "ROLE";
+    //шифрование Cookie
+    private static Aes256 aes256 = new Aes256();
+    //private static String SALT = "delivery";
+    private static int cookSize = 0;
 
-    public static void create(HttpServletResponse httpServletResponse,
-                              String name,
-                              String value,
+    public static void create(HttpServletResponse response,
+                              String auth,
+                              String role,
                               Integer maxAge,
                               String domain) {
+        try {
+            //строка шифрования
+            StringBuilder cooks = new StringBuilder()
+                    .append(auth)
+                    .append(":")
+                    .append(role);
+            //Переводим в байты
+            String cook = auth + ":" + role;
+            byte[] cookByte = cook.getBytes();
+            System.out.println(Arrays.toString(cookByte));
+            //Кодируем
+            byte[] encrypt = aes256.makeAes(cookByte, Cipher.ENCRYPT_MODE);
+            System.out.println(Arrays.toString(encrypt));
+            cookSize = encrypt.length;
+            //Переводим декодированное в строку
+            String value = new BigInteger(1, encrypt).toString(16);
 
-        Cookie cookie = new Cookie(name, value);
-        cookie.setDomain(domain);
-        cookie.setPath("/");
-        cookie.setSecure(false);
-        cookie.setHttpOnly(true);
-
-        if (maxAge > 0) {
-            //-1 значит куки действуют до закрытия браузера
-            cookie.setMaxAge(maxAge);
-        }
-
-        httpServletResponse.addCookie(cookie);
-    }
-
-    public static void clear(HttpServletRequest request, HttpServletResponse response, String name, String domain) {
-        if (getValueByName(request, name) != null) {
-            Cookie cookie = new Cookie(name, "");
-            cookie.setPath("/");
-            cookie.setHttpOnly(true);
-            cookie.setMaxAge(0);
+            Cookie cookie = new Cookie(COOKIE_NAME, value);
             cookie.setDomain(domain);
+            cookie.setPath("/");
+            cookie.setSecure(false);
+            cookie.setHttpOnly(true);
+
+            if (maxAge > 0) {
+                //-1 значит куки действуют до закрытия браузера
+                cookie.setMaxAge(maxAge);
+            }
+
             response.addCookie(cookie);
+        } catch (Exception e) {
         }
     }
 
-    public static void myclear(HttpServletRequest request, HttpServletResponse response) {
+
+    public static void clear(HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookie = request.getCookies();
         for (Cookie c : cookie) {
             c.setMaxAge(0);
@@ -55,14 +70,61 @@ public class CookieUtil {
         }
     }
 
-    public static String getValueByName(HttpServletRequest httpServletRequest, String name) {
-        Cookie cookie = WebUtils.getCookie(httpServletRequest, name);
-        return cookie != null ? cookie.getValue() : null;
+    private static String getValueByName(HttpServletRequest request, int flag) {     //flag==1 auth
+        Cookie cookie = WebUtils.getCookie(request, COOKIE_NAME);                    //flag==2 role
+        if (cookie == null) {
+            return null;
+        } else {
+            try {
+                String cook = cookie.getValue();
+                byte[] cookByte = new BigInteger(cook, 16).toByteArray();
+                System.out.println(Arrays.toString(cookByte));
+                //не спрашивайте
+                if (!(cookByte.length == cookSize)) {
+                    if (cookByte.length == cookSize + 1) {
+                        byte[] shifr = new byte[cookByte.length - 1];
+                        System.arraycopy(cookByte, 1, shifr, 0, shifr.length);
+                        cookByte = shifr;
+                    } else {
+                        if (cookByte.length == cookSize - 1) {
+                            byte[] shifr = new byte[cookByte.length + 1];
+                            System.arraycopy(cookByte, 0, shifr, 1, shifr.length);
+                            shifr[0] = 0;
+                            cookByte = shifr;
+                        }
+                    }
+                }
+
+                byte[] decrypt = aes256.makeAes(cookByte, Cipher.DECRYPT_MODE);
+                System.out.println(Arrays.toString(decrypt));
+                //String value = new BigInteger(1, decrypt).toString(16);
+                String value = new String(decrypt);
+
+                int delim = value.indexOf(":");
+                if (delim == -1) {
+                    //какая-то обработка ошибки
+                    return null;
+                }
+                if (flag == 1) {
+                    return value.substring(0, delim);
+                }
+                if (flag == 2) {
+                    return value.substring(delim + 1);
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return null;
     }
 
+    public static String getAuth(HttpServletRequest request) {
+        String auth = getValueByName(request, 1);
+        return auth;
+    }
 
-    public static Role getRole(HttpServletRequest httpServletRequest) {
-        Role role = Role.valueOf(getValueByName(httpServletRequest, COOKIE_ROLE));
+    public static Role getRole(HttpServletRequest request) {
+        Role role = Role.valueOf(getValueByName(request, 2));
         if (role == null) {
             return Role.UNAUTHORIZED;
         }

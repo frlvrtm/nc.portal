@@ -19,6 +19,7 @@ public class AdminService {
     private static final String URL_EMPLOYEES = "user/employees";
     private static final String URL_CARS_FREE = "car/free";
     private static final String URL_CARS_ALL = "car/all";
+    private static final String URL_CARS_ADD = "car";
 
 /*    public AdminService() {
         this.URL_EMPLOYEES = "user/employees";
@@ -122,7 +123,7 @@ public class AdminService {
 
     public int addCar(HttpServletRequest request, CarDTO carDTO) {
         try {
-            ResponseEntity<CarDTO> response = restTemplateUtil.exchange(request, URL_EMPLOYEES, carDTO, HttpMethod.POST, CarDTO.class);
+            ResponseEntity<CarDTO> response = restTemplateUtil.exchange(request, URL_CARS_ADD, carDTO, HttpMethod.POST, CarDTO.class);
             return response.getStatusCode().value();
         } catch (HttpClientErrorException e) {
             System.out.println("** Exception: " + e.getMessage());

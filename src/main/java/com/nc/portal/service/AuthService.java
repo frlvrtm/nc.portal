@@ -50,14 +50,13 @@ public class AuthService implements GlobalConstants {
             //Для того чтобы можно было узнать роль в AuthController.getAuth()
             RoleThreadLocal.setRole(role);
             //Добавляем куки
-            CookieUtil.create(res, CookieUtil.COOKIE_AUTH, AuthThreadLocal.getAuth(), -1, request.getServerName());
-            CookieUtil.create(res, CookieUtil.COOKIE_ROLE, RoleThreadLocal.getRole().toString(), -1, request.getServerName());
+            CookieUtil.create(res, AuthThreadLocal.getAuth(), RoleThreadLocal.getRole().toString(), -1, request.getServerName());
 
             //return response.getBody();
         } catch (Exception e) {
             //не знаю где надо будет обрабатывать ошибки 401 и 403, надо подумать над этим
-            CookieUtil.create(res, CookieUtil.COOKIE_ROLE, Role.UNAUTHORIZED.toString(), -1, request.getServerName());
             RoleThreadLocal.setRole(Role.UNAUTHORIZED);
+            CookieUtil.create(res, "", Role.UNAUTHORIZED.toString(), -1, request.getServerName());
             System.out.println("** Exception getRole(): " + e.getMessage());
             // return null;
         }

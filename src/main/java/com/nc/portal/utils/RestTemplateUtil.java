@@ -108,7 +108,7 @@ public class RestTemplateUtil {
 
         HttpHeaders headers = new HttpHeaders();
         //если запрос с Session
-        String cookie = CookieUtil.getValueByName(request, CookieUtil.COOKIE_AUTH);
+        String cookie = CookieUtil.getAuth(request);
         //Если идет из getRole()
         String token = AuthThreadLocal.getAuth();
         //проверка что токен не пуст еще будет
