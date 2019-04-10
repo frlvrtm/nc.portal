@@ -26,6 +26,7 @@ public class CustomerController {
 
     @GetMapping
     public String getPage() {
+
         if (UserDTO.staticRole.equals(Role.CUSTOMER)) {
             return "customer";
         } else

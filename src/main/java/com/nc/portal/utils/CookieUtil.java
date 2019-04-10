@@ -47,6 +47,14 @@ public class CookieUtil {
         }
     }
 
+    public static void myclear(HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] cookie = request.getCookies();
+        for (Cookie c : cookie) {
+            c.setMaxAge(0);
+            response.addCookie(c);
+        }
+    }
+
     public static String getValueByName(HttpServletRequest httpServletRequest, String name) {
         Cookie cookie = WebUtils.getCookie(httpServletRequest, name);
         return cookie != null ? cookie.getValue() : null;
