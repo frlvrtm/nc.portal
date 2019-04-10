@@ -1,0 +1,17 @@
+package com.nc.portal.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+//todo artem
+
+@Controller
+public class StartPageController {
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String getStartPage() {
+        return "startPage";
+    }
+
+}

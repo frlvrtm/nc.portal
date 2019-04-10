@@ -8,15 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import static com.nc.portal.service.GlobalConstants.URL;
-
 @Service
-public class CustomerService {
+public class CustomerService implements GlobalConstants {
     private final String URL_ONE_CUST;
     private final RestTemplate restTemplate = new RestTemplate();
 
     public CustomerService() {
-
         this.URL_ONE_CUST = URL + "customer/name";
     }
     private HttpHeaders createTokenHttpHeaders(String token) {
@@ -30,9 +27,7 @@ public class CustomerService {
             String name=token.split(":")[0];
             HttpHeaders headers = createTokenHttpHeaders(token);
             HttpEntity<String> request = new HttpEntity<>(headers);
-            // string builder
-            ResponseEntity<UserDTO> response =
-                    restTemplate.exchange(URL_ONE_CUST + "?name=" + name, HttpMethod.GET, request, UserDTO.class);
+            ResponseEntity<UserDTO> response = restTemplate.exchange(URL_ONE_CUST + "?name=" + name, HttpMethod.GET, request, UserDTO.class);
             return response.getBody();
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());

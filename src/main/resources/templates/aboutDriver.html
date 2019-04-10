@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>About me</title>
+    <link rel="stylesheet" href="../css/styleuserpage.css">
+</head>
+<body>
+<div class="container">
+    <h1>Edit your account:</h1>
+    <form action="#" th:action="@{/driver/aboutDriver}" th:object="${user}" method="post">
+        <div class="row">
+            <div class="col-25">
+                <label for="">first Name:</label>
+            </div>
+            <div class="col-75">
+                <input type="text" th:value="${user.firstName}" id="firstName" name="firstName">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="">last Name:</label>
+            </div>
+            <div class="col-75">
+                <input type="text" th:value="${user.lastName}" id="lastName" name="lastName">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="">phone:</label>
+            </div>
+            <div class="col-75">
+                <input type="text" th:value="${user.phone}" id="phone" name="phone">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="">carNumber:</label>
+            </div>
+            <div class="col-75">
+                <input type="text" th:value="${user.carNumber}" id="carNumber" name="carNumber">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="">realPoint:</label>
+            </div>
+            <div class="col-75">
+                <input type="text" th:value="${user.realPoint}" id="realPoint" name="realPoint">
+            </div>
+        </div>
+        <div class="row">
+            <input type="submit" value="Edit">
+        </div>
+    </form>
+</div>
+</body>
+</html>

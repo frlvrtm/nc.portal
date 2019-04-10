@@ -1,45 +1,30 @@
 package com.nc.portal.service;
 
-import com.nc.portal.model.OrdersDTO;
+import com.nc.portal.model.PriceDto;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 //todo artem
-//com.nc.portal.service.PriceService - убрать implements GlobalConstants, оно тут не нужно .. обращаться как GlobalConstants.URL
-//конструктор PriceService() не нужен - URL_PRICE сделать private static final String, либо здесь GlobalConstants создать прям переменную с этим url
-//пакет model переименовать в dto;
-//для com.nc.portal.service.PriceService#getPrice создать отдельную dto - с двумя полями.. это не ордер.. не нужно переиспользовать..
-//JSONObject json - убрать, HttpEntity<String> entity - сразу делать HttpEntity<new_dto> entity
 
 @Service
 @Slf4j
-public class PriceService implements GlobalConstants {
+public class PriceService {
 
-    private final String URL_PRICE;
+    private final RestTemplate restTemplate = new RestTemplate();
 
-    public PriceService() {
-        this.URL_PRICE = URL + "price";
-    }
-
-    public void getPrice(OrdersDTO ordersDTO) {
+    public double getPrice(String pointFrom, String pointTo) {
         try {
-            JSONObject json = new JSONObject();
-            json.put("address1", ordersDTO.getPointFrom());
-            json.put("address2", ordersDTO.getPointTo());
-            //json.put("tariff", ordersDTO.getWeight());
+            PriceDto priceDto = new PriceDto(pointFrom, pointTo);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> entity = new HttpEntity<String>(json.toString(), headers);
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<String> response = restTemplate.exchange(URL_PRICE, HttpMethod.POST, entity, String.class);
-            ordersDTO.setPrice(Double.parseDouble(response.getBody()));
+            HttpEntity<PriceDto> entity = new HttpEntity<>(priceDto, headers);
+            ResponseEntity<Double> response = restTemplate.exchange(GlobalConstants.URL_PRICE, HttpMethod.POST, entity, Double.class);
+            return response.getBody();
         } catch (Exception e) {
             log.debug("** Exception: " + e.getMessage());
         }
-
+        return 0;
     }
-
 }

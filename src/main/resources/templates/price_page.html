@@ -7,46 +7,37 @@
 </head>
 <body>
 <div class="container">
-
     <!--todo artem
-price_page - убрать белую формочку (сделать прозрачной); template который вылезает - его нужно сделать либо по ширине input поля, либо сдвинуть влево (чтоб по центру было);
-кнопочка calculate the cost - давай везде где красный сделаем зеленый.. =)
-nc.test.service.impl.CostService#getPrice (server) добавить логирования для входных данных - address1, address2, tariff
-окошечко "delivery will cost you" кнопочки уменьшить, сделать в одну строчку, слева - add order (переименовать в оформить доставку), справа - close-->
+
+    -->
 
     <div th:if="${Message}">
         <div id="alert">
             <span th:text="${Message}"></span><br/>
-            <a href="#" class="btn" onclick="visible()">Close</a><br/><br/>
-            <a href="/auth" class="btn">Add order</a>
+            <div class="row">
+                <div class="col-50">
+                    <a href="/auth" class="btn">Arrange delivery</a>
+                </div>
+                <div class="col-50">
+                    <a href="" class="btn" onclick="visible()">Close</a>
+                </div>
+            </div>
         </div>
     </div>
 
-    <form action="#" th:action="@{/price_page}" th:object="${ordersDTO}" method="POST">
-        <div class="row">
-            <div class="col-25">
-                <label for="pointFrom">PointFrom:</label>
-            </div>
-            <div class="col-75">
-                <input id="pointFrom" type="text" placeholder="Enter pointFrom" th:field="*{pointFrom}">
-                <span class="tooltiptext">Template: Country, City, Street, House</span>
-            </div>
+    <form action="/price_page" method="POST">
+        <label for="pointFrom">PointFrom:</label><br>
+        <div class="q">
+            <input id="pointFrom" name="pointFrom" type="text" placeholder="Enter pointFrom">
+            <span class="tooltiptext">Template: Country, City, Street, House</span>
         </div>
-        <div class="row">
-            <div class="col-25">
-                <label for="pointTo">PointTo:</label>
-            </div>
-            <div class="col-75">
-                <input id="pointTo" type="text" placeholder="Enter pointTo" th:field="*{pointTo}">
-                <span class="tooltiptext">Template: Country, City, Street, House</span>
-            </div>
+        <label for="pointTo">PointTo:</label>
+        <div class="q">
+            <input id="pointTo" name="pointTo" type="text" placeholder="Enter pointTo">
+            <span class="tooltiptext">Template: Country, City, Street, House</span>
         </div>
-        <div class="row">
-            <input type="submit" value="Сalculate the cost"><br/><br/>
-        </div>
-        <div class="row">
-            <a href="/">Come back</a>
-        </div>
+        <br><input type="submit" value="Сalculate the cost"><br/><br/>
+        <a id="comeBack" href="/">Come back</a>
         <!--
                     <div class="dws-input">
                         <label>Type of car:</label><br/>
@@ -63,6 +54,9 @@ nc.test.service.impl.CostService#getPrice (server) добавить логиро
     function visible() {
         document.getElementById("alert").style.visibility = 'hidden';
     }
+</script>
+<script type="application/javascript">
+
 </script>
 </body>
 </html>
