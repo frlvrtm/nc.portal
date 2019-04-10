@@ -2,25 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title></title>
-    <link rel="stylesheet" href="../css/superuser.css" type="text/css">
-    <link rel="stylesheet" href="../css/styleuserpage.css" type="text/css">
+    <link rel="stylesheet" href="/css/cust&op.css" type="text/css">
     <script
             src="https://code.jquery.com/jquery-3.3.1.js"
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
             crossorigin="anonymous">
     </script>
-
-    <!--
-        <script th:inline="javascript" th:if="${errorMessage}">
+    <!--    <script th:inline="javascript" th:if="${errorMessage}">
             window.onload = function () {
                 document.getElementById('id_con').style.visibility = 'visible';
                 document.getElementById('id_subreg').style.width = "400px"
                 document.getElementById('id_subreg1').style.width = "200px"
             }
         </script>
-
         &lt;!&ndash;не знаю как сделать условие или&ndash;&gt;
-
         <script th:inline="javascript" th:if="${infoMessage}">
             window.onload = function () {
                 var elem = document.getElementById('id_con');
@@ -28,325 +23,317 @@
                 var elem2 = document.getElementById('id_subreg');
                 elem2.style.width = "200px"
             }
-        </script>
-    -->
+        </script>-->
 
-    <!--ВРОДЕ ЛИШНЕЕ-->
-    <!--
-        <script th:inline="javascript" th:if="${flag1}">
-            window.onload = function () {
-                var elem = document.getElementById('id_con');
-                elem.style.visibility = 'visible';
-            }
-        </script>
-        <script th:inline="javascript" th:if="${flag2}">
-            window.onload = function () {
-                var elem = document.getElementById('id_top');
-                elem.style.visibility = 'visible';
-            }
-        </script>
-        <script th:inline="javascript" th:if="${flag3}">
-            window.onload = function () {
-                var elem = document.getElementById('id_car');
-                elem.style.visibility = 'visible';
-            }
-        </script>
-    -->
+    <script th:inline="javascript" th:if="${flag1}">
+        window.onload = function () {
+            var elem = document.getElementById('id_con');
+            elem.style.visibility = 'visible';
+            var elem2 = document.getElementById('id_subreg');
+            elem2.style.width = "200px";
+            var elem3 = document.getElementById('id_subreg1');
+            elem3.style.width = "200px";
+        }
+    </script>
+    <script th:inline="javascript" th:if="${flag2}">
+        window.onload = function () {
+            var elem = document.getElementById('id_top');
+            elem.style.visibility = 'visible';
+            var elem2 = document.getElementById('id_subreg');
+            elem2.style.width = "200px";
+            var elem3 = document.getElementById('id_subreg1');
+            elem3.style.width = "200px";
+        }
+    </script>
+    <script th:inline="javascript" th:if="${flag3}">
+        window.onload = function () {
+            var elem = document.getElementById('id_car');
+            elem.style.visibility = 'visible';
+            var elem2 = document.getElementById('id_subreg');
+            elem2.style.width = "200px";
+            var elem3 = document.getElementById('id_subreg1');
+            elem3.style.width = "200px";
+        }
+    </script>
 
 </head>
 <body>
 
-<!--alert
-<div style="background-color: #FF0000;" class="alert" th:if="${errorMessage}" th:text="${errorMessage}"
- id='alert_error'></div>
-<div style="background-color: #32CD32;" class="alert" th:if="${infoMessage}" th:text="${infoMessage}"
- id='alert_info'></div>-->
-
-<div class="menuu">
-    <ul class="menu">
-        <li><a href="#" class="activee">Menu</a></li>
-        <li><a href="#" id="id_submit_add">Add user</a></li>
-        <li><a href="" id="id_submit_show">Show</a></li>
-        <li><a href="" id="id_submit_car">Create cars</a></li>
-        <li><a href="/logout">Log Out</a></li>
-    </ul>
-</div>
-
-<div class="content">
-    <div id="id_car" class="container_">
-        <form action="#" th:action="@{/admin/car}" th:object="${carDTO}" method="post">
-            <div class="row">
-                <div class="col-25">
-                    <label>Number:</label>
-                </div>
-                <div class="col-75">
-                    <input type="text" th:field="*{number}" placeholder="Enter number" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-25">
-                    <label>Model:</label>
-                </div>
-                <div class="col-75">
-                    <input type="text" th:field="*{model}" placeholder="Enter model" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-25">
-                    <label>Color:</label>
-                </div>
-                <div class="col-75">
-                    <input type="text" th:field="*{color}" placeholder="Enter color" required>
-                </div>
-            </div>
-            <div class="row">
-                <input type="submit" name="submit" value="Registration" id="id_subreg1">
-            </div>
-        </form>
-    </div>
-
-    <div id="id_con" class="container_">
-        <form action="#" th:action="@{/admin/page}" th:object="${userDTO}" method="post">
-            <div class="row">
-                <div class="col-25">
-                    <label>UserName:</label>
-                </div>
-                <div class="col-75">
-                    <input type="text" th:field="*{username}" placeholder="Enter username" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-25">
-                    <label>FirstName:</label>
-                </div>
-                <div class="col-75">
-                    <input type="text" th:field="*{firstName}" placeholder="Enter first name" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-25">
-                    <label>Password:</label>
-                </div>
-                <div class="col-75">
-                    <input type="password" th:field="*{password}" placeholder="Enter password" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-25">
-                    <label>LastName:</label>
-                </div>
-                <div class="col-75">
-                    <input type="text" th:field="*{lastName}" placeholder="Enter last name" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-25">
-                    <label>Phone:</label>
-                </div>
-                <div class="col-75">
-                    <input type="text" th:field="*{phone}" placeholder="Enter phone number" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-25">
-                    <label>Role:</label>
-                </div>
-                <div class="col-75">
-                    <select th:field="*{role}">
-                        <option value="DRIVER" th:text="DRIVER"></option>
-                        <option value="OPERATOR" th:text="OPERATOR"></option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <input type="submit" name="submit" value="Registration" id="id_subreg">
-            </div>
-        </form>
-    </div>
-
-    <div id="id_top">
-        <div class="row">
-            <ul class="tabs">
-                <li class="active"><a href="#tab1">DRIVERS</a></li>
-                <li class=""><a href="#tab2">OPERATORS</a></li>
-                <li class=""><a href="#tab3">CARS</a></li>
-            </ul>
+<header>
+    <nav>
+        <div id="logo">
+            <a href="/">De Livery</a>
         </div>
 
-        <form action="#" th:action="@{/admin/update}" th:object="${form}" method="post">
-            <div id="tab1" class="tab_content" style="overflow-x: auto;">
-                <table class="table">
-                    <tr>
-                        <th>role</th>
-                        <th>username</th>
-                        <th>first_name</th>
-                        <th>last_name</th>
-                        <th>phone_number</th>
-                        <th>car_number</th>
-                        <th></th>
-                        <!-- <th>driver_real_point</th>-->
-                    </tr>
-                    <tr th:each="user, itemStat : *{list}" th:if="${user.role == 'DRIVER'}">
-                        <td>
-                            <p th:text="*{list[__${itemStat.index}__].role}"></p>
-                            <input type="text" th:field="*{list[__${itemStat.index}__].role}" hidden/>
-                        </td>
-                        <td>
-                            <p th:text="*{list[__${itemStat.index}__].username}"></p>
-                            <input type="text" th:field="*{list[__${itemStat.index}__].username}" hidden/>
-                            <!--   <input type="text" th:value="${userDel.username}" hidden/>-->
-                        </td>
-                        <td>
-                            <input type="text" th:field="*{list[__${itemStat.index}__].firstName}"/>
-                        </td>
-                        <td>
-                            <input type="text" th:field="*{list[__${itemStat.index}__].lastName}"/>
-                        </td>
-                        <td>
-                            <input type="text" th:field="*{list[__${itemStat.index}__].phone}"/>
-                        </td>
-                        <td>
-                            <select th:field="*{list[__${itemStat.index}__].carNumber}">
-                                <option th:if="${user.carNumber}" th:value="${user.carNumber}" th:utext="${user.carNumber}"></option>
-                                <option th:unless="${user.carNumber}" th:value="${user.carNumber}">--</option>
-                                <option th:each="car : ${carsFree}" th:value="${car.number}" th:utext="${car.number}"/>
-                            </select>
-                        </td>
-                        <td>
-                            <form name="f" th:action="@{/admin/delete}" method="post">
-                                <input type="hidden" name="username" th:value="*{list[__${itemStat.index}__].username}"/>
-                                <button type="submit">X</button>
-                            </form>
-                        </td>
-                        <!-- <td th:if="${#fields.hasErrors('carNumber')}" th:errors="${user.carNumber}">Test Error</td>-->
-                    </tr>
-                </table>
-            </div>
+        <ul>
+            <li><a href="/logout" class="active">Log Out</a></li>
+        </ul>
+        <div id="welcome">
+            Admin page
+        </div>
+    </nav>
+</header>
 
-            <div id="tab2" class="tab_content">
-                <table class="table">
-                    <tr>
-                        <th>role</th>
-                        <th>username</th>
-                        <th>first_name</th>
-                        <th>last_name</th>
-                        <th>phone_number</th>
-                        <th></th>
-                    </tr>
-                    <tr th:each="user, itemStat : *{list}" th:if="${user.role == 'OPERATOR'}">
-                        <td>
-                            <p th:text="*{list[__${itemStat.index}__].role}"></p>
-                            <input type="text" th:field="*{list[__${itemStat.index}__].role}" hidden/>
-                        </td>
-                        <td>
-                            <p th:text="*{list[__${itemStat.index}__].username}"></p>
-                            <input type="text" th:field="*{list[__${itemStat.index}__].username}" hidden/>
-                            <!--   <input type="text" th:value="${userDel.username}" hidden/>-->
-                        </td>
-                        <td>
-                            <input type="text" th:field="*{list[__${itemStat.index}__].firstName}"/>
-                        </td>
-                        <td>
-                            <input type="text" th:field="*{list[__${itemStat.index}__].lastName}"/>
-                        </td>
-                        <td>
-                            <input type="text" th:field="*{list[__${itemStat.index}__].phone}"/>
-                        </td>
-                        <td>
-                            <form name="f" th:action="@{/admin/delete}" method="post">
-                                <input type="hidden" name="username" th:value="*{list[__${itemStat.index}__].username}"/>
-                                <button type="submit">X</button>
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-            </div>
 
-            <div id="tab3" class="tab_content">
-                <table class="table">
-                    <tr>
-                        <th>number</th>
-                        <th>model</th>
-                        <th>color</th>
-                        <th>driver</th>
-                        <th></th>
-                    </tr>
-                    <tr th:each="car : ${carsAll}">
-                        <td><p th:text="${car.number}"></p></td>
-                        <td><p th:text="${car.model}"></p></td>
-                        <td><p th:text="${car.color}"></p></td>
-                        <td><p th:text="${car.driver}"></p></td>
-                        <td>
-                            <form name="f" th:action="@{/admin/delete}" method="post">
-                                <input type="hidden" name="number" th:value="${car.number}"/>
-                                <button type="submit">X</button>
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+<div class="menu">
 
-            <div class="row">
-                <div class="center">
-                    <input type="submit" name="submit" value="Update" id="sub_update">
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<script th:inline="javascript">
-    document.getElementById('id_submit_add').addEventListener('click', function (e) {
-        //Без этого форма будет отправляться на сервер и страница будет перезагружаться [(c) dilap54]
-        e.preventDefault();
-        //document.getElementById('id_subreg').style.width = "400px";
-        document.getElementById('id_top').style.visibility = 'hidden';
-        document.getElementById('id_car').style.visibility = 'hidden';
+    <h2>Menu</h2>
+    <form name="click">
+        <input class="dws-submit" id="id_submit_add" type="submit" name="submit" value="Add user">
+    </form>
+    <form name="click">
+        <input class="dws-submit" id="id_submit_show" type="submit" name="submit" value="Show">
+    </form>
+    <form name="click">
+        <input class="dws-submit" id="id_submit_car" type="submit" name="submit" value="Create cars">
+    </form>
+    <script th:inline="javascript">
+        document.getElementById('id_submit_add').addEventListener('click', function (e) {
+            //Без этого форма будет отправляться на сервер и страница будет перезагружаться [(c) dilap54]
+            e.preventDefault();
+            document.getElementById('id_subreg').style.width = "400px";
+            document.getElementById('id_top').style.visibility = 'hidden';
+            document.getElementById('id_car').style.visibility = 'hidden';
 
-        var elem = document.getElementById('id_con');
-        if (elem.style.visibility === 'visible')
-            elem.style.visibility = 'hidden';
-        else
-            elem.style.visibility = 'visible';
-    });
-    document.getElementById('id_submit_show').addEventListener('click', function (e) {
-        e.preventDefault();
-        /*document.getElementById('sub_update').style.width = "400px";*/
-        document.getElementById('id_con').style.visibility = 'hidden';
-        document.getElementById('id_car').style.visibility = 'hidden';
-        var elem1 = document.getElementById('id_top');
-        if (elem1.style.visibility === 'visible')
-            elem1.style.visibility = 'hidden';
-        else
-            elem1.style.visibility = 'visible';
-    });
-    document.getElementById('id_submit_car').addEventListener('click', function (e) {
-        e.preventDefault();
-        //document.getElementById('id_subreg1').style.width = "200px";
-        document.getElementById('id_con').style.visibility = 'hidden';
-        document.getElementById('id_top').style.visibility = 'hidden';
-        var elem1 = document.getElementById('id_car');
-        if (elem1.style.visibility === 'visible')
-            elem1.style.visibility = 'hidden';
-        else
-            elem1.style.visibility = 'visible';
-    });
-</script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        //Действия по умолчанию
-        $(".tab_content").hide(); //скрыть весь контент
-        $("ul.tabs li:first").addClass("active").show(); //Активировать первую вкладку
-        $(".tab_content:first").show(); //Показать контент первой вкладки
-        //Событие по клику
-        $("ul.tabs li").click(function () {
-            $("ul.tabs li").removeClass("active"); //Удалить "active" класс
-            $(this).addClass("active"); //Добавить "active" для выбранной вкладки
-            $(".tab_content").hide(); //Скрыть контент вкладки
-            var activeTab = $(this).find("a").attr("href"); //Найти значение атрибута, чтобы определить активный таб + контент
-            $(activeTab).fadeIn(); //Исчезновение активного контента
-            return false;
+            var elem = document.getElementById('id_con');
+            if (elem.style.visibility === 'visible')
+                elem.style.visibility = 'hidden';
+            else
+                elem.style.visibility = 'visible';
         });
-    });
-</script>
+        document.getElementById('id_submit_show').addEventListener('click', function (e) {
+            e.preventDefault();
+            /*document.getElementById('sub_update').style.width = "400px";*/
+            document.getElementById('id_con').style.visibility = 'hidden';
+            document.getElementById('id_car').style.visibility = 'hidden';
+            var elem1 = document.getElementById('id_top');
+            if (elem1.style.visibility === 'visible')
+                elem1.style.visibility = 'hidden';
+            else
+                elem1.style.visibility = 'visible';
+        });
+        document.getElementById('id_submit_car').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('id_subreg1').style.width = "200px";
+            document.getElementById('id_con').style.visibility = 'hidden';
+            document.getElementById('id_top').style.visibility = 'hidden';
+            var elem1 = document.getElementById('id_car');
+            if (elem1.style.visibility === 'visible')
+                elem1.style.visibility = 'hidden';
+            else
+                elem1.style.visibility = 'visible';
+        });
+    </script>
+</div>
+
+
+<!--alert-->
+<div style="background-color: #FF0000;" class="alert" th:if="${errorMessage}" th:text="${errorMessage}"
+     id='alert_error'></div>
+<div style="background-color: #32CD32;" class="alert" th:if="${infoMessage}" th:text="${infoMessage}"
+     id='alert_info'></div>
+
+
+<div id="id_car" class="container">
+    <form action="#" th:action="@{/admin/car}" th:object="${carDTO}" method="post">
+        <div class="dws-input">
+            <input type="text" th:field="*{number}" placeholder="Enter number" required>
+        </div>
+        <div class="dws-input">
+            <input type="text" th:field="*{model}" placeholder="Enter model" required>
+        </div>
+        <div class="dws-input">
+            <input type="text" th:field="*{color}" placeholder="Enter color" required>
+        </div>
+        <input class="dws-submit" type="submit" name="submit" value="Registration" id="id_subreg1">
+    </form>
+</div>
+
+<div id="id_con" class="container">
+
+    <form action="#" th:action="@{/admin/page}" th:object="${userDTO}" method="post">
+        <div class="dws-input">
+            <input type="text" th:field="*{username}" placeholder="Enter username" required>
+            <input type="text" th:field="*{firstName}" placeholder="Enter first name" required>
+        </div>
+        <div class="dws-input">
+            <input type="password" th:field="*{password}" placeholder="Enter password" required>
+            <input type="text" th:field="*{lastName}" placeholder="Enter last name" required>
+        </div>
+        <div class="dws-input">
+            <input type="text" th:field="*{phone}" placeholder="Enter phone number" required>
+            <select class="dws-list" th:field="*{role}">
+                <option value="DRIVER" th:text="DRIVER"></option>
+                <option value="OPERATOR" th:text="OPERATOR"></option>
+            </select>
+        </div>
+        <input class="dws-submit" type="submit" name="submit" value="Registration" id="id_subreg">
+    </form>
+</div>
+
+<div id="id_top" class="container-table">
+    <ul class="tabs">
+        <li class="active"><a href="#tab1">DRIVERS</a></li>
+        <li class=""><a href="#tab2">OPERATORS</a></li>
+        <li class=""><a href="#tab3">CARS</a></li>
+    </ul>
+
+    <form action="#" th:action="@{/admin/update}" th:object="${form}" method="post">
+        <div id="tab1" class="tab_content">
+            <table>
+                <thead>
+                <tr>
+                    <th>role</th>
+                    <th>username</th>
+                    <th>first_name</th>
+                    <th>last_name</th>
+                    <th>phone_number</th>
+                    <th>car_number</th>
+                    <!-- <th>driver_real_point</th>-->
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="user, itemStat : *{list}" th:if="${user.role == 'DRIVER'}">
+                    <td>
+                        <p type="text" th:text="*{list[__${itemStat.index}__].role}"></p>
+                        <input type="text" th:field="*{list[__${itemStat.index}__].role}" hidden/>
+                    </td>
+                    <td>
+                        <p type="text" th:text="*{list[__${itemStat.index}__].username}"></p>
+                        <input type="text" th:field="*{list[__${itemStat.index}__].username}" hidden/>
+                        <!--   <input type="text" th:value="${userDel.username}" hidden/>-->
+                    </td>
+                    <td><input type="text"
+                               th:field="*{list[__${itemStat.index}__].firstName}"/></td>
+                    <td><input type="text"
+                               th:field="*{list[__${itemStat.index}__].lastName}"/></td>
+                    <td><input type="text"
+                               th:field="*{list[__${itemStat.index}__].phone}"/></td>
+
+                    <td>
+                        <select type="text" th:field="*{list[__${itemStat.index}__].carNumber}">
+                            <option th:if="${user.carNumber}"
+                                    th:value="${user.carNumber}"
+                                    th:utext="${user.carNumber}"></option>
+                            <option th:unless="${user.carNumber}" th:value="${user.carNumber}">--</option>
+                            <option th:each="car : ${carsFree}"
+                                    th:value="${car.number}"
+                                    th:utext="${car.number}"/>
+                        </select>
+                    </td>
+                    <td>
+                        <form name="f" th:action="@{/admin/delete}" method="post">
+                            <input type="hidden" name="username"
+                                   th:value="*{list[__${itemStat.index}__].username}"/>
+                            <button type="submit">X</button>
+                        </form>
+                    </td>
+
+                    <!-- <td th:if="${#fields.hasErrors('carNumber')}" th:errors="${user.carNumber}">Test Error</td>-->
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="tab2" class="tab_content">
+            <table>
+                <thead>
+                <tr>
+                    <th>role</th>
+                    <th>username</th>
+                    <th>first_name</th>
+                    <th>last_name</th>
+                    <th>phone_number</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="user, itemStat : *{list}" th:if="${user.role == 'OPERATOR'}">
+                    <td>
+                        <p type="text" th:text="*{list[__${itemStat.index}__].role}"></p>
+                        <input type="text" th:field="*{list[__${itemStat.index}__].role}" hidden/>
+                    </td>
+                    <td>
+                        <p type="text" th:text="*{list[__${itemStat.index}__].username}"></p>
+                        <input type="text" th:field="*{list[__${itemStat.index}__].username}" hidden/>
+                        <!--   <input type="text" th:value="${userDel.username}" hidden/>-->
+                    </td>
+                    <td><input type="text"
+                               th:field="*{list[__${itemStat.index}__].firstName}"/></td>
+                    <td><input type="text"
+                               th:field="*{list[__${itemStat.index}__].lastName}"/></td>
+                    <td><input type="text"
+                               th:field="*{list[__${itemStat.index}__].phone}"/></td>
+
+                    <td>
+                        <form name="f" th:action="@{/admin/delete}" method="post">
+                            <input type="hidden" name="username"
+                                   th:value="*{list[__${itemStat.index}__].username}"/>
+                            <button type="submit">X</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="tab3" class="tab_content">
+            <table>
+                <thead>
+                <tr>
+                    <th>number</th>
+                    <th>model</th>
+                    <th>color</th>
+                    <th>driver</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="car : ${carsAll}">
+                    <td><p type="text" th:text="${car.number}"></p></td>
+                    <td><p type="text" th:text="${car.model}"></p></td>
+                    <td><p type="text" th:text="${car.color}"></p></td>
+                    <td><p type="text" th:text="${car.driver}"></p></td>
+
+
+                    <td>
+                       <!-- <form name="f" th:action="@{/admin/delete}" method="post">-->
+                            <input type="hidden" name="number"
+                                   th:value="${car.number}"/>
+                            <button type="submit">X</button>
+                    <!--    </form>-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <input class="dws-submit" type="submit" name="submit" value="Update" id="sub_update">
+    </form>
+
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Действия по умолчанию
+            $(".tab_content").hide(); //скрыть весь контент
+            $("ul.tabs li:first").addClass("active").show(); //Активировать первую вкладку
+            $(".tab_content:first").show(); //Показать контент первой вкладки
+
+            //Событие по клику
+            $("ul.tabs li").click(function () {
+                $("ul.tabs li").removeClass("active"); //Удалить "active" класс
+                $(this).addClass("active"); //Добавить "active" для выбранной вкладки
+                $(".tab_content").hide(); //Скрыть контент вкладки
+                var activeTab = $(this).find("a").attr("href"); //Найти значение атрибута, чтобы определить активный таб + контент
+                $(activeTab).fadeIn(); //Исчезновение активного контента
+                return false;
+            });
+        });
+    </script>
+</div>
 </body>
 </html>
