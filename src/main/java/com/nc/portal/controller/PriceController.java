@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-//todo artem
+import java.util.Map;
 
 @Controller
 public class PriceController {
@@ -23,10 +23,10 @@ public class PriceController {
 
     @RequestMapping(value = "price_page", method = RequestMethod.POST)
     public void getPrice(@RequestParam("pointFrom") String pointFrom, @RequestParam("pointTo") String pointTo, Model model) {
-        Double[] result = priceService.getPrice(pointFrom, pointTo);
-        model.addAttribute("Tariff", "tariff: " + result[0]);
-        model.addAttribute("Distance", "distance: " + result[1]);
-        model.addAttribute("Message", "price: " + result[2]);
+        Map result = priceService.getPrice(pointFrom, pointTo);
+        model.addAttribute("Tariff", "tariff: " + result.get("tariff"));
+        model.addAttribute("Distance", "distance: " + result.get("distance"));
+        model.addAttribute("Message", "price: " + result.get("price"));
     }
 
 }

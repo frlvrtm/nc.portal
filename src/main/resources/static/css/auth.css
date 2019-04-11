@@ -5,7 +5,6 @@ body, html {
     background-repeat: no-repeat;
     height: 100%;
     overflow: hidden;
-
     font-family: 'Gloria Hallelujah', cursive;
 }
 
@@ -21,9 +20,10 @@ a:hover {
 
 .container {
     width: 450px;
-    height: 500px;
+    height: auto;
     margin: 250px auto 0 auto;
     text-align: center;
+    transition: 2s;
 }
 
 input[type="text"], input[type="password"] {
@@ -73,4 +73,42 @@ input[type="text"], input[type="password"] {
     text-align: center;
     font-family: 'Gloria Hallelujah', cursive;
     color: #E2472F;
+}
+
+.message {
+    width: 450px;
+    height: auto;
+    display:none;
+    margin: 10px auto 0 auto;
+    text-align: center;
+    transition: 2s;
+    background-color: #f2f2f2;
+    opacity: .9;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.message p {
+    padding: 10px 35px;
+    font-size: 14px;
+}
+
+.valid {
+    color: green;
+}
+
+.valid:before {
+    position: relative;
+    left: -35px;
+    content: "\2714";
+}
+
+.invalid {
+    color: red;
+}
+
+.invalid:before {
+    position: relative;
+    left: -35px;
+    content: "\2718";
 }
