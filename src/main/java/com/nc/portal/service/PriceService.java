@@ -14,17 +14,17 @@ public class PriceService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public double getPrice(String pointFrom, String pointTo) {
+    public Double[] getPrice(String pointFrom, String pointTo) {
         try {
             PriceDto priceDto = new PriceDto(pointFrom, pointTo);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<PriceDto> entity = new HttpEntity<>(priceDto, headers);
-            ResponseEntity<Double> response = restTemplate.exchange(GlobalConstants.URL_PRICE, HttpMethod.POST, entity, Double.class);
+            ResponseEntity<Double[]> response = restTemplate.exchange(GlobalConstants.URL_PRICE, HttpMethod.POST, entity, Double[].class);
             return response.getBody();
         } catch (Exception e) {
             log.debug("** Exception: " + e.getMessage());
         }
-        return 0;
+        return new Double[0];
     }
 }

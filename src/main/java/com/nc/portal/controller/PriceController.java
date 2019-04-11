@@ -23,8 +23,10 @@ public class PriceController {
 
     @RequestMapping(value = "price_page", method = RequestMethod.POST)
     public void getPrice(@RequestParam("pointFrom") String pointFrom, @RequestParam("pointTo") String pointTo, Model model) {
-        double result = priceService.getPrice(pointFrom, pointTo);
-        model.addAttribute("Message", "Delivery will cost you - " + result);
+        Double[] result = priceService.getPrice(pointFrom, pointTo);
+        model.addAttribute("Tariff", "tariff: " + result[0]);
+        model.addAttribute("Distance", "distance: " + result[1]);
+        model.addAttribute("Message", "price: " + result[2]);
     }
 
 }

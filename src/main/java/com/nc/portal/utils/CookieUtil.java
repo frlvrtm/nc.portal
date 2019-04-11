@@ -29,18 +29,12 @@ public class CookieUtil {
                               Integer maxAge,
                               String domain) {
         try {
-            //строка шифрования
-            StringBuilder cooks = new StringBuilder()
-                    .append(auth)
-                    .append(":")
-                    .append(role);
             //Переводим в байты
             String cook = auth + ":" + role;
             byte[] cookByte = cook.getBytes();
             System.out.println(Arrays.toString(cookByte));
             //Кодируем
             byte[] encrypt = aes256.makeAes(cookByte, Cipher.ENCRYPT_MODE);
-            System.out.println(Arrays.toString(encrypt));
             cookSize = encrypt.length;
             //Переводим декодированное в строку
             String value = new BigInteger(1, encrypt).toString(16);
