@@ -33,7 +33,7 @@ public class CustomerController {
     }
     @GetMapping
     public String getPage() {
-        return "customer";
+        return "customer/customer";
     }
 
     @RequestMapping(value = "/myorders", method = RequestMethod.GET)
@@ -41,7 +41,7 @@ public class CustomerController {
         String username =decodeName(AuthThreadLocal.getAuth());
         OrdersDTO[] ordersDTO = ordersService.getOrdersByCust(username);
         model.addAttribute("orders", ordersDTO);
-        return "myorders";
+        return "customer/myorders";
     }
 
     @RequestMapping(value = "/aboutme", method = RequestMethod.GET)
@@ -49,19 +49,19 @@ public class CustomerController {
         String username =decodeName(AuthThreadLocal.getAuth());
         UserDTO userDTO = customerService.getUserByName(username);
         model.addAttribute("user", userDTO);
-        return "aboutme";
+        return "customer/aboutme";
     }
 
     @RequestMapping(value = "/aboutme", method = RequestMethod.POST)
     public String setProfile(@ModelAttribute UserDTO user) {
         customerService.updateUser(user);
-        return "empty";
+        return "customer/empty";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createOrder1(Model model) {
         model.addAttribute("order", new OrdersDTO());
-        return "orderscreate";
+        return "customer/orderscreate";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)

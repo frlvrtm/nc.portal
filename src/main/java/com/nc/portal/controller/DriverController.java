@@ -22,7 +22,7 @@ public class DriverController {
 
     @GetMapping
     public String getPage() {
-        return "driver";
+        return "driver/driver";
     }
 
     @RequestMapping(value = "/aboutDriver", method = RequestMethod.GET)
@@ -30,31 +30,8 @@ public class DriverController {
         if (UserDTO.staticRole.equals(Role.DRIVER)) {
             UserDTO userDTO = driverService.getUserDTO(UserDTO.staticUsername);
             model.addAttribute("user", userDTO);
-            return "aboutDriver";
+            return "driver/aboutDriver";
         } else
             return "error/access-denied";
     }
-
-    @RequestMapping(value = "/driver", method = RequestMethod.POST)
-    public void postData(@RequestParam("idOrder") int idOrder,
-                         @RequestParam("customer") String customer,
-                         @RequestParam("pointFrom") String pointFrom,
-                         @RequestParam("pointTo") String pointTo,
-                         @RequestParam("weight") double weight,
-                         @RequestParam("price") double price,
-                         @RequestParam("status") String status) {
-        System.out.println(idOrder);
-        System.out.println(customer);
-        System.out.println(pointFrom);
-        System.out.println(pointTo);
-        System.out.println(weight);
-        System.out.println(price);
-        System.out.println(status);
-
-    }
-
-//    @RequestMapping(value = "", method = RequestMethod.GET)
-//    public String getOrder() {
-//        OrdersDTO[] ordersDTO = driverService.getOrdersByDriver(UserDTO.staticUsername);
-//    }
 }

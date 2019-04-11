@@ -20,7 +20,7 @@ public class RegController {
     @GetMapping
     public String getReg(Model model) {
         model.addAttribute("userDTO", new UserDTO());
-        return "registration";
+        return "auth/registration";
     }
 
     @PostMapping

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title></title>
+    <link rel="stylesheet" href="../css/styleuserpage.css" type="text/css">
+</head>
+<body>
+<div>
+    <form action="#" th:action="@{/admin/update}" th:object="${form}" method="post">
+        <div class="row" style="overflow-x: auto;">
+            <table>
+                <thead>
+                <tr>
+                    <th>number</th>
+                    <th>model</th>
+                    <th>color</th>
+                    <th>driver</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="car : ${carsAll}">
+                    <td><p type="text" th:text="${car.number}"></p></td>
+                    <td><p type="text" th:text="${car.model}"></p></td>
+                    <td><p type="text" th:text="${car.color}"></p></td>
+                    <td><p type="text" th:text="${car.driver}"></p></td>
+
+
+                    <td>
+                        <!-- <form name="f" th:action="@{/admin/delete}" method="post">-->
+                        <input type="hidden" name="number"
+                               th:value="${car.number}"/>
+                        <button type="submit">X</button>
+                        <!--    </form>-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="center">
+                <input class="dws-submit" type="submit" name="submit" value="Update" id="sub_update">
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

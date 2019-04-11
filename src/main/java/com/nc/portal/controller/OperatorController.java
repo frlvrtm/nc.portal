@@ -37,7 +37,7 @@ public class OperatorController {
             OrdersDTO[] ordersDTO = ordersService.getAllOrders();
             model.addAttribute("orders", ordersDTO);
             model.addAttribute("order", new OrdersDTO());
-            return "operator";
+            return "operator/operator";
         }
         model.addAttribute("userDTO", new UserDTO());
         return "error/access-denied";
@@ -51,7 +51,7 @@ public class OperatorController {
             OrdersDTO[] ordersDTO = ordersService.getAllOrders();
             model.addAttribute("orders", ordersDTO);
             model.addAttribute("order", new OrdersDTO());
-            return "operator";
+            return "operator/operator";
         }
         model.addAttribute("userDTO", new UserDTO());
         return "error/access-denied";

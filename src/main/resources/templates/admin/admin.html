@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title></title>
+    <link rel="stylesheet" href="../css/cust&op.css" type="text/css">
+</head>
+<body>
+
+<div class="menuu">
+    <ul>
+        <li><a href="" class="activee">Menu</a></li>
+        <li><a href="/createUser" target="iframe1">Add user</a></li>
+        <li>
+            <a class="accordion">Show &hellip;</a>
+            <div class="panel">
+                <a href="/showDrivers" target="iframe1">&#10148; Drivers</a>
+                <a href="/showOperators" target="iframe1">&#10148; Operators</a>
+                <a href="/showCars" target="iframe1">&#10148; Cars</a>
+            </div>
+        </li>
+        <li><a href="/createCar" target="iframe1">Create car</a></li>
+        <li><a href="/logout">Log Out</a></li>
+    </ul>
+</div>
+<div class="content">
+    <iframe name="iframe1" src="" scrolling="no"></iframe>
+</div>
+
+
+<!--alert-->
+<div style="background-color: #FF0000;" class="alert" th:if="${errorMessage}" th:text="${errorMessage}"
+     id='alert_error'></div>
+<div style="background-color: #32CD32;" class="alert" th:if="${infoMessage}" th:text="${infoMessage}"
+     id='alert_info'></div>
+
+<script type="text/javascript">
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+    }
+</script>
+</body>
+</html>
