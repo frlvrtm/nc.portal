@@ -123,6 +123,11 @@ public class RestTemplateUtil {
         return headers;
     }
 
+    // todo nikita
+    // перенести метод в AuthService.java
+    // это не void.. return String; input не user, а login
+    // хватит писать длинные выражения в одну строчку
+
     public void createToken(String user, String password) {
         String notEncoded = user + ":" + password;
         String encodedAuth = "Basic " + Base64.getEncoder().encodeToString(notEncoded.getBytes(Charset.forName("US-ASCII")));

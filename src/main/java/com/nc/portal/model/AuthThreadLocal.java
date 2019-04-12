@@ -2,6 +2,9 @@ package com.nc.portal.model;
 
 public class AuthThreadLocal {
 
+    // todo nikita
+    // метод remove нигде не используется.. зачем он тут ?
+
     private static final ThreadLocal authThreadLocal = new ThreadLocal();
 
     public static <T> void setAuth(T data) {
