@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// todo nikita
+// удалить лишний импорт
+
 @Controller
 public class AuthController {
 
@@ -25,6 +28,9 @@ public class AuthController {
     public String getAuthPage() {
         return "auth/auth";
     }
+
+    // todo nikita
+    // get token and set auth перенести в этот метод
 
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     public String getAuth(@RequestParam("username") String username,

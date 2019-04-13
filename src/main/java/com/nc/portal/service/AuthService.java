@@ -36,12 +36,17 @@ public class AuthService implements GlobalConstants {
     /**
      * Запрос на получение роли пользователя
      */
+
+    // todo nikita
+    // не void, String
+
     public void getRole(HttpServletRequest request, HttpServletResponse res, String username, String password) {
         try {
             //Добавляем токен в поток
             restTemplateUtil.createToken(username, password);
             //Отправляем запрос
-            ResponseEntity<String> response = restTemplateUtil.exchange(request, URL_ROLE, null, HttpMethod.GET, String.class);
+            ResponseEntity<String> response =
+                    restTemplateUtil.exchange(request, URL_ROLE, null, HttpMethod.GET, String.class);
             //Добавляем новый токен
             List<String> header = response.getHeaders().getValuesAsList(HttpHeaders.AUTHORIZATION);
             AuthThreadLocal.setAuth(header.get(0));
