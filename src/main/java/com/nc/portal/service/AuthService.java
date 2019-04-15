@@ -15,17 +15,15 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.nio.charset.Charset;
-import java.util.Base64;
 import java.util.List;
 
 @Service
 public class AuthService implements GlobalConstants {
 
-    private static String URL_ROLE = "auth/role";
+    private static String URL_ROLE = GlobalConstants.URL + "auth/role";
     ;
-    private static String URL_CREATE = "user/customer";
-    private static String URL_LOGOUT = "auth/logout";
+    private static String URL_CREATE = GlobalConstants.URL + "user/customers";
+    private static String URL_LOGOUT = GlobalConstants.URL + "auth/logout";
     // private String URL_AUTH;
 
     private final RestTemplate restTemplate = new RestTemplate();
@@ -39,7 +37,6 @@ public class AuthService implements GlobalConstants {
 
     // todo nikita
     // не void, String
-
     public void getRole(HttpServletRequest request, HttpServletResponse res, String username, String password) {
         try {
             //Добавляем токен в поток
@@ -75,6 +72,7 @@ public class AuthService implements GlobalConstants {
      */
     public int createUser(UserDTO userDTO) /*throws JSONException*/ {
         try {
+            userDTO.setRole("CUSTOMER");
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -88,9 +86,9 @@ public class AuthService implements GlobalConstants {
                 request.put("role", userDTO.getRole());
 
             HttpEntity<String> entity = new HttpEntity<>(request.toString(), headers);
+//            UserDTO.staticRole = Role.CUSTOMER;
+//            UserDTO.staticUsername = userDTO.getUsername();
             ResponseEntity<String> response = restTemplate.exchange(URL_CREATE, HttpMethod.POST, entity, String.class);
-            UserDTO.staticRole = Role.CUSTOMER;
-            UserDTO.staticUsername = userDTO.getUsername();
             return response.getStatusCode().value();
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
