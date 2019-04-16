@@ -2,9 +2,7 @@ package com.nc.portal.controller;
 
 import com.nc.portal.model.Role;
 import com.nc.portal.model.RoleThreadLocal;
-import com.nc.portal.model.UserDTO;
 import com.nc.portal.service.AuthService;
-import com.nc.portal.utils.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-// todo nikita
-// удалить лишний импорт
 
 @Controller
 public class AuthController {

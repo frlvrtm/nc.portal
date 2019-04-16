@@ -1,4 +1,4 @@
-package com.nc.portal;
+package com.nc.portal.config;
 
 import com.nc.portal.controller.interceptors.RoleInterceptor;
 import com.nc.portal.model.Role;

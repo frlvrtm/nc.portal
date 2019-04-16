@@ -13,10 +13,8 @@ import org.springframework.web.client.RestTemplate;
 import org.apache.http.impl.client.HttpClients;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.Charset;
 import java.util.Base64;
-import java.util.Enumeration;
 
 @Component
 public class RestTemplateUtil {
@@ -113,7 +111,7 @@ public class RestTemplateUtil {
         String token = AuthThreadLocal.getAuth();
         //проверка что токен не пуст еще будет
         headers.setContentType(MediaType.APPLICATION_JSON);
-        if (cookie != null && cookie !="") {
+        if (cookie != null && cookie != "") {
             headers.add(HttpHeaders.AUTHORIZATION, cookie);
         } else {
             headers.add(HttpHeaders.AUTHORIZATION, token);
@@ -123,16 +121,7 @@ public class RestTemplateUtil {
         return headers;
     }
 
-    // todo nikita
-    // перенести метод в AuthService.java
-    // это не void.. return String; input не user, а login
-    // хватит писать длинные выражения в одну строчку
 
-    public void createToken(String user, String password) {
-        String notEncoded = user + ":" + password;
-        String encodedAuth = "Basic " + Base64.getEncoder().encodeToString(notEncoded.getBytes(Charset.forName("US-ASCII")));
-        AuthThreadLocal.setAuth(encodedAuth);
-    }
 
 
 }

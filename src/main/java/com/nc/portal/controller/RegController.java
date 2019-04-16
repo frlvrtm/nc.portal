@@ -31,8 +31,10 @@ public class RegController {
     }
 
     @PostMapping
-    public String createUser(@ModelAttribute UserDTO userDTO) {
-        int code = authService.createUser(userDTO);
+    public String createUser(@ModelAttribute UserDTO userDTO,
+                             HttpServletRequest request,
+                             HttpServletResponse response) {
+        int code = authService.createUser(request, response, userDTO);
         System.out.println("Status: " + code);
         return "redirect:/customer";
     }

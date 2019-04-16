@@ -15,15 +15,17 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.Charset;
+import java.util.Base64;
 import java.util.List;
 
 @Service
 public class AuthService implements GlobalConstants {
 
-    private static String URL_ROLE = GlobalConstants.URL + "auth/role";
+    private static String URL_ROLE = "auth/role";
     ;
-    private static String URL_CREATE = GlobalConstants.URL + "user/customers";
-    private static String URL_LOGOUT = GlobalConstants.URL + "auth/logout";
+    private static String URL_CREATE = "user/customers";
+    private static String URL_LOGOUT = "auth/logout";
     // private String URL_AUTH;
 
     private final RestTemplate restTemplate = new RestTemplate();
@@ -40,7 +42,7 @@ public class AuthService implements GlobalConstants {
     public void getRole(HttpServletRequest request, HttpServletResponse res, String username, String password) {
         try {
             //Добавляем токен в поток
-            restTemplateUtil.createToken(username, password);
+            createToken(username, password);
             //Отправляем запрос
             ResponseEntity<String> response =
                     restTemplateUtil.exchange(request, URL_ROLE, null, HttpMethod.GET, String.class);
@@ -70,31 +72,26 @@ public class AuthService implements GlobalConstants {
      *
      * @param userDTO
      */
-    public int createUser(UserDTO userDTO) /*throws JSONException*/ {
+    public int createUser(HttpServletRequest request, HttpServletResponse res, UserDTO userDTO) {
         try {
             userDTO.setRole("CUSTOMER");
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
+            ResponseEntity<UserDTO> response = restTemplateUtil.exchange(request, URL_CREATE, userDTO, HttpMethod.POST, UserDTO.class);
 
-            // create request body
-            JSONObject request = new JSONObject();
-            request.put("username", userDTO.getUsername());
-            request.put("password", userDTO.getPassword());
-            if (userDTO.getRole() == null) {
-                request.put("role", "CUSTOMER");
-            } else
-                request.put("role", userDTO.getRole());
+            List<String> header = response.getHeaders().getValuesAsList(HttpHeaders.AUTHORIZATION);
+            AuthThreadLocal.setAuth(header.get(0));
 
-            HttpEntity<String> entity = new HttpEntity<>(request.toString(), headers);
-//            UserDTO.staticRole = Role.CUSTOMER;
-//            UserDTO.staticUsername = userDTO.getUsername();
-            ResponseEntity<String> response = restTemplate.exchange(URL_CREATE, HttpMethod.POST, entity, String.class);
+            Role role = Role.valueOf(userDTO.getRole());
+            RoleThreadLocal.setRole(role);
+            //Добавляем куки
+            CookieUtil.create(res, AuthThreadLocal.getAuth(), RoleThreadLocal.getRole().toString(), -1, request.getServerName());
+
             return response.getStatusCode().value();
+
         } catch (Exception e) {
-            System.out.println("** Exception: " + e.getMessage());
+           /* System.out.println("** Exception: " + e.getMessage());
             if (e instanceof HttpClientErrorException) {
                 return ((HttpClientErrorException) e).getRawStatusCode();
-            }
+            }*/
             //пока так
             return -1;
         }
@@ -102,5 +99,18 @@ public class AuthService implements GlobalConstants {
 
     public void logout(HttpServletRequest request) {
         restTemplateUtil.exchange(request, URL_LOGOUT, null, HttpMethod.GET, String.class);
+    }
+
+
+    // todo nikita(почти)
+    //  мы не будем использовать ответ стринги, так берем логин потом из потока, поэтому Ыекштп бессмыселен
+    // хватит писать длинные выражения в одну строчку - это максимум о_О
+
+    private String createToken(String login, String password) {
+        String notEncoded = login + ":" + password;
+        byte[] bytes = notEncoded.getBytes(Charset.forName("US-ASCII"));
+        String encodedAuth = "Basic " + Base64.getEncoder().encodeToString(bytes);
+        AuthThreadLocal.setAuth(encodedAuth);
+        return encodedAuth;
     }
 }

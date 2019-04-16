@@ -24,13 +24,14 @@ public class CustomerController {
     OrdersService ordersService;
     @Autowired
     CustomerService customerService;
-    public String decodeName(String dec)
-    {
+
+    public String decodeName(String dec) {
         byte[] base64Token = dec.split(" ")[1].getBytes(Charset.forName("US-ASCII"));
         byte[] decoded = Base64.getDecoder().decode(base64Token);
         String token = new String(decoded);
         return token.split(":")[0];
     }
+
     @GetMapping
     public String getPage() {
         return "customer/customer";
@@ -38,7 +39,7 @@ public class CustomerController {
 
     @RequestMapping(value = "/myorders", method = RequestMethod.GET)
     public String getOrders(Model model) {
-        String username =decodeName(AuthThreadLocal.getAuth());
+        String username = decodeName(AuthThreadLocal.getAuth());
         OrdersDTO[] ordersDTO = ordersService.getOrdersByCust(username);
         model.addAttribute("orders", ordersDTO);
         return "customer/myorders";
@@ -46,7 +47,7 @@ public class CustomerController {
 
     @RequestMapping(value = "/aboutme", method = RequestMethod.GET)
     public String getProfile(Model model) {
-        String username =decodeName(AuthThreadLocal.getAuth());
+        String username = decodeName(AuthThreadLocal.getAuth());
         UserDTO userDTO = customerService.getUserByName(username);
         model.addAttribute("user", userDTO);
         return "customer/aboutme";
