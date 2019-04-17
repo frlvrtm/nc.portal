@@ -14,16 +14,16 @@ public class RoleInterceptor extends HandlerInterceptorAdapter {
 
     private Role role;
 
-    public RoleInterceptor(Role r) {
-        role = r;
+    public RoleInterceptor(Role role) {
+        this.role = role;
     }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
 
-        Role rolereq = CookieUtil.getRole(request);
-        if (rolereq.equals(role)) {
+        Role roleRequest = CookieUtil.getRole(request);
+        if (roleRequest.equals(role)) {
             AuthThreadLocal.setAuth(CookieUtil.getAuth(request));
             return true;
         } else {

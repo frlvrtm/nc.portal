@@ -24,8 +24,6 @@ public class AuthController {
         return "auth/auth";
     }
 
-    // todo nikita
-    // get token and set auth перенести в этот метод
 
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     public String getAuth(@RequestParam("username") String username,

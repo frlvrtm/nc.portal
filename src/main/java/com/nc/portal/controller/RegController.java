@@ -34,9 +34,22 @@ public class RegController {
     public String createUser(@ModelAttribute UserDTO userDTO,
                              HttpServletRequest request,
                              HttpServletResponse response) {
-        int code = authService.createUser(request, response, userDTO);
-        System.out.println("Status: " + code);
-        return "redirect:/customer";
+
+        int code = authService.createUser(request, userDTO);
+        switch (code) {
+            case 201:
+                authService.getRole(request, response, userDTO.getUsername(), userDTO.getPassword());
+                return "redirect:/customer" ;
+            case 406:
+                //Такой пользователь уже есть, вывести об этом и остаться на той же странице
+               return "";
+            case -1:
+                //Неожиданная ошибка(надо разбираться)
+                return "";
+            default:
+                //Если вдруг неизвестный код, и надо тоже разбираться
+                return "";
+        }
     }
 
 }

@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class ErrorController {
-    @ResponseStatus(value=  HttpStatus.FORBIDDEN)
+
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
     @ExceptionHandler(Exception.class)
     public String getError() {
         return "error/access-denied";

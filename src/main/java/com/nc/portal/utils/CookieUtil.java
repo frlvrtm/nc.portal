@@ -17,17 +17,15 @@ import java.util.Arrays;
 public class CookieUtil {
 
     private static final String COOKIE_NAME = "COOKIE";
-    //public static final String COOKIE_ROLE = "ROLE";
     //шифрование Cookie
     private static Aes256 aes256 = new Aes256();
-    //private static String SALT = "delivery";
     private static int cookSize = 0;
 
     public static void create(HttpServletResponse response,
                               String auth,
                               String role,
-                              Integer maxAge,
-                              String domain) {
+                              Integer maxAge
+                              /*String domain*/) {
         try {
             //строка шифрования
             StringBuilder cooks = new StringBuilder()
@@ -37,16 +35,14 @@ public class CookieUtil {
             //Переводим в байты
             String cook = auth + ":" + role;
             byte[] cookByte = cook.getBytes();
-            System.out.println(Arrays.toString(cookByte));
             //Кодируем
             byte[] encrypt = aes256.makeAes(cookByte, Cipher.ENCRYPT_MODE);
-            System.out.println(Arrays.toString(encrypt));
             cookSize = encrypt.length;
             //Переводим декодированное в строку
             String value = new BigInteger(1, encrypt).toString(16);
 
             Cookie cookie = new Cookie(COOKIE_NAME, value);
-            cookie.setDomain(domain);
+            //cookie.setDomain(domain);
             cookie.setPath("/");
             cookie.setSecure(false);
             cookie.setHttpOnly(true);
@@ -79,7 +75,7 @@ public class CookieUtil {
                 String cook = cookie.getValue();
                 byte[] cookByte = new BigInteger(cook, 16).toByteArray();
                 System.out.println(Arrays.toString(cookByte));
-                //не спрашивайте
+                //не спрашивайте(костыль из-за нулевого байта)
                 if (!(cookByte.length == cookSize)) {
                     if (cookByte.length == cookSize + 1) {
                         byte[] shifr = new byte[cookByte.length - 1];
@@ -96,7 +92,6 @@ public class CookieUtil {
                 }
 
                 byte[] decrypt = aes256.makeAes(cookByte, Cipher.DECRYPT_MODE);
-                System.out.println(Arrays.toString(decrypt));
                 //String value = new BigInteger(1, decrypt).toString(16);
                 String value = new String(decrypt);
 
