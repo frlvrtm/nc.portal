@@ -15,68 +15,57 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class OrdersService implements GlobalConstants {
 
-    private String URL_ORDERS;
-    private String URL_CREATE_ORDERS;
+    private static String URL_ORDERS = "orders/customer";
+    private static String URL_ORDERS_ALL = "orders/all";
+    private static String URL_CREATE_ORDERS = "orders/create";
     private static String URL_UPDATE_ORDER = "orders/update";
-
-    public OrdersService() {
-        this.URL_ORDERS = URL + "orders/";
-        this.URL_CREATE_ORDERS = URL_ORDERS + "create/";
-    }
 
     @Autowired
     RestTemplateUtil restTemplateUtil;
 
-    //private final String URL = "http://localhost:8082/orders";
-    private final ObjectMapper mapper = new ObjectMapper();
-    private final RestTemplate restTemplate = new RestTemplate();
-
-    public OrdersDTO[] getAllOrders() /*throws JSONException*/ {
+    public List<OrdersDTO> getAllOrders(HttpServletRequest request) {
         try {
-            ResponseEntity<OrdersDTO[]> responseEntity = restTemplate.getForEntity(URL_ORDERS, OrdersDTO[].class);
-            OrdersDTO[] objects = responseEntity.getBody();
-            return objects;
+            ResponseEntity<OrdersDTO[]> exchange =
+                    restTemplateUtil.exchange(request, URL_ORDERS_ALL, null, HttpMethod.GET, OrdersDTO[].class);
+            List<OrdersDTO> list = Arrays.asList(exchange.getBody());
+            return list;
         } catch (Exception e) {
-            System.out.println("** Exception: " + e.getMessage());
-            return new OrdersDTO[0];
+            return null;
         }
     }
 
-    public OrdersDTO[] getOrdersByCust(String custname) {
+    public List<OrdersDTO> getOrdersByCust(HttpServletRequest request) {
         try {
-            String GetURL = URL_ORDERS + "/customer?" + "custname=" + custname;
-            ResponseEntity<OrdersDTO[]> responseEntity = restTemplate.getForEntity(GetURL, OrdersDTO[].class);
-            OrdersDTO[] objects = responseEntity.getBody();
-            return objects;
+            ResponseEntity<OrdersDTO[]> exchange =
+                    restTemplateUtil.exchange(request, URL_ORDERS, null, HttpMethod.GET, OrdersDTO[].class);
+
+            // ResponseEntity<OrdersDTO[]> responseEntity = restTemplate.getForEntity(GetURL, OrdersDTO[].class);
+            List<OrdersDTO> list = Arrays.asList(exchange.getBody());
+            return list;
         } catch (Exception e) {
-            System.out.println("** Exception: " + e.getMessage());
-            return new OrdersDTO[0];
+            return null;
         }
     }
 
-    private HttpEntity<String> createEntity(OrdersDTO order) throws JsonProcessingException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        // create request body
-        String request = mapper.writeValueAsString(order);
-        return new HttpEntity<>(request, headers);
-    }
-
-    public void createOrder(OrdersDTO order) {
+    //------------------------------------------------------------------------------------------------------------------
+    public int createOrder(HttpServletRequest request, OrdersDTO order) {
         try {
-            order.setCustomer(UserDTO.staticUsername);
-            order.setStatus("open");
-            //Long curTime = System.currentTimeMillis();
-            //order.setStartTime(new Date(curTime));
-            HttpEntity<String> entity = createEntity(order);
-            ResponseEntity<String> response = restTemplate.exchange(URL_CREATE_ORDERS, HttpMethod.POST, entity, String.class);
-            System.out.println("Result - status " + response.getStatusCode());
+            order.setStatus(OrderStatus.OPEN.toString());
+
+            ResponseEntity<OrdersDTO> exchange =
+                    restTemplateUtil.exchange(request, URL_CREATE_ORDERS, order, HttpMethod.POST, OrdersDTO.class);
+
+            //ResponseEntity<String> response = restTemplate.exchange(URL_CREATE_ORDERS, HttpMethod.POST, entity, String.class);
+            int code = exchange.getStatusCode().value();
+            return code;
         } catch (Exception e) {
-            System.out.println("** Exception: " + e.getMessage());
+            return -1;
         }
     }
 
@@ -85,7 +74,7 @@ public class OrdersService implements GlobalConstants {
         try {
             OrdersDTO order = new OrdersDTO();
             order.setIdOrder(Integer.parseInt(orderId));
-            if(status == OrderStatus.ASSIGNED) {
+            if (status == OrderStatus.ASSIGNED) {
                 order.setDriver(driver);
             }
             order.setStatus(status.toString());

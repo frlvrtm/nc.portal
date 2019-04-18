@@ -21,17 +21,6 @@ public class AdminService {
     private static final String URL_CARS_ALL = "car/all";
     private static final String URL_CARS_ADD = "car";
 
-/*    public AdminService() {
-        this.URL_EMPLOYEES = "user/employees";
-        this.URL_CARS_FREE "car/free";
-        this.URL_CARS_ALL = URL + "car/all";
-        this.URL_CREATE = URL + "user";
-        this.URL_UPDATE = URL + "user/update";
-        this.URL_DELETE = URL + "user/delete";
-    }*/
-
-    private final RestTemplate restTemplate = new RestTemplate();
-
     @Autowired
     RestTemplateUtil restTemplateUtil;
 
@@ -72,9 +61,6 @@ public class AdminService {
         try {
             ResponseEntity<UserDTO> response = restTemplateUtil.exchange(request, URL_EMPLOYEES, userDTO, HttpMethod.POST, UserDTO.class);
             return response.getStatusCode().value();
-        } catch (HttpClientErrorException e) {
-            System.out.println("** Exception: " + e.getMessage());
-            return e.getRawStatusCode();
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
             return -1;
@@ -99,9 +85,6 @@ public class AdminService {
 
             ResponseEntity<UserDTO[]> response = restTemplateUtil.exchange(request, URL_EMPLOYEES, users, HttpMethod.PUT, UserDTO[].class);
             return response.getStatusCode().value();
-        } catch (HttpClientErrorException e) {
-            System.out.println("** Exception: " + e.getMessage());
-            return e.getRawStatusCode();
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
             return -1;
@@ -112,9 +95,6 @@ public class AdminService {
         try {
             ResponseEntity<String> response = restTemplateUtil.exchange(request, URL_EMPLOYEES, username, HttpMethod.DELETE, String.class);
             return response.getStatusCode().value();
-        } catch (HttpClientErrorException e) {
-            System.out.println("** Exception: " + e.getMessage());
-            return e.getRawStatusCode();
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
             return -1;
@@ -125,9 +105,6 @@ public class AdminService {
         try {
             ResponseEntity<CarDTO> response = restTemplateUtil.exchange(request, URL_CARS_ADD, carDTO, HttpMethod.POST, CarDTO.class);
             return response.getStatusCode().value();
-        } catch (HttpClientErrorException e) {
-            System.out.println("** Exception: " + e.getMessage());
-            return e.getRawStatusCode();
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
             return -1;

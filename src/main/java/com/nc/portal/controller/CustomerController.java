@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
 import java.util.Base64;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/customer")
@@ -38,9 +40,8 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/myorders", method = RequestMethod.GET)
-    public String getOrders(Model model) {
-        String username = decodeName(AuthThreadLocal.getAuth());
-        OrdersDTO[] ordersDTO = ordersService.getOrdersByCust(username);
+    public String getOrders(Model model, HttpServletRequest request) {
+        List<OrdersDTO> ordersDTO = ordersService.getOrdersByCust(request);
         model.addAttribute("orders", ordersDTO);
         return "customer/myorders";
     }
@@ -66,8 +67,8 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createOrder2(@ModelAttribute OrdersDTO order, Model model) {
-        ordersService.createOrder(order);
+    public String createOrder2(@ModelAttribute OrdersDTO order, Model model, HttpServletRequest request) {
+        ordersService.createOrder(request, order);
         model.addAttribute("order", new OrdersDTO());
         return "empty";
     }

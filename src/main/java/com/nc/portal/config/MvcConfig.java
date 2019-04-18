@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-//@EnableWebMvc
 @Configuration
 @ComponentScan("com.nc.portal")
 public class MvcConfig implements WebMvcConfigurer {

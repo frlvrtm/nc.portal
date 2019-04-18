@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 @Controller
 public class OperatorController {
@@ -31,8 +32,8 @@ public class OperatorController {
     }*/
 
     @RequestMapping(value = "/operator", method = RequestMethod.GET)
-    public String getPage(Model model) {
-        OrdersDTO[] ordersDTO = ordersService.getAllOrders();
+    public String getPage(HttpServletRequest request,Model model) {
+        List<OrdersDTO> ordersDTO = ordersService.getAllOrders(request);
         model.addAttribute("orders", ordersDTO);
         model.addAttribute("order", new OrdersDTO());
         return "operator/operator";
@@ -47,7 +48,7 @@ public class OperatorController {
         int code = ordersService.updateStatus(request, driver, orderId, OrderStatus.ASSIGNED);
         //if code = ACCEPTED то прошло успешно, иначе какая-то ошибка
 //----------------------------------------------------------------------
-        OrdersDTO[] ordersDTO = ordersService.getAllOrders();
+        List<OrdersDTO> ordersDTO = ordersService.getAllOrders(request);
         model.addAttribute("orders", ordersDTO);
         model.addAttribute("order", new OrdersDTO());
         return "operator/operator";
@@ -61,7 +62,7 @@ public class OperatorController {
         int code = ordersService.updateStatus(request, null, orderId, OrderStatus.CLOSE);
         //if code = ACCEPTED то прошло успешно, иначе какая-то ошибка
 //----------------------------------------------------------------------
-        OrdersDTO[] ordersDTO = ordersService.getAllOrders();
+        List<OrdersDTO> ordersDTO = ordersService.getAllOrders(request);
         model.addAttribute("orders", ordersDTO);
         model.addAttribute("order", new OrdersDTO());
         return "operator/operator";
