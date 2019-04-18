@@ -2,7 +2,7 @@ package com.nc.portal.model;
 
 import lombok.Data;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class OrdersDTO {
@@ -10,10 +10,10 @@ public class OrdersDTO {
     private String pointFrom;
     private String pointTo;
     private double cost;
-    private String weight;
+    //private String weight;
     private String description;
-    private Date startTime;
-    private Date endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private String status;
     private String driver;
     private String customer;

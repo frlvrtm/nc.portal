@@ -2,6 +2,7 @@ package com.nc.portal.utils;
 
 
 import com.nc.portal.model.AuthThreadLocal;
+import com.nc.portal.service.AuthService;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -27,8 +28,8 @@ public class RestTemplateUtil {
                                           Class<T> responseType) {
 
         HttpEntity<T> entity = requestBody == null ?
-                new HttpEntity<>(addHeaders(request)) :
-                new HttpEntity<>(requestBody, addHeaders(request));
+                new HttpEntity<>(addHeaders(request,url)) :
+                new HttpEntity<>(requestBody, addHeaders(request,url));
         try {
             ResponseEntity<T> responseEntity = restTemplate.exchange(BASE_URL + url, method, entity, responseType);
             return responseEntity;
@@ -39,12 +40,12 @@ public class RestTemplateUtil {
         }
     }
 
-    private HttpHeaders addHeaders(HttpServletRequest request) {
+    private HttpHeaders addHeaders(HttpServletRequest request, String url) {
         HttpHeaders headers = new HttpHeaders();
         //нужно ли?
         headers.setContentType(MediaType.APPLICATION_JSON);
         //если запрос на вход в систему
-        if (request.getRequestURI().equals("/auth")) {
+        if (url.equals(AuthService.URL_ROLE)) {
             String token = AuthThreadLocal.getAuth();
             headers.add(HttpHeaders.AUTHORIZATION, token);
         } else {    //если запрос с Session

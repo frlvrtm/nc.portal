@@ -2,24 +2,34 @@ package com.nc.portal.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nc.portal.model.OrderStatus;
 import com.nc.portal.model.OrdersDTO;
 import com.nc.portal.model.UserDTO;
+import com.nc.portal.utils.RestTemplateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Service
 public class OrdersService implements GlobalConstants {
 
     private String URL_ORDERS;
     private String URL_CREATE_ORDERS;
+    private static String URL_UPDATE_ORDER = "orders/update";
 
     public OrdersService() {
         this.URL_ORDERS = URL + "orders/";
         this.URL_CREATE_ORDERS = URL_ORDERS + "create/";
     }
+
+    @Autowired
+    RestTemplateUtil restTemplateUtil;
 
     //private final String URL = "http://localhost:8082/orders";
     private final ObjectMapper mapper = new ObjectMapper();
@@ -60,8 +70,8 @@ public class OrdersService implements GlobalConstants {
         try {
             order.setCustomer(UserDTO.staticUsername);
             order.setStatus("open");
-            Long curTime = System.currentTimeMillis();
-            order.setStartTime(new Date(curTime));
+            //Long curTime = System.currentTimeMillis();
+            //order.setStartTime(new Date(curTime));
             HttpEntity<String> entity = createEntity(order);
             ResponseEntity<String> response = restTemplate.exchange(URL_CREATE_ORDERS, HttpMethod.POST, entity, String.class);
             System.out.println("Result - status " + response.getStatusCode());
@@ -70,13 +80,23 @@ public class OrdersService implements GlobalConstants {
         }
     }
 
-    public void updateOrders(OrdersDTO order) {
+    //------------------------------------------------------------------------------------------------------------------
+    public int updateStatus(HttpServletRequest request, String driver, String orderId, OrderStatus status) {
         try {
-            HttpEntity<String> entity = createEntity(order);
-            ResponseEntity<String> response = restTemplate.exchange(URL_ORDERS, HttpMethod.POST, entity, String.class);
-            System.out.println("Result - status " + response.getStatusCode());
+            OrdersDTO order = new OrdersDTO();
+            order.setIdOrder(Integer.parseInt(orderId));
+            if(status == OrderStatus.ASSIGNED) {
+                order.setDriver(driver);
+            }
+            order.setStatus(status.toString());
+
+            ResponseEntity<OrdersDTO> exchange =
+                    restTemplateUtil.exchange(request, URL_UPDATE_ORDER, order, HttpMethod.PUT, OrdersDTO.class);
+
+            int code = exchange.getStatusCode().value();
+            return code;
         } catch (Exception e) {
-            System.out.println("** Exception: " + e.getMessage());
+            return -1;
         }
     }
 }

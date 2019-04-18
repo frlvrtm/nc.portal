@@ -20,6 +20,8 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(new RoleInterceptor(Role.CUSTOMER)).addPathPatterns("/customer/**");//думаю сделать ещё таких на каждую роль
-
+        registry.addInterceptor(new RoleInterceptor(Role.OPERATOR)).addPathPatterns("/operator/**");
+        registry.addInterceptor(new RoleInterceptor(Role.ADMIN)).addPathPatterns("/admin/**");
+        registry.addInterceptor(new RoleInterceptor(Role.DRIVER)).addPathPatterns("/driver/**");
     }
 }

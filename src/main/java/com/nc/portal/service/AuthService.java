@@ -22,11 +22,11 @@ import java.util.List;
 @Service
 public class AuthService implements GlobalConstants {
 
-    private static String URL_ROLE = "auth/role";
+    public static String URL_ROLE = "auth/role";
     private static String URL_CREATE = "user/customers";
     private static String URL_LOGOUT = "auth/logout";
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    //private final RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
     RestTemplateUtil restTemplateUtil;

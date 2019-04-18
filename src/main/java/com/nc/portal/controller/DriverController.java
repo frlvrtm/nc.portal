@@ -27,11 +27,11 @@ public class DriverController {
 
     @RequestMapping(value = "/aboutDriver", method = RequestMethod.GET)
     public String getProfile(Model model) {
-        if (UserDTO.staticRole.equals(Role.DRIVER)) {
-            UserDTO userDTO = driverService.getUserDTO(UserDTO.staticUsername);
-            model.addAttribute("user", userDTO);
-            return "driver/aboutDriver";
-        } else
-            return "error/access-denied";
+        // if (UserDTO.staticRole.equals(Role.DRIVER)) {
+        UserDTO userDTO = driverService.getUserDTO(UserDTO.staticUsername);
+        model.addAttribute("user", userDTO);
+        return "driver/aboutDriver";
+        //  } else
+        //    return "error/access-denied";
     }
 }

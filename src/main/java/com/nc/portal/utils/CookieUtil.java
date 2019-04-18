@@ -74,7 +74,6 @@ public class CookieUtil {
             try {
                 String cook = cookie.getValue();
                 byte[] cookByte = new BigInteger(cook, 16).toByteArray();
-                System.out.println(Arrays.toString(cookByte));
                 //не спрашивайте(костыль из-за нулевого байта)
                 if (!(cookByte.length == cookSize)) {
                     if (cookByte.length == cookSize + 1) {
