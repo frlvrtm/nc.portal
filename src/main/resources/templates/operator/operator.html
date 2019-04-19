@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Material Design Bootstrap</title>
+    <title></title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <!-- Bootstrap core CSS -->
@@ -17,6 +17,27 @@
 </head>
 
 <body>
+
+<div th:if="${Message}">
+    <div class="alert alert-success alert-dismissible fade show" role="alert"
+         style="margin: 0; padding: 0; width: 100%; height: 50px; text-align: center">
+        <span th:text="${Message}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+
+<div th:if="${errorMessage}">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert"
+         style="margin: 0; padding: 0; width: 100%; height: 50px; text-align: center">
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+
 <table class="table table-hover table-nonfluid table-responsive text-center">
     <thead>
     <tr>
@@ -67,8 +88,10 @@
             </select></td>
             <td><input class="form-control" type="text" th:value="${o.description}" id="description"
                        name="description" readonly="readonly"></td>
-            <td><input class="form-control" type="submit" name="submit1" formaction="/operator/assigned" value="Update"></td>
-            <td><input class="form-control" type="submit" name="submit2" formaction="/operator/close" value="Close"></td>
+            <td><input class="form-control" type="submit" name="submit1" formaction="/operator/assigned" value="Update">
+            </td>
+            <td><input class="form-control" type="submit" name="submit2" formaction="/operator/close" value="Close">
+            </td>
         </form>
     </tr>
     </tbody>

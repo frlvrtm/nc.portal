@@ -54,9 +54,15 @@ public class CustomerController {
     @RequestMapping(value = "/aboutme", method = RequestMethod.POST)
     public String setProfile(@RequestParam("firstName") String firstName,
                              @RequestParam("lastName") String lastName,
-                             @RequestParam("phone") String phone) {
+                             @RequestParam("phone") String phone,
+                             Model model) {
         String username = decodeName(AuthThreadLocal.getAuth());
         int code = customerService.updateUser(username, firstName, lastName, phone, "CUSTOMER");
+        if (code == 201) {
+            model.addAttribute("Message", "Data saved successfully!");
+        } else {
+            model.addAttribute("errorMessage", "Error! Data not saved.");
+        }
         return "redirect:/customer/aboutme";
     }
 

@@ -42,7 +42,7 @@ public class RegController {
                 return "redirect:/customer";
             case 406:
                 //Такой пользователь уже есть, вывести об этом и остаться на той же странице
-                model.addAttribute("errorMessage", "Error: user is already registered");
+                model.addAttribute("errorMessage", "Error! User is already registered");
                 return "auth/registration";
             case -1:
                 //Неожиданная ошибка(надо разбираться)

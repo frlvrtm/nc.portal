@@ -38,7 +38,7 @@ public class AuthController {
         //Role role = CookieUtil.getRole(request);
         Role role = RoleThreadLocal.getRole();
         if (role == Role.UNAUTHORIZED) {
-            model.addAttribute("errorMessage", "incorrect name or password");
+            model.addAttribute("errorMessage", "Error: incorrect name or password");
             return "auth/auth";
         } else {
             return "redirect:/" + role.getUrl();

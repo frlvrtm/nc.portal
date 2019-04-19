@@ -70,9 +70,14 @@ public class OperatorController {
             int code = ordersService.updateStatus(request, driver, orderId, OrderStatus.ASSIGNED);
             //if code = ACCEPTED то прошло успешно, иначе какая-то ошибка
             //----------------------------------------------------------------------
-            List<OrdersDTO> ordersDTO = ordersService.getAllOrders(request);
-            model.addAttribute("orders", ordersDTO);
-            model.addAttribute("order", new OrdersDTO());
+            if (code == 201) {
+                List<OrdersDTO> ordersDTO = ordersService.getAllOrders(request);
+                model.addAttribute("orders", ordersDTO);
+                model.addAttribute("order", new OrdersDTO());
+                model.addAttribute("Message", "ACCEPTED! Order status has been changed to assigned.");
+            } else {
+                model.addAttribute("errorMessage", "Error! Data not saved.");
+            }
             return "operator/operator";
         } else
             return "error/access-denied";
@@ -88,9 +93,14 @@ public class OperatorController {
             int code = ordersService.updateStatus(request, null, orderId, OrderStatus.CLOSED);
             //if code = ACCEPTED то прошло успешно, иначе какая-то ошибка
 //----------------------------------------------------------------------
-            List<OrdersDTO> ordersDTO = ordersService.getAllOrders(request);
-            model.addAttribute("orders", ordersDTO);
-            model.addAttribute("order", new OrdersDTO());
+            if (code == 201) {
+                List<OrdersDTO> ordersDTO = ordersService.getAllOrders(request);
+                model.addAttribute("orders", ordersDTO);
+                model.addAttribute("order", new OrdersDTO());
+                model.addAttribute("Message", "ACCEPTED! Order status has been changed to closed.");
+            } else {
+                model.addAttribute("errorMessage", "Error! Data not saved.");
+            }
             return "operator/operator";
         } else
             return "error/access-denied";
@@ -107,9 +117,15 @@ public class OperatorController {
     @RequestMapping(value = "/operator/profile", method = RequestMethod.POST)
     public String setProfile(@RequestParam("firstName") String firstName,
                              @RequestParam("lastName") String lastName,
-                             @RequestParam("phone") String phone) {
+                             @RequestParam("phone") String phone,
+                             Model model) {
         String username = decodeName(AuthThreadLocal.getAuth());
         int code = customerService.updateUser(username, firstName, lastName, phone, "OPERATOR");
+        if (code == 201) {
+            model.addAttribute("Message", "Data saved successfully!");
+        } else {
+            model.addAttribute("errorMessage", "Error! Data not saved.");
+        }
         return "redirect:/operator/profile";
     }
 }
