@@ -1,76 +1,87 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Operator</title>
-    <link rel="stylesheet" href="../css/custandop.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Material Design Bootstrap</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="../css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="../css/style.css" rel="stylesheet">
 </head>
+
 <body>
+<table class="table table-hover table-nonfluid table-responsive text-center">
+    <thead>
+    <tr>
+        <th class="th-sm">idOrder</th>
+        <th class="th-sm">customer</th>
+        <th class="th-sm">pointFrom</th>
+        <th class="th-sm">pointTo</th>
+        <th class="th-sm">cost</th>
+        <th class="th-sm">startTime</th>
+        <th class="th-sm">endTime</th>
+        <th class="th-sm">driver</th>
+        <th class="th-sm">status</th>
+        <th class="th-sm">description</th>
 
-<header>
-    <nav>
-        <div id="logo">
-            <a href="#">De Livery</a>
-        </div>
-        <ul>
-            <li><a href="/logout" class="active">Log Out</a></li>
-        </ul>
-    </nav>
-</header>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="o : ${orders}">
+        <form th:object="${order}" method="post">
+            <td><input class="form-control" type="text" size="2" th:value="${o.idOrder}" id="idOrder"
+                       name="idOrder" readonly="readonly"></td>
+            <td><input class="form-control" type="text" size="5" th:value="${o.customer}" id="customer"
+                       name="customer" readonly="readonly"></td>
+            <td><input class="form-control" type="text" th:value="${o.pointFrom}" id="pointFrom"
+                       name="pointFrom" readonly="readonly">
+            </td>
+            <td><input class="form-control" type="text" th:value="${o.pointTo}" id="pointTo" name="pointTo"
+                       readonly="readonly"></td>
+            <td><input class="form-control" type="text" size="2" th:value="${o.cost}" id="cost" name="cost"
+                       readonly="readonly"></td>
+            <td><input class="form-control" type="text" size="6" th:value="${o.startTime}" id="startTime"
+                       name="startTime" readonly="readonly"></td>
+            <td><input class="form-control" type="text" size="6" th:value="${o.endTime}" id="endTime"
+                       name="endTime" readonly="readonly"></td>
+            <td><input class="form-control" type="text" size="5" th:value="${o.driver}" id="driver"
+                       name="driver">
+            </td>
+            <td><select class="form-control" th:field="*{status}">
 
-<section id="top">
-    <div class="container">
-        <div class="tab_container">
-            <div id="tab1" class="tab_content">
-                <table>
-                    <tr>
-                        <th>id_order</th>
-                        <th>customer</th>
-                        <th>point_from</th>
-                        <th>point_to</th>
-                        <th>cost</th>
-                       <!-- <th>weight</th>-->
-                        <th>start_time</th>
-                        <th>end_time</th>
-                        <th>driver</th>
-                        <th>status</th>
-                        <th>description</th>
-                        <th>update</th>
-                    </tr>
-                    <tr th:each="o : ${orders}">
-                        <form action="#" th:action="@{/templates/operator}" th:object="${order}" method="post">
-                            <td><input type="text" size="2" th:value="${o.idOrder}" id="idOrder" name="idOrder"
-                                       readonly="readonly"></td>
-                            <td><input type="text" size="5" th:value="${o.customer}" id="customer" name="customer"
-                                       readonly="readonly"></td>
-                            <td><input type="text" th:value="${o.pointFrom}" id="pointFrom" name="pointFrom"
-                                       readonly="readonly"></td>
-                            <td><input type="text" th:value="${o.pointTo}" id="pointTo" name="pointTo"
-                                       readonly="readonly"></td>
-                            <td><input type="text" size="2" th:value="${o.cost}" id="cost" name="cost"
-                                       readonly="readonly"></td>
-                            <td><input type="text" size="6" th:value="${o.startTime}" id="startTime" name="startTime"
-                                       readonly="readonly"></td>
-                            <td><input type="text" size="6" th:value="${o.endTime}" id="endTime" name="endTime"
-                                       readonly="readonly"></td>
-                            <td><input type="text" size="5" th:value="${o.driver}" id="driver" name="driver"></td>
-                            <td><select th:field="*{status}">
-
-                                <option selected th:each="s : ${order.orderCust}"
-                                        th:if="${o.status.toLowerCase().equals(s.toLowerCase())}" th:value="${s}"
-                                        th:text="${s}"></option>
-                                <option th:each="s : ${order.orderCust}"
-                                        th:unless="${o.status.toLowerCase().equals(s.toLowerCase())}" th:value="${s}"
-                                        th:text="${s}"></option>
-                            </select></td>
-                            <td><input type="text" th:value="${o.description}" id="description" name="description"
-                                       readonly="readonly"></td>
-                            <td><input type="submit" name="submit" value="Update"></td>
-                        </form>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
-</section>
+                <option selected th:each="s : ${order.orderCust}"
+                        th:if="${o.status.toLowerCase().equals(s.toLowerCase())}" th:value="${s}"
+                        th:text="${s}">
+                </option>
+                <option th:each="s : ${order.orderCust}"
+                        th:unless="${o.status.toLowerCase().equals(s.toLowerCase())}" th:value="${s}"
+                        th:text="${s}">
+                </option>
+            </select></td>
+            <td><input class="form-control" type="text" th:value="${o.description}" id="description"
+                       name="description" readonly="readonly"></td>
+            <td><input class="form-control" type="submit" name="submit1" formaction="/operator/assigned" value="Update"></td>
+            <td><input class="form-control" type="submit" name="submit2" formaction="/operator/close" value="Close"></td>
+        </form>
+    </tr>
+    </tbody>
+</table>
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="../js/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="../js/mdb.min.js"></script>
 </body>
+
 </html>

@@ -8,10 +8,7 @@ import com.nc.portal.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
@@ -49,15 +46,18 @@ public class CustomerController {
     @RequestMapping(value = "/aboutme", method = RequestMethod.GET)
     public String getProfile(Model model) {
         String username = decodeName(AuthThreadLocal.getAuth());
-        UserDTO userDTO = customerService.getUserByName(username);
+        UserDTO userDTO = customerService.getUserByName(username, "CUSTOMER");
         model.addAttribute("user", userDTO);
         return "customer/aboutme";
     }
 
     @RequestMapping(value = "/aboutme", method = RequestMethod.POST)
-    public String setProfile(@ModelAttribute UserDTO user) {
-        customerService.updateUser(user);
-        return "customer/empty";
+    public String setProfile(@RequestParam("firstName") String firstName,
+                             @RequestParam("lastName") String lastName,
+                             @RequestParam("phone") String phone) {
+        String username = decodeName(AuthThreadLocal.getAuth());
+        int code = customerService.updateUser(username, firstName, lastName, phone, "CUSTOMER");
+        return "redirect:/customer/aboutme";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -67,9 +67,13 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createOrder2(@ModelAttribute OrdersDTO order, Model model, HttpServletRequest request) {
-        ordersService.createOrder(request, order);
+    public String createOrder2(@RequestParam("pointFrom") String pointFrom,
+                               @RequestParam("pointTo") String pointTo,
+                               @RequestParam("description") String description,
+                               Model model, HttpServletRequest request) {
+        String username = decodeName(AuthThreadLocal.getAuth());
+        ordersService.createOrder(request, username, pointFrom, pointTo, description);
         model.addAttribute("order", new OrdersDTO());
-        return "empty";
+        return "redirect:/customer/myorders";
     }
 }

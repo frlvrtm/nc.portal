@@ -5,5 +5,5 @@ public enum OrderStatus {
     ASSIGNED,
     INPROGRESS,
     RESOLVED,
-    CLOSE
+    CLOSED
 }

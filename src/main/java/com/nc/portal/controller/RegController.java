@@ -33,16 +33,17 @@ public class RegController {
     @PostMapping
     public String createUser(@ModelAttribute UserDTO userDTO,
                              HttpServletRequest request,
-                             HttpServletResponse response) {
+                             HttpServletResponse response, Model model) {
 
         int code = authService.createUser(request, userDTO);
         switch (code) {
             case 201:
                 authService.getRole(request, response, userDTO.getUsername(), userDTO.getPassword());
-                return "redirect:/customer" ;
+                return "redirect:/customer";
             case 406:
                 //Такой пользователь уже есть, вывести об этом и остаться на той же странице
-               return "";
+                model.addAttribute("errorMessage", "Error: user is already registered");
+                return "auth/registration";
             case -1:
                 //Неожиданная ошибка(надо разбираться)
                 return "";
@@ -50,6 +51,7 @@ public class RegController {
                 //Если вдруг неизвестный код, и надо тоже разбираться
                 return "";
         }
+
     }
 
 }

@@ -1,43 +1,73 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>My orders</title>
-    <link rel="stylesheet" href="../css/styleuserpage.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="../css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="../css/style.css" rel="stylesheet">
 </head>
+
 <body>
-<h1>Your orders:</h1>
-<div>
-    <div class="row" style="overflow-x: auto;">
-        <table>
-            <tr>
-                <th>idOrder</th>
-                <th>pointFrom</th>
-                <th>pointTo</th>
-                <th>cost</th>
-                <th>weight</th>
-                <th>startTime</th>
-                <th>endTime</th>
-                <th>status</th>
-                <th>description</th>
-            </tr>
-            <tr th:each="o : *{orders}">
-                <td><input type="text" size="1" th:value="${o.idOrder}" id="idOrder" name="idOrder" disabled></td>
-                <td><input type="text" th:value="${o.pointFrom}" id="pointFrom" name="pointFrom" disabled></td>
-                <td><input type="text" th:value="${o.pointTo}" id="pointTo" name="pointTo" disabled></td>
-                <td><input type="text" size="2" th:value="${o.cost}" id="cost" name="cost" disabled></td>
-                <td><input type="text" size="2" th:value="${o.weight}" id="weight" name="weight" disabled></td>
-                <td><input type="text" size="6" th:value="${o.startTime}" id="startTime" name="startTime" disabled></td>
-                <td><input type="text" size="6" th:value="${o.endTime}" id="endTime" name="endTime" disabled></td>
-                <td><input type="text" size="2" th:value="${o.status}" id="status" name="status" disabled></td>
-                <td><input type="text" th:value="${o.description}" id="description" name="description" disabled></td>
-            </tr>
-        </table>
-    </div>
-    <div class="row">
-        <div class="center">
-            <a href="/customer/create" class="createOrders">Create orders</a>
-        </div>
-    </div>
+<div class="">
+    <table class="table table-hover table-nonfluid table-responsive text-center table-bordered" align="center" width="100%">
+        <thead>
+        <tr>
+            <th class="th-sm">idOrder</th>
+            <th class="th-sm">pointFrom</th>
+            <th class="th-sm">pointTo</th>
+            <th class="th-sm">cost</th>
+            <th class="th-sm">startTime</th>
+            <th class="th-sm">endTime</th>
+            <th class="th-sm">status</th>
+            <th class="th-sm">description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="o : *{orders}">
+            <td><input class="form-control" type="text" size="1" th:value="${o.idOrder}" id="idOrder" name="idOrder"
+                       disabled></td>
+            <td><input class="form-control" type="text" th:value="${o.pointFrom}" id="pointFrom" name="pointFrom"
+                       disabled>
+            </td>
+            <td><input class="form-control" type="text" th:value="${o.pointTo}" id="pointTo" name="pointTo" disabled>
+            </td>
+            <td><input class="form-control" type="text" size="2" th:value="${o.cost}" id="cost" name="cost" disabled>
+            </td>
+            <td><input class="form-control" type="text" size="6" th:value="${o.startTime}" id="startTime"
+                       name="startTime"
+                       disabled></td>
+            <td><input class="form-control" type="text" size="6" th:value="${o.endTime}" id="endTime" name="endTime"
+                       disabled></td>
+            <td><input class="form-control" type="text" size="2" th:value="${o.status}" id="status" name="status"
+                       disabled>
+            </td>
+            <td><input class="form-control" type="text" th:value="${o.description}" id="description" name="description"
+                       disabled></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
+<!--<div class="row">
+    <a href="/customer/create" class="createOrders">Create orders</a>
+</div>-->
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="../js/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="../js/mdb.min.js"></script>
 </body>
+
 </html>

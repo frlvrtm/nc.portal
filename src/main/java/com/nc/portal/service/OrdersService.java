@@ -54,8 +54,9 @@ public class OrdersService implements GlobalConstants {
     }
 
     //------------------------------------------------------------------------------------------------------------------
-    public int createOrder(HttpServletRequest request, OrdersDTO order) {
+    public int createOrder(HttpServletRequest request, String name, String pointFrom, String pointTo, String description) {
         try {
+            OrdersDTO order = new OrdersDTO(name, pointFrom, pointTo, description);
             order.setStatus(OrderStatus.OPEN.toString());
 
             ResponseEntity<OrdersDTO> exchange =

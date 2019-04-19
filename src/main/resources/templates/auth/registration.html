@@ -6,6 +6,12 @@
 </head>
 <body>
 <div class="container" id="container">
+    <div th:if="${errorMessage}">
+        <div class="dws-alert">
+            <span th:text="${errorMessage}"></span>
+        </div>
+    </div>
+
     <form action="#" th:action="@{/reg}" th:object="${userDTO}" method="post">
         <div class="dws-input">
             <input type="text" th:field="*{username}" placeholder="Enter username" required>
@@ -120,6 +126,10 @@
             document.getElementById("pass2").setCustomValidity("Passwords Don't Match");
         else
             document.getElementById("pass2").setCustomValidity('');
+    }
+
+    function visible() {
+        document.getElementById("alert").style.visibility = 'hidden';
     }
 </script>
 </body>

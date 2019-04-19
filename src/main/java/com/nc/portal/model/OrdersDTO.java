@@ -19,6 +19,16 @@ public class OrdersDTO {
     private String customer;
     private double price;
 
+    public OrdersDTO() {
+    }
+
+    public OrdersDTO(String customer, String pointFrom, String pointTo, String description) {
+        this.customer = customer;
+        this.pointFrom = pointFrom;
+        this.pointTo = pointTo;
+        this.description = description;
+    }
+
     public static String[] orderCust = {"OPEN", "ASSIGNED", "INPROGRESS", "CLOSED", "RESOLVED"};
 
     public static String[] weightCat = {"less one kg", "1-3 kg", "3-10 kg", "10-20 kg"};

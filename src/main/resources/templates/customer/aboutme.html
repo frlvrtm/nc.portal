@@ -1,41 +1,52 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>About me</title>
-    <link rel="stylesheet" href="../css/styleuserpage.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="../css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="../css/style.css" rel="stylesheet">
 </head>
+
 <body>
-<div class="container">
-    <h1>Edit your account:</h1>
-    <form action="#" th:action="@{/customer/aboutme}" th:object="${user}" method="post">
-        <div class="row">
-            <div class="col-25">
-                <label for="">first Name:</label>
+<div class="row justify-content-center align-items-center">
+    <div class="col-6">
+        <form th:object="${user}" method="post">
+            <div class="form-group">
+                <label for="firstName">first Name:</label>
+                <input class="form-control" type="text" th:value="${user.firstName}" id="firstName" name="firstName">
             </div>
-            <div class="col-75">
-                <input type="text" th:value="${user.firstName}" id="firstName" name="firstName">
+            <div class="form-group">
+                <label for="lastName">last Name:</label>
+                <input class="form-control" type="text" th:value="${user.lastName}" id="lastName" name="lastName">
             </div>
-        </div>
-        <div class="row">
-            <div class="col-25">
-                <label for="">last Name:</label>
+            <div class="form-group">
+                <label for="phone">phone:</label>
+                <input class="form-control" type="text" th:value="${user.phone}" id="phone" name="phone">
             </div>
-            <div class="col-75">
-                <input type="text" th:value="${user.lastName}" id="lastName" name="lastName">
+            <div class="form-group">
+                <input class="form-control" type="submit" formaction="/customer/aboutme" value="Edit">
             </div>
-        </div>
-        <div class="row">
-            <div class="col-25">
-                <label for="">phone:</label>
-            </div>
-            <div class="col-75">
-                <input type="text" th:value="${user.phone}" id="phone" name="phone">
-            </div>
-        </div>
-        <div class="row">
-            <input type="submit" value="Edit">
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="../js/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="../js/mdb.min.js"></script>
 </body>
+
 </html>

@@ -21,7 +21,7 @@ public class DriverController {
 
     @RequestMapping(value = "/driver", method = RequestMethod.GET)
     public String getPage() {
-        return "driver/driver";
+        return "driver/startPageDriver";
     }
 
     @RequestMapping(value = "/driver/aboutDriver", method = RequestMethod.GET)

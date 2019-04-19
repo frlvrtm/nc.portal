@@ -20,6 +20,15 @@ public class UserDTO {
     public static String staticUsername = "";
     public static Role staticRole = Role.UNAUTHORIZED;
 
+    public UserDTO() {
+    }
+
+    public UserDTO(String username, String firstName, String lastName, String phone) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+    }
 /*    static String basicAuth = "";
 
     public static String getBasicAuth() {

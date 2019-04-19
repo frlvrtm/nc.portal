@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Create orders</title>
+    <title></title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <!-- Bootstrap core CSS -->
@@ -15,25 +15,25 @@
     <!-- Your custom styles (optional) -->
     <link href="../css/style.css" rel="stylesheet">
 </head>
+
 <body>
 <div class="row justify-content-center align-items-center">
     <div class="col-6">
-        <form action="/customer/create" th:object="${order}" method="post">
+        <form action="/operator/profile" th:object="${user}" method="post">
             <div class="form-group">
-                <label for="pointFrom">pointFrom</label>
-                <input class="form-control" id="pointFrom" type="text" th:field="*{pointFrom}" required>
+                <label for="firstName">first Name:</label>
+                <input class="form-control" type="text" th:value="${user.firstName}" id="firstName" name="firstName">
             </div>
             <div class="form-group">
-                <label for="pointTo">pointTo</label>
-                <input class="form-control" id="pointTo" type="text" th:field="*{pointTo}" required>
+                <label for="lastName">last Name:</label>
+                <input class="form-control" type="text" th:value="${user.lastName}" id="lastName" name="lastName">
             </div>
             <div class="form-group">
-                <label for="description">description</label>
-                <input class="form-control" id="description" type="text" th:field="*{description}">
+                <label for="phone">phone:</label>
+                <input class="form-control" type="text" th:value="${user.phone}" id="phone" name="phone">
             </div>
-            <br><br>
             <div class="form-group">
-                <input class="form-control" type="submit" value="Create">
+                <input class="form-control" type="submit" value="Edit">
             </div>
         </form>
     </div>
