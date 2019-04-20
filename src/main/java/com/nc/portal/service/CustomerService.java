@@ -26,6 +26,7 @@ public class CustomerService {
         headers.set("x-auth-token", token);
         return headers;
     }
+
     public UserDTO getUserByName(String token, String role) {
         if (role == "CUSTOMER") {
             URL = URL_ONE_CUST;

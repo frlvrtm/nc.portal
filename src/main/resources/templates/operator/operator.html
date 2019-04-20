@@ -41,56 +41,79 @@
 <table class="table table-hover table-nonfluid table-responsive text-center">
     <thead>
     <tr>
-        <th class="th-sm">idOrder</th>
-        <th class="th-sm">customer</th>
-        <th class="th-sm">pointFrom</th>
-        <th class="th-sm">pointTo</th>
-        <th class="th-sm">cost</th>
-        <th class="th-sm">startTime</th>
-        <th class="th-sm">endTime</th>
-        <th class="th-sm">driver</th>
-        <th class="th-sm">status</th>
-        <th class="th-sm">description</th>
+        <th class="th-sm">ID</th>
+        <th class="th-sm">Customer</th>
+        <th class="th-sm">Point from</th>
+        <th class="th-sm">Point to</th>
+        <th class="th-sm">Cost</th>
+        <th class="th-sm">Start time</th>
+        <th class="th-sm">End time</th>
+        <th class="th-sm">Driver</th>
+        <th class="th-sm">Status</th>
+        <th class="th-sm">Description</th>
 
     </tr>
     </thead>
     <tbody>
     <tr th:each="o : ${orders}">
         <form th:object="${order}" method="post">
-            <td><input class="form-control" type="text" size="2" th:value="${o.idOrder}" id="idOrder"
-                       name="idOrder" readonly="readonly"></td>
-            <td><input class="form-control" type="text" size="5" th:value="${o.customer}" id="customer"
-                       name="customer" readonly="readonly"></td>
-            <td><input class="form-control" type="text" th:value="${o.pointFrom}" id="pointFrom"
-                       name="pointFrom" readonly="readonly">
+            <td>
+                <input class="form-control" type="text" th:value="${o.idOrder}" id="idOrder"
+                       name="idOrder" style="width: 100%" readonly="readonly">
             </td>
-            <td><input class="form-control" type="text" th:value="${o.pointTo}" id="pointTo" name="pointTo"
-                       readonly="readonly"></td>
-            <td><input class="form-control" type="text" size="2" th:value="${o.cost}" id="cost" name="cost"
-                       readonly="readonly"></td>
-            <td><input class="form-control" type="text" size="6" th:value="${o.startTime}" id="startTime"
-                       name="startTime" readonly="readonly"></td>
-            <td><input class="form-control" type="text" size="6" th:value="${o.endTime}" id="endTime"
-                       name="endTime" readonly="readonly"></td>
-            <td><input class="form-control" type="text" size="5" th:value="${o.driver}" id="driver"
-                       name="driver">
+            <td>
+                <input class="form-control" type="text" th:value="${o.customer}" id="customer"
+                       name="customer" style="width: auto" readonly="readonly">
             </td>
-            <td><select class="form-control" th:field="*{status}">
+            <td>
+                <input class="form-control" type="text" th:value="${o.pointFrom}" id="pointFrom"
+                       name="pointFrom" style="width: auto" readonly="readonly">
+            </td>
+            <td>
+                <input class="form-control" type="text" th:value="${o.pointTo}" id="pointTo"
+                       name="pointTo" style="width: auto" readonly="readonly">
+            </td>
+            <td>
+                <input class="form-control" type="text" th:value="${o.cost}" id="cost"
+                       name="cost" style="width: 100%" readonly="readonly">
+            </td>
+            <td>
+                <input class="form-control" type="text" th:value="${o.startTime}" id="startTime"
+                       name="startTime" style="width: auto" readonly="readonly">
+            </td>
+            <td>
+                <input class="form-control" type="text" th:value="${o.endTime}" id="endTime"
+                       name="endTime" style="width: auto" readonly="readonly">
+            </td>
+            <td>
+                <input th:if="${o.driver != null}"
+                       class="form-control" type="text" th:value="${o.driver}" id="driver"
+                       name="driver" style="width: auto" readonly="readonly">
 
-                <option selected th:each="s : ${order.orderCust}"
-                        th:if="${o.status.toLowerCase().equals(s.toLowerCase())}" th:value="${s}"
-                        th:text="${s}">
-                </option>
-                <option th:each="s : ${order.orderCust}"
-                        th:unless="${o.status.toLowerCase().equals(s.toLowerCase())}" th:value="${s}"
-                        th:text="${s}">
-                </option>
-            </select></td>
-            <td><input class="form-control" type="text" th:value="${o.description}" id="description"
-                       name="description" readonly="readonly"></td>
-            <td><input class="form-control" type="submit" name="submit1" formaction="/operator/assigned" value="Update">
+                <select th:if="${o.driver == null}"
+                        class="form-control" type="text" th:value="${o.driver}" name="driver" style="width: 100%">
+                    <option th:if="${o.driver == null}"
+                            th:each="driv : ${drivers}"
+                            th:value="${driv.username}"
+                            th:utext="${driv.username}"
+                    />
+                </select>
+
             </td>
-            <td><input class="form-control" type="submit" name="submit2" formaction="/operator/close" value="Close">
+            <td>
+                <input class="form-control" type="text" th:value="${o.status}" id="status"
+                       name="status" style="width: auto" readonly="readonly">
+            </td>
+            <td>
+                <input class="form-control" type="text" th:value="${o.description}" id="description"
+                       name="description" style="width: auto" readonly="readonly">
+            </td>
+            <td th:if="${o.status == 'OPEN'}">
+                <input class="form-control" type="submit" name="submit1" formaction="/operator/assigned"
+                       value="Assigned">
+            </td>
+            <td th:if="${o.status == 'RESOLVED'}">
+                <input class="form-control" type="submit" name="submit2" formaction="/operator/close" value="Close">
             </td>
         </form>
     </tr>

@@ -32,10 +32,8 @@ public class AuthController {
                           HttpServletRequest request,
                           HttpServletResponse response) {
 
-        //System.out.println(Thread.currentThread().getName() + " " + Thread.currentThread().getId());
         authService.getRole(request, response, username, password);
 
-        //Role role = CookieUtil.getRole(request);
         Role role = RoleThreadLocal.getRole();
         if (role == Role.UNAUTHORIZED) {
             model.addAttribute("errorMessage", "Error: incorrect name or password");

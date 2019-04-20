@@ -21,7 +21,7 @@ public class PortalApplication extends SpringBootServletInitializer {
 		SpringApplication.run(PortalApplication.class, args);
 	}
 
-	@Bean
+/*	@Bean
 	public WebServerFactoryCustomizer customizer() {
 		return container -> {
 			if (container instanceof TomcatServletWebServerFactory) {
@@ -29,6 +29,6 @@ public class PortalApplication extends SpringBootServletInitializer {
 				tomcat.addContextCustomizers(context -> context.setCookieProcessor(new LegacyCookieProcessor()));
 			}
 		};
-	}
+	}*/
 
 }
