@@ -14,6 +14,9 @@
     <link href="../css/mdb.min.css" rel="stylesheet">
     <!-- Your custom styles (optional) -->
     <link href="../css/style.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/inputmask.js"></script>
 </head>
 
 <body>
@@ -51,7 +54,12 @@
             </div>
             <div class="form-group">
                 <label for="phone">phone:</label>
-                <input class="form-control" type="text" th:value="${user.phone}" id="phone" name="phone">
+
+                <input type="tel" th:value="${user.phone}"
+                       pattern="^\+\d\(\d{3}\)\d{3}-\d{2}-\d{2}$"
+                       class="form-control" id="phone" name="phone"
+                       title="+7(XXX)XXX-XX-XX"
+                >
             </div>
             <div class="form-group">
                 <input class="form-control" type="submit" value="Edit">
