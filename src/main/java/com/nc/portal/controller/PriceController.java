@@ -22,7 +22,9 @@ public class PriceController {
     }
 
     @RequestMapping(value = "price_page", method = RequestMethod.POST)
-    public void getPrice(@RequestParam("pointFrom") String pointFrom, @RequestParam("pointTo") String pointTo, Model model) {
+    public void getPrice(@RequestParam("pointFrom") String pointFrom,
+                         @RequestParam("pointTo") String pointTo,
+                         Model model) {
         Map result = priceService.getPrice(pointFrom, pointTo);
         model.addAttribute("Tariff", "tariff: " + result.get("tariff"));
         model.addAttribute("Distance", "distance: " + result.get("distance"));

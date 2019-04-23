@@ -5,6 +5,7 @@ import com.nc.portal.model.OrdersDTO;
 import com.nc.portal.model.UserDTO;
 import com.nc.portal.service.CustomerService;
 import com.nc.portal.service.OrdersService;
+import com.nc.portal.service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/customer")
@@ -23,6 +25,10 @@ public class CustomerController {
     OrdersService ordersService;
     @Autowired
     CustomerService customerService;
+    @Autowired
+    PriceService priceService;
+
+    private OrdersDTO createOrder = new OrdersDTO();
 
     public String decodeName(String dec) {
         byte[] base64Token = dec.split(" ")[1].getBytes(Charset.forName("US-ASCII"));
@@ -59,7 +65,7 @@ public class CustomerController {
         String username = decodeName(AuthThreadLocal.getAuth());
         int code = customerService.updateUser(username, firstName, lastName, phone, "CUSTOMER");
         if (code == 201) {
-            model.addAttribute("Message", "Data saved successfully!");
+            model.addAttribute("message", "Data saved successfully!");
         } else {
             model.addAttribute("errorMessage", "Error! Data not saved.");
         }
@@ -67,19 +73,36 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createOrder1(Model model) {
+    public String createOrderViewPage(Model model) {
         model.addAttribute("order", new OrdersDTO());
         return "customer/orderscreate";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createOrder2(@RequestParam("pointFrom") String pointFrom,
-                               @RequestParam("pointTo") String pointTo,
-                               @RequestParam("description") String description,
-                               Model model, HttpServletRequest request) {
-        String username = decodeName(AuthThreadLocal.getAuth());
-        ordersService.createOrder(request, username, pointFrom, pointTo, description);
+    public String createOrder(Model model, HttpServletRequest request) {
+        ordersService.createOrder(request, createOrder);
+        model.addAttribute("message", "Order created");
         model.addAttribute("order", new OrdersDTO());
-        return "redirect:/customer/myorders";
+        return "customer/orderscreate";
+    }
+
+    @RequestMapping(value = "/viewprice", method = RequestMethod.POST)
+    public String getPrice(@RequestParam("pointFrom") String pointFrom,
+                           @RequestParam("pointTo") String pointTo,
+                           @RequestParam("description") String description,
+                           Model model/*, HttpServletRequest request*/) {
+
+        Map result = priceService.getPrice(pointFrom, pointTo);
+        double price = Double.parseDouble(result.get("price").toString());
+        createOrder = new OrdersDTO(price, pointFrom, pointTo, description);
+        //Для формы с прайсом
+        model.addAttribute("createOrder", "");
+        model.addAttribute("Tariff", "Tariff: " + result.get("tariff"));
+        model.addAttribute("Distance", "Distance: " + result.get("distance"));
+        model.addAttribute("Price", "Price: " + price);
+
+        model.addAttribute("order", new OrdersDTO());
+
+        return "customer/orderscreate";
     }
 }

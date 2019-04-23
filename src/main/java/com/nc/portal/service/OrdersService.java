@@ -44,8 +44,6 @@ public class OrdersService implements GlobalConstants {
         try {
             ResponseEntity<OrdersDTO[]> exchange =
                     restTemplateUtil.exchange(request, URL_ORDERS, null, HttpMethod.GET, OrdersDTO[].class);
-
-            // ResponseEntity<OrdersDTO[]> responseEntity = restTemplate.getForEntity(GetURL, OrdersDTO[].class);
             List<OrdersDTO> list = Arrays.asList(exchange.getBody());
             return list;
         } catch (Exception e) {
@@ -54,15 +52,11 @@ public class OrdersService implements GlobalConstants {
     }
 
     //------------------------------------------------------------------------------------------------------------------
-    public int createOrder(HttpServletRequest request, String name, String pointFrom, String pointTo, String description) {
+    public int createOrder(HttpServletRequest request, OrdersDTO order) {
         try {
-            OrdersDTO order = new OrdersDTO(name, pointFrom, pointTo, description);
-            order.setStatus(OrderStatus.OPEN.toString());
-
             ResponseEntity<OrdersDTO> exchange =
                     restTemplateUtil.exchange(request, URL_CREATE_ORDERS, order, HttpMethod.POST, OrdersDTO.class);
 
-            //ResponseEntity<String> response = restTemplate.exchange(URL_CREATE_ORDERS, HttpMethod.POST, entity, String.class);
             int code = exchange.getStatusCode().value();
             return code;
         } catch (Exception e) {

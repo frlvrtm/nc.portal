@@ -71,6 +71,9 @@ public class CookieUtil {
         if (cookie == null) {
             return null;
         } else {
+            if (cookSize == 0){
+                return null;
+            }
             try {
                 String cook = cookie.getValue();
                 byte[] cookByte = new BigInteger(cook, 16).toByteArray();
@@ -106,7 +109,8 @@ public class CookieUtil {
                     return value.substring(delim + 1);
                 }
             } catch (Exception e) {
-
+                System.out.println(e.getMessage());
+                return null;
             }
         }
         return null;

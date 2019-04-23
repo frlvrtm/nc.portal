@@ -22,8 +22,8 @@ public class OrdersDTO {
     public OrdersDTO() {
     }
 
-    public OrdersDTO(String customer, String pointFrom, String pointTo, String description) {
-        this.customer = customer;
+    public OrdersDTO(double cost, String pointFrom, String pointTo, String description) {
+        this.cost = cost;
         this.pointFrom = pointFrom;
         this.pointTo = pointTo;
         this.description = description;
