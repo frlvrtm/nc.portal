@@ -67,11 +67,11 @@
             </td>
             <td>
                 <input class="form-control" type="text" th:value="${o.pointFrom}" id="pointFrom"
-                       name="pointFrom" style="width: auto" readonly="readonly">
+                       name="pointFrom" style="width: 400px" readonly="readonly">
             </td>
             <td>
                 <input class="form-control" type="text" th:value="${o.pointTo}" id="pointTo"
-                       name="pointTo" style="width: auto" readonly="readonly">
+                       name="pointTo" style="width: 400px" readonly="readonly">
             </td>
             <td>
                 <input class="form-control" type="text" th:value="${o.cost}" id="cost"
@@ -91,14 +91,13 @@
                        name="driver" style="width: auto" readonly="readonly">
 
                 <select th:if="${o.driver == null}"
-                        class="form-control" type="text" th:value="${o.driver}" name="driver" style="width: 100%">
+                        class="form-control" type="text" th:value="${o.driver}" name="driver" style="width: auto">
                     <option th:if="${o.driver == null}"
                             th:each="driv : ${drivers}"
                             th:value="${driv.username}"
                             th:utext="${driv.username}"
                     />
                 </select>
-
             </td>
             <td>
                 <input class="form-control" type="text" th:value="${o.status}" id="status"
@@ -106,7 +105,7 @@
             </td>
             <td>
                 <input class="form-control" type="text" th:value="${o.description}" id="description"
-                       name="description" style="width: auto" readonly="readonly">
+                       name="description" style="width: 200px" readonly="readonly">
             </td>
             <td th:if="${o.status == 'OPEN'}">
                 <input class="form-control" type="submit" name="submit1" formaction="/operator/assigned"

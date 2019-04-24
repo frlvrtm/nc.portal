@@ -1,58 +1,78 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>About me</title>
-    <link rel="stylesheet" href="../css/styleuserpage.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="../css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="../css/style.css" rel="stylesheet">
 </head>
+
 <body>
-<div class="container">
-    <h1>Edit your account:</h1>
-    <form action="#" th:action="@{/driver/aboutDriver}" th:object="${user}" method="post">
-        <div class="row">
-            <div class="col-25">
-                <label for="">first Name:</label>
-            </div>
-            <div class="col-75">
-                <input type="text" th:value="${user.firstName}" id="firstName" name="firstName">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-25">
-                <label for="">last Name:</label>
-            </div>
-            <div class="col-75">
-                <input type="text" th:value="${user.lastName}" id="lastName" name="lastName">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-25">
-                <label for="">phone:</label>
-            </div>
-            <div class="col-75">
-                <input type="text" th:value="${user.phone}" id="phone" name="phone">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-25">
-                <label for="">carNumber:</label>
-            </div>
-            <div class="col-75">
-                <input type="text" th:value="${user.carNumber}" id="carNumber" name="carNumber">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-25">
-                <label for="">realPoint:</label>
-            </div>
-            <div class="col-75">
-                <input type="text" th:value="${user.realPoint}" id="realPoint" name="realPoint">
-            </div>
-        </div>
-        <div class="row">
-            <input type="submit" value="Edit">
-        </div>
-    </form>
+
+<div th:if="${Message}">
+    <div class="alert alert-success alert-dismissible fade show" role="alert"
+         style="margin: 0; padding: 0; width: 100%; height: 50px; text-align: center">
+        <span th:text="${Message}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 </div>
+
+<div th:if="${errorMessage}">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert"
+         style="margin: 0; padding: 0; width: 100%; height: 50px; text-align: center">
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+
+<div class="row justify-content-center align-items-center">
+    <div class="col-6">
+        <form action="/driver/aboutDriver" th:object="${user}" method="post">
+            <div class="form-group">
+                <label for="firstName">first Name:</label>
+                <input class="form-control" type="text" th:value="${user.firstName}" id="firstName" name="firstName">
+            </div>
+            <div class="form-group">
+                <label for="lastName">last Name:</label>
+                <input class="form-control" type="text" th:value="${user.lastName}" id="lastName" name="lastName">
+            </div>
+            <div class="form-group">
+                <label for="phone">phone:</label>
+
+                <input type="tel" th:value="${user.phone}"
+                       pattern="^\+\d\(\d{3}\)\d{3}-\d{2}-\d{2}$"
+                       class="form-control" id="phone" name="phone"
+                       title="+7(XXX)XXX-XX-XX"
+                >
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="submit" value="Edit">
+            </div>
+        </form>
+    </div>
+</div>
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="../js/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="../js/mdb.min.js"></script>
 </body>
+
 </html>

@@ -1,55 +1,118 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title></title>
-    <link rel="stylesheet" type="text/css">
-</head>
-<body>
-<header>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-</header>
-<div class="menu">
-    <ul>
-        <li><a href="" class="active">Menu</a></li>
-        <li><a href="/logout">Log Out</a></li>
-    </ul>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="../css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div th:if="${Message}">
+    <div class="alert alert-success alert-dismissible fade show" role="alert"
+         style="margin: 0; padding: 0; width: 100%; height: 50px; text-align: center">
+        <span th:text="${Message}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 </div>
-<div class="content">
-    <form action="/driver" method="POST">
-        <table>
-            <thead>
-                <tr>
-                    <th><p>idOrder</p></th>
-                    <th><p>customer</p></th>
-                    <th><p>pointFrom</p></th>
-                    <th><p>pointTo</p></th>
-                    <th><p>weight</p></th>
-                    <th><p>price</p></th>
-                    <th><p>status</p></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><input type="text" name="idOrder"></td>
-                    <td><input type="text" name="customer"></td>
-                    <td><input type="text" name="pointFrom"></td>
-                    <td><input type="text" name="pointTo"></td>
-                    <td><input type="text" name="weight"></td>
-                    <td><input type="text" name="price"></td>
-                    <td>
-                        <select name="status">
-                            <option>inProgress</option>
-                            <option>resolved</option>
-                        </select>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <input type="submit" value="submit">
-    </form>
+
+<div th:if="${errorMessage}">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert"
+         style="margin: 0; padding: 0; width: 100%; height: 50px; text-align: center">
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 </div>
-<footer>
-    <a href="/driver/aboutDriver">about me</a>
-</footer>
+
+<table class="table table-hover table-nonfluid table-responsive text-center">
+    <thead>
+    <tr>
+        <th class="th-sm">ID</th>
+        <th class="th-sm">Customer</th>
+        <th class="th-sm">Point from</th>
+        <th class="th-sm">Point to</th>
+        <th class="th-sm">Cost</th>
+        <th class="th-sm">Start time</th>
+        <th class="th-sm">End time</th>
+        <th class="th-sm">Status</th>
+        <th class="th-sm">Description</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="o : ${orders}">
+        <form th:object="${order}" method="post">
+            <td>
+                <input class="form-control" type="text" th:value="${o.idOrder}" id="idOrder"
+                       name="idOrder" style="width: 100%" readonly="readonly">
+            </td>
+            <td>
+                <input class="form-control" type="text" th:value="${o.customer}" id="customer"
+                       name="customer" style="width: auto" readonly="readonly">
+            </td>
+            <td>
+                <input class="form-control" type="text" th:value="${o.pointFrom}" id="pointFrom"
+                       name="pointFrom" style="width: 400px" readonly="readonly">
+            </td>
+            <td>
+                <input class="form-control" type="text" th:value="${o.pointTo}" id="pointTo"
+                       name="pointTo" style="width: 400px" readonly="readonly">
+            </td>
+            <td>
+                <input class="form-control" type="text" th:value="${o.cost}" id="cost"
+                       name="cost" style="width: 100%" readonly="readonly">
+            </td>
+            <td>
+                <input class="form-control" type="text" th:value="${o.startTime}" id="startTime"
+                       name="startTime" style="width: auto" readonly="readonly">
+            </td>
+            <td>
+                <input class="form-control" type="text" th:value="${o.endTime}" id="endTime"
+                       name="endTime" style="width: auto" readonly="readonly">
+            </td>
+            <td>
+                <input class="form-control" type="text" th:value="${o.status}" id="status"
+                       name="status" style="width: auto" readonly="readonly">
+            </td>
+            <td>
+                <input class="form-control" type="text" th:value="${o.description}" id="description"
+                       name="description" style="width: 200px" readonly="readonly">
+            </td>
+            <td th:if="${o.status == 'ASSIGNED'}">
+                <input class="form-control" type="submit" name="submit1" formaction="/driver/inprogress"
+                       value="In Progress">
+            </td>
+            <td th:if="${o.status == 'INPROGRESS'}">
+                <input class="form-control" type="submit" name="submit2" formaction="/driver/resolved"
+                       value="Resolved">
+            </td>
+        </form>
+    </tr>
+    </tbody>
+</table>
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="../js/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="../js/mdb.min.js"></script>
 </body>
+
 </html>

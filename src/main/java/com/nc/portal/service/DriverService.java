@@ -20,25 +20,6 @@ public class DriverService implements GlobalConstants {
 
     @Autowired
     RestTemplateUtil restTemplateUtil;
-    
-    
-/*    private final String URL_ONE_DRIVER;
-    private final RestTemplate restTemplate = new RestTemplate();
-    public DriverService() {
-        this.URL_ONE_DRIVER = URL + "driver/name/?name=";
-    }
-
-    public UserDTO getUserDTO(String name) {
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            HttpEntity<String> request = new HttpEntity<>(headers);
-            ResponseEntity<UserDTO> response = restTemplate.exchange(URL_ONE_DRIVER + name, HttpMethod.GET, request, UserDTO.class);
-            return response.getBody();
-        } catch (Exception e) {
-            System.out.println("** Exception: " + e.getMessage());
-            return null;
-        }
-    }*/
 
     /*
         получает все заказыкот адресованы текущему водителю

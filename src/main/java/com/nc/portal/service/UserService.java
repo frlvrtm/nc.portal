@@ -15,17 +15,13 @@ public class UserService {
 
     private static final String URL_GET_OPERATOR = "operator/aboutme";
     private static final String URL_GET_CUSTOMER = "customer/aboutme";
+    private static final String URL_GET_DRIVER = "driver/aboutme";
 
     @Autowired
     RestTemplateUtil restTemplateUtil;
 
     public UserDTO getUserByName(HttpServletRequest request, Role role) {
-        String URL;
-        if (role == Role.CUSTOMER) {
-            URL = URL_GET_CUSTOMER;
-        } else {
-            URL = URL_GET_OPERATOR;
-        }
+        String URL = getURL(role);
         try {
             ResponseEntity<UserDTO> response = restTemplateUtil.exchange(request, URL, null,
                     HttpMethod.GET, UserDTO.class);
@@ -37,12 +33,7 @@ public class UserService {
     }
 
     public int updateUser(HttpServletRequest request, UserDTO userDTO, Role role) {
-        String URL;
-        if (role == Role.CUSTOMER) {
-            URL = URL_GET_CUSTOMER;
-        } else {
-            URL = URL_GET_OPERATOR;
-        }
+        String URL = getURL(role);
         try {
             ResponseEntity<UserDTO> response = restTemplateUtil.exchange(request, URL, userDTO,
                     HttpMethod.PUT, UserDTO.class);
@@ -51,6 +42,20 @@ public class UserService {
         } catch (Exception e) {
             return -1;
         }
+    }
+
+    private String getURL(Role role) {
+        String URL = "";
+        if (role == Role.CUSTOMER) {
+            URL = URL_GET_CUSTOMER;
+        }
+        if (role == Role.OPERATOR) {
+            URL = URL_GET_OPERATOR;
+        }
+        if (role == Role.DRIVER) {
+            URL = URL_GET_DRIVER;
+        }
+        return URL;
     }
 
 }
