@@ -99,18 +99,23 @@ public class CustomerController {
                            Model model/*, HttpServletRequest request*/) {
 
         Map result = priceService.getPrice(pointFrom, pointTo);
-        double price =-1;//Костыли!!!
-        if(result.get("price")!=null)
-            price =Double.parseDouble(result.get("price").toString());
-        createOrder = new OrdersDTO(price, pointFrom, pointTo, description);
-        //Для формы с прайсом
-        model.addAttribute("createOrder", true);
-        model.addAttribute("Tariff", "Tariff: " + result.get("tariff"));
-        model.addAttribute("Distance", "Distance: " + result.get("distance"));
-        model.addAttribute("Price", "Price: " + price);
+        if(result.get("price")!=null) {
+            double price = Double.parseDouble(result.get("price").toString());
+            createOrder = new OrdersDTO(price, pointFrom, pointTo, description);
+            //Для формы с прайсом
+            model.addAttribute("createOrder", true);
+            model.addAttribute("Tariff", "Tariff: " + result.get("tariff"));
+            model.addAttribute("Distance", "Distance: " + result.get("distance"));
+            model.addAttribute("Price", "Price: " + price);
 
-        model.addAttribute("order", new OrdersDTO());
-
+            model.addAttribute("order", new OrdersDTO());
+        }
+        else
+        {
+            model.addAttribute("errorMessage", "Address not found!.");
+            model.addAttribute("order", new OrdersDTO());
+            return "customer/orderscreate";
+        }
         return "customer/orderscreate";
     }
 }
