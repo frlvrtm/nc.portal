@@ -105,7 +105,8 @@ public class CustomerController {
             //Для формы с прайсом
             model.addAttribute("createOrder", true);
             model.addAttribute("Tariff", "Tariff: " + result.get("tariff"));
-            model.addAttribute("Distance", "Distance: " + result.get("distance"));
+            model.addAttribute("Distance", "Distance: " +
+                    Math.round((double)result.get("distance") * 1000d) / 1000d);
             model.addAttribute("Price", "Price: " + price);
 
             model.addAttribute("order", new OrdersDTO());
