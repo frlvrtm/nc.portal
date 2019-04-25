@@ -33,8 +33,13 @@
             <input type="text" name="username" placeholder="Enter username" required>
         </div>
         <div class="dws-input">
-            <input type="password" name="password" placeholder="Enter password" required>
+            <input id ="password" type="password" name="password" placeholder="Enter password" required>
         </div>
+        <div class="dws-input">
+            <input type="checkbox" id="showPass">
+            <label for="showPass">Show/Hide password</label>
+        </div>
+        <br/>
         <input class="dws-submit" type="submit" name="submit" value="Log In">
         <br/>
         <br/>
@@ -42,6 +47,18 @@
         <a href="/">Come back</a>
     </form>
 </div>
+<script type="application/javascript">
+    document.getElementById("showPass").addEventListener("click", function () {
+        var pwd1 = document.getElementById("password");
+        if (pwd1.getAttribute("type") === "password" ){
+            pwd1.setAttribute("type", "text");
+        } else {
+            pwd1.setAttribute("type", "password");
+        }
+    });
+</script>
+
+
 
 <!-- SCRIPTS -->
 <!-- JQuery -->

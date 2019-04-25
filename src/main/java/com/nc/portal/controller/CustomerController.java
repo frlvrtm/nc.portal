@@ -78,6 +78,12 @@ public class CustomerController {
         return "customer/orderscreate";
     }
 
+    @RequestMapping(value = "/viewprice", method = RequestMethod.GET)
+    public String cancelOrder(Model model) {
+        model.addAttribute("order", new OrdersDTO());
+        return "customer/orderscreate";
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createOrder(Model model, HttpServletRequest request) {
         ordersService.createOrder(request, createOrder);
@@ -93,10 +99,12 @@ public class CustomerController {
                            Model model/*, HttpServletRequest request*/) {
 
         Map result = priceService.getPrice(pointFrom, pointTo);
-        double price = Double.parseDouble(result.get("price").toString());
+        double price =-1;//Костыли!!!
+        if(result.get("price")!=null)
+            price =Double.parseDouble(result.get("price").toString());
         createOrder = new OrdersDTO(price, pointFrom, pointTo, description);
         //Для формы с прайсом
-        model.addAttribute("createOrder", "");
+        model.addAttribute("createOrder", true);
         model.addAttribute("Tariff", "Tariff: " + result.get("tariff"));
         model.addAttribute("Distance", "Distance: " + result.get("distance"));
         model.addAttribute("Price", "Price: " + price);

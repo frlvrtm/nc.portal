@@ -27,7 +27,8 @@ public class PriceController {
                          Model model) {
         Map result = priceService.getPrice(pointFrom, pointTo);
         model.addAttribute("Tariff", "tariff: " + result.get("tariff"));
-        model.addAttribute("Distance", "distance: " + result.get("distance"));
+        model.addAttribute("Distance", "distance: " +
+                Math.round((double)result.get("distance") * 1000d) / 1000d) ;
         model.addAttribute("Message", "price: " + result.get("price"));
     }
 
