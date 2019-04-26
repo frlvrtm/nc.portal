@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
-
 body, html {
     background-image: url(../img/bg11.jpg);
     background-repeat: no-repeat;
@@ -8,73 +7,10 @@ body, html {
     font-family: 'Gloria Hallelujah', cursive;
 }
 
-a {
-    color: #000;
-    font-size: 16px;
-}
-
-a:hover {
-    text-decoration: none;
-    color: #fff;
-}
-
-
-input[type="text"], input[type="password"] {
-    width: 300px;
-    height: 50px;
-    font-size: 18px;
-    margin-bottom: 25px;
-    border-radius: 4px;
-    padding-left: 10px;
-    font-family: 'Gloria Hallelujah', cursive;
-}
-
-.dws-submit {
-    background-color: #E2472F;/*#c51a1d;*/
-    height: 100%;
-    width: 50%;
-    border-radius: 6px;
-    cursor: pointer;
-    border: none;
-    color: #000;
-    font-size: 24px;
-    text-align: center;
-    font-family: 'Gloria Hallelujah', cursive;
-}
-
-.dws-submit:hover {
-    background-color: #df6920;
-}
-
-.dws-input input:hover {
-    box-shadow: 0 0 6px 3px rgba(230, 230, 230, 1);
-}
-
-.dws-alert {
-    position: fixed;
-    width: 450px;
-    background-color: #FF0000;
-    margin-top: -55px;
-    font-size: 24px;
-    text-align: center;
-    font-family: 'Gloria Hallelujah';
-}
-
-.welcome{
-    margin: 0px auto 0 auto;
-    font-size: 54px;
-    text-align: center;
-    font-family: 'Gloria Hallelujah', cursive;
-    color: #E2472F;
-}
-
 .message {
-    width: 450px;
-    height: auto;
-    display: none;
+    height: 400px;
+    display: block;
     margin: 10px auto 0 auto;
-    text-align: center;
-    transition: 2s;
     background-color: #f2f2f2;
     opacity: .9;
     padding: 20px;
@@ -104,4 +40,8 @@ input[type="text"], input[type="password"] {
     position: relative;
     left: -35px;
     content: "\2718";
+}
+
+.form-control {
+    height: 50px;
 }
