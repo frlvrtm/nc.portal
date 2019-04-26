@@ -3,58 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <title>Cost calculation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/price_page.css" type="text/css">
 </head>
 <body>
+
 <div class="container">
     <div th:if="${Message}">
         <div id="alert">
-            <span th:text="${Tariff}"></span><br/>
-            <span th:text="${Distance}"></span><br/>
-            <span th:text="${Message}"></span><br/>
-            <div class="row">
-                <div class="col-50">
-                    <a href="/auth" class="btn">Arrange delivery</a>
+            <div class="col-lg-12">
+                <span th:text="${Tariff}"></span><br/>
+                <span th:text="${Distance}"></span><br/>
+                <span th:text="${Message}"></span><br/>
+            </div>
+            <div class="row no-gutters">
+                <div class="col-lg-6">
+                    <a href="/auth" class="btn btn-success">Arrange delivery</a>
                 </div>
-                <div class="col-50">
-                    <a href="" class="btn" onclick="visible()">Close</a>
+                <div class="col-lg-6">
+                    <a href="" class="btn btn-dark" onclick="visible()">Close</a>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <form action="/price_page" method="POST">
-        <label for="pointFrom">PointFrom:</label><br>
-        <div class="q">
-            <input id="pointFrom" name="pointFrom" type="text" placeholder="Enter pointFrom">
-            <span class="tooltiptext">Template: Country, City, Street, House</span>
+<div class="container" style="margin-top: 10%;">
+    <div class="row no-gutters h-100 justify-content-center align-items-center text-center">
+        <div class="col-lg-5">
+            <form action="/price_page" method="POST">
+                <!-- <label for="pointFrom">PointFrom:</label><br> -->
+                <div class="form-group input-group">
+                    <input class="form-control" id="pointFrom" name="pointFrom" type="text"
+                           placeholder="Enter pointFrom" title="Template: Country, City, Street, House">
+                </div>
+                <!-- <label for="pointTo">PointTo:</label> -->
+                <div class="form-group input-group">
+                    <input class="form-control" id="pointTo" name="pointTo" type="text" placeholder="Enter pointTo"
+                           title="Template: Country, City, Street, House">
+                </div>
+                <br><input class="btn btn-success" type="submit" value="Сalculate the cost"><br/><br/>
+                <a id="comeBack" href="/" class="btn btn-dark">Come back</a>
+            </form>
         </div>
-        <label for="pointTo">PointTo:</label>
-        <div class="q">
-            <input id="pointTo" name="pointTo" type="text" placeholder="Enter pointTo">
-            <span class="tooltiptext">Template: Country, City, Street, House</span>
-        </div>
-        <br><input type="submit" value="Сalculate the cost"><br/><br/>
-        <a id="comeBack" href="/">Come back</a>
-        <!--
-                    <div class="dws-input">
-                        <label>Type of car:</label><br/>
-                        <select id="select_id" onchange="document.getElementById('weight').value=value">
-                            <option value=""></option>
-                            <option value="18">Gazelle (1.5 ton)</option>
-                            <option value="22">Goby (3 ton)</option>
-                        </select>
-                    </div>
-        -->
-    </form>
+    </div>
+</div>
+
 </div>
 <script type="application/javascript">
     function visible() {
         document.getElementById("alert").style.visibility = 'hidden';
     }
 </script>
-<script type="application/javascript">
 
-</script>
+
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="../js/mdb.min.js"></script>
 </body>
 </html>
