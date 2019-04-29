@@ -1,67 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title></title>
-    <link rel="stylesheet" href="../css/styleuserpage.css" type="text/css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="../css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
-<div class="container">
-    <form action="#" th:action="@{/admin/page}" th:object="${userDTO}" method="post">
-        <div class="row">
-            <div class="col-25">
+
+<div class="row justify-content-center align-items-center">
+    <div class="col-6">
+        <form action="/admin/createuser" th:object="${userDTO}" method="post">
+            <div class="form-group">
                 <label for="">Username:</label>
+                <input class="form-control" type="text" th:field="*{username}" placeholder="Enter username" required>
             </div>
-            <div class="col-75">
-                <input type="text" th:field="*{username}" placeholder="Enter username" required>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-25">
+            <div class="form-group">
                 <label for="">Password:</label>
+                <input class="form-control" type="password" th:field="*{password}" placeholder="Enter password"
+                       required>
             </div>
-            <div class="col-75">
-                <input type="password" th:field="*{password}" placeholder="Enter password" required>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-25">
+            <div class="form-group">
                 <label for="">First name:</label>
+                <input class="form-control" type="text" th:field="*{firstName}" placeholder="Enter first name" required>
             </div>
-            <div class="col-75">
-                <input type="text" th:field="*{firstName}" placeholder="Enter first name" required>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-25">
+            <div class="form-group">
                 <label for="">Last name:</label>
+                <input class="form-control" type="text" th:field="*{lastName}" placeholder="Enter last name" required>
             </div>
-            <div class="col-75">
-                <input type="text" th:field="*{lastName}" placeholder="Enter last name" required>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-25">
+            <div class="form-group">
                 <label for="">Phone number:</label>
+                <input class="form-control" type="text" th:field="*{phone}" placeholder="Enter phone number" required>
             </div>
-            <div class="col-75">
-                <input type="text" th:field="*{phone}" placeholder="Enter phone number" required>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-25">
+            <div class="form-group">
                 <label for="">Role:</label>
-            </div>
-            <div class="col-75">
-                <select th:field="*{role}">
+                <select class="form-control" th:field="*{role}">
                     <option value="DRIVER" th:text="DRIVER"></option>
                     <option value="OPERATOR" th:text="OPERATOR"></option>
                 </select>
             </div>
-        </div>
-        <div class="row">
-            <input class="dws-submit" type="submit" name="submit" value="Registration" id="id_subreg">
-        </div>
-    </form>
+            <div class="form-group">
+                <input class="btn btn-success" type="submit" name="submit" value="Registration" id="id_subreg">
+            </div>
+        </form>
+    </div>
 </div>
+
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="../js/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="../js/mdb.min.js"></script>
 </body>
 </html>

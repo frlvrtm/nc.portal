@@ -90,81 +90,113 @@ public class AdminController {
     @RequestMapping(value = "/admin/page", method = RequestMethod.GET)
     public String getPageAdd(HttpServletRequest request,
                              Model model) {
+//        Role role = CookieUtil.getRole(request);
+//        if (role == Role.ADMIN) {
+//            //все сотрудники
+//            model.addAttribute("form", new ListUser(adminService.getAllEmployees(request)));
+//            //форма для заполнения нового юзера
+//            model.addAttribute("userDTO", new UserDTO());
+//            //форма для заполнения новой машины
+//            model.addAttribute("carDTO", new CarDTO());
+//            //Список всех машин без водителей
+//            model.addAttribute("carsFree", adminService.getFreeCars(request));
+//            //Список всех машин
+//            model.addAttribute("carsAll", adminService.getAllCars(request));
+//            //alert
+//            for (String key : dictionary.keySet()) {
+//                model.addAttribute(key, dictionary.get(key));
+//            }
+//            //очистить словарь
+//            dictionary = new HashMap<>();
+//            return "admin/admin";
+//        } else
+//            return "error/access-denied";
+        return "admin/admin";
+    }
+
+    @RequestMapping(value = "/admin/showdrivers", method = RequestMethod.GET)
+    public String getDriv(HttpServletRequest request, Model model) {
         Role role = CookieUtil.getRole(request);
         if (role == Role.ADMIN) {
-            //все сотрудники
             model.addAttribute("form", new ListUser(adminService.getAllEmployees(request)));
-            //форма для заполнения нового юзера
-            model.addAttribute("userDTO", new UserDTO());
-            //форма для заполнения новой машины
-            model.addAttribute("carDTO", new CarDTO());
-            //Список всех машин без водителей
-            model.addAttribute("carsFree", adminService.getFreeCars(request));
-            //Список всех машин
-            model.addAttribute("carsAll", adminService.getAllCars(request));
-            //alert
-            for (String key : dictionary.keySet()) {
-                model.addAttribute(key, dictionary.get(key));
-            }
-            //очистить словарь
-            dictionary = new HashMap<>();
-            return "admin";
+            return "admin/showDrivers";
         } else
             return "error/access-denied";
     }
 
-    @RequestMapping(value = "/admin/page", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/showoperators", method = RequestMethod.GET)
+    public String getOper(HttpServletRequest request, Model model) {
+        Role role = CookieUtil.getRole(request);
+        if (role == Role.ADMIN) {
+            model.addAttribute("form", new ListUser(adminService.getAllEmployees(request)));
+            return "admin/showOperators";
+        } else
+            return "error/access-denied";
+    }
+
+    @RequestMapping(value = "/admin/showcars", method = RequestMethod.GET)
+    public String getCar(HttpServletRequest request, Model model) {
+        Role role = CookieUtil.getRole(request);
+        if (role == Role.ADMIN) {
+            model.addAttribute("form", new ListUser(adminService.getAllEmployees(request)));
+            model.addAttribute("carsFree", adminService.getFreeCars(request));
+            model.addAttribute("carsAll", adminService.getAllCars(request));
+            return "admin/showCars";
+        } else
+            return "error/access-denied";
+    }
+
+    @RequestMapping(value = "/admin/createuser", method = RequestMethod.POST)
     public String addUser(HttpServletRequest request,
-                          @ModelAttribute UserDTO userDTO) {
+                          @ModelAttribute UserDTO userDTO, Model model) {
         Role role = CookieUtil.getRole(request);
         if (role == Role.ADMIN) {
             int code = adminService.createEmployee(request, userDTO);
             switch (code) {
                 case 201:
-                    dictionary.put("infoMessage", "User added");
+                    model.addAttribute("Message", "Data savedUser added");
                     break;
                 case 406:
-                    dictionary.put("errorMessage", "Name already taken");
+                    model.addAttribute("errorMessage", "Name already taken");
                     break;
                 case -1:
-                    dictionary.put("errorMessage", "Unexpected error");
+                    model.addAttribute("errorMessage", "Unexpected error");
                     break;
             }
-            dictionary.put("flag1", "1");
-            return "redirect:/admin/page";
+            return "redirect:/admin/createuser";
         } else
             return "error/access-denied";
     }
 
+    /*
     @RequestMapping(value = "/admin/update", method = RequestMethod.POST)
     public String update(HttpServletRequest request,
                          @ModelAttribute("form") @Valid ListUser listUser,
-                         BindingResult bindingResult) {
+                         BindingResult bindingResult,
+                         Model model) {
         Role role = CookieUtil.getRole(request);
         if (role == Role.ADMIN) {
             if (bindingResult.hasErrors()) {
-                dictionary.put("errorMessage", "1 car selected for 2 drivers");
-                dictionary.put("flag2", "2");
-                return "redirect:/admin/page";
+                model.addAttribute("errorMessage", "1 car selected for 2 drivers");
+                return "redirect:/admin/update";
             }
             List<UserDTO> list = listUser.getList();
             int code = adminService.updateUsers(request, list);
             switch (code) {
                 case 0:
-                    dictionary.put("infoMessage", "No changes, no need to update");
+                    model.addAttribute("Message", "No changes, no need to update");
                     break;
                 case 201:
-                    dictionary.put("infoMessage", "Updated");
+                    model.addAttribute("Message", "Updated");
                     break;
                 case 400:
-                    dictionary.put("errorMessage", "Bad request");
+                    model.addAttribute("errorMessage", "Bad request");
                     break;
                 case -1:
-                    dictionary.put("errorMessage", "Unexpected error");
+                    model.addAttribute("errorMessage", "Unexpected error");
                     break;
             }
-            dictionary.put("flag2", "2");
-            return "redirect:/admin/page";
+            return "redirect:/admin/update";
         } else
             return "error/access-denied";
     }
@@ -172,37 +204,51 @@ public class AdminController {
     @RequestMapping(value = "/admin/delete", method = RequestMethod.POST)
     public String delete(HttpServletRequest request,
                          @ModelAttribute("form") ListUser listUser,
-                         @RequestParam String username) {
+                         @RequestParam String username,
+                         Model model) {
         Role role = CookieUtil.getRole(request);
         if (role == Role.ADMIN) {
             adminService.deleteEmployee(request, username);
-            dictionary.put("infoMessage", username + " deleted");
-            dictionary.put("flag2", "2");
-            return "redirect:/admin/page";
+            model.addAttribute("Message", username + " deleted");
+            return "redirect:/admin/delete";
         } else
             return "error/access-denied";
     }
+    */
 
-    @RequestMapping(value = "/admin/car", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/createcar", method = RequestMethod.POST)
     public String addCar(HttpServletRequest request,
-                         @ModelAttribute() CarDTO carDTO) {
+                         @ModelAttribute() CarDTO carDTO, Model model) {
         Role role = CookieUtil.getRole(request);
         if (role == Role.ADMIN) {
             int code = adminService.addCar(request, carDTO);
             switch (code) {
                 case 201:
-                    dictionary.put("infoMessage", "Car added");
+                    model.addAttribute("Message", "Data savedUser added");
                     break;
                 case 406:
-                    dictionary.put("errorMessage", "Number already taken");
+                    model.addAttribute("errorMessage", "Number already taken");
                     break;
                 case -1:
-                    dictionary.put("errorMessage", "Unexpected error");
+                    model.addAttribute("errorMessage", "Unexpected error");
                     break;
             }
-            dictionary.put("flag3", "3");
-            return "redirect:/admin/page";
+            return "redirect:/admin/createcar";
         } else
             return "error/access-denied";
     }
+
+    @RequestMapping(value = "/admin/createuser", method = RequestMethod.GET)
+    public String createUser(@ModelAttribute() UserDTO userDTO, Model model) {
+        model.addAttribute("userDTO", userDTO);
+        return "admin/createUser";
+    }
+
+    @RequestMapping(value = "/admin/createcar", method = RequestMethod.GET)
+    public String createCar(@ModelAttribute() CarDTO carDTO, Model model) {
+        model.addAttribute("carDTO", carDTO);
+        return "admin/createCar";
+    }
+
+
 }

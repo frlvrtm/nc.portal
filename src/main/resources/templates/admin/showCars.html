@@ -1,48 +1,91 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title></title>
-    <link rel="stylesheet" href="../css/styleuserpage.css" type="text/css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="../css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
 <div>
     <form action="#" th:action="@{/admin/update}" th:object="${form}" method="post">
-        <div class="row" style="overflow-x: auto;">
-            <table>
-                <thead>
-                <tr>
-                    <th>number</th>
-                    <th>model</th>
-                    <th>color</th>
-                    <th>driver</th>
-                </tr>
-                </thead>
-                <tbody>
+        <table class="table table-hover table-nonfluid table-responsive text-center">
+            <thead>
+            <tr>
+                <th class="th-sm">role</th>
+                <th class="th-sm">username</th>
+                <th class="th-sm">first_name</th>
+                <th class="th-sm">last_name</th>
+                <th class="th-sm">phone_number</th>
+                <th class="th-sm">car_number</th>
+                <!-- <th>driver_real_point</th>-->
+            </tr>
+            </thead>
+            <tbody>
 
-                <tr th:each="car : ${carsAll}">
-                    <td><p type="text" th:text="${car.number}"></p></td>
-                    <td><p type="text" th:text="${car.model}"></p></td>
-                    <td><p type="text" th:text="${car.color}"></p></td>
-                    <td><p type="text" th:text="${car.driver}"></p></td>
+            <tr th:each="user, itemStat : *{list}" th:if="${user.role == 'DRIVER'}">
+                <td>
+                    <p type="text" th:text="*{list[__${itemStat.index}__].role}"></p>
+                    <input class="form-control" type="text" th:field="*{list[__${itemStat.index}__].role}" hidden/>
+                </td>
+                <td>
+                    <p type="text" th:text="*{list[__${itemStat.index}__].username}"></p>
+                    <input class="form-control" type="text" th:field="*{list[__${itemStat.index}__].username}" hidden/>
+                    <!--   <input type="text" th:value="${userDel.username}" hidden/>-->
+                </td>
+                <td><input class="form-control" type="text"
+                           th:field="*{list[__${itemStat.index}__].firstName}"/></td>
+                <td><input class="form-control" type="text"
+                           th:field="*{list[__${itemStat.index}__].lastName}"/></td>
+                <td><input class="form-control" type="text"
+                           th:field="*{list[__${itemStat.index}__].phone}"/></td>
 
+                <td>
+                    <select class="form-control" type="text" th:field="*{list[__${itemStat.index}__].carNumber}">
+                        <option th:if="${user.carNumber}"
+                                th:value="${user.carNumber}"
+                                th:utext="${user.carNumber}"></option>
+                        <option th:unless="${user.carNumber}" th:value="${user.carNumber}">--</option>
+                        <option th:each="car : ${carsFree}"
+                                th:value="${car.number}"
+                                th:utext="${car.number}"/>
+                    </select>
+                </td>
+                <td>
+                    <form name="f" th:action="@{/admin/delete}" method="post">
+                        <input class="form-control" type="hidden" name="username"
+                               th:value="*{list[__${itemStat.index}__].username}"/>
+                        <button class="btn btn-success" type="submit">X</button>
+                    </form>
+                </td>
 
-                    <td>
-                        <!-- <form name="f" th:action="@{/admin/delete}" method="post">-->
-                        <input type="hidden" name="number"
-                               th:value="${car.number}"/>
-                        <button type="submit">X</button>
-                        <!--    </form>-->
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="row">
-            <div class="center">
-                <input class="dws-submit" type="submit" name="submit" value="Update" id="sub_update">
-            </div>
+                <!-- <td th:if="${#fields.hasErrors('carNumber')}" th:errors="${user.carNumber}">Test Error</td>-->
+
+            </tr>
+            </tbody>
+        </table>
+        <div class="form-group">
+            <input class="btn btn-success" type="submit" name="submit" value="Update" id="sub_update">
         </div>
     </form>
 </div>
+
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="../js/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="../js/mdb.min.js"></script>
 </body>
 </html>
