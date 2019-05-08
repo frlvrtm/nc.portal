@@ -1,42 +1,38 @@
 package com.nc.portal.service;
 
 
-import com.nc.portal.model.Role;
+import com.nc.portal.model.AuthThreadLocal;
 import com.nc.portal.model.UserDTO;
-import org.json.JSONObject;
+import com.nc.portal.utils.CookieUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import com.nc.portal.utils.RestTemplateUtil;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class CustomerService {
     private final String URL_ONE_CUST;
     private final String URL_ONE_OPER;
     private String URL;
-    private final RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    RestTemplateUtil restTemplateUtil;
 
     public CustomerService() {
         this.URL_ONE_CUST = GlobalConstants.URL + "customer/name";
         this.URL_ONE_OPER = GlobalConstants.URL + "operator/name";
     }
-    private HttpHeaders createTokenHttpHeaders(String token) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("x-auth-token", token);
-        return headers;
-    }
-
-    public UserDTO getUserByName(String token, String role) {
+/*
+    public UserDTO getUserByName(HttpServletRequest request, String role) {
         if (role == "CUSTOMER") {
             URL = URL_ONE_CUST;
         } else
             URL = URL_ONE_OPER;
         try {
-            String name=token.split(":")[0];
-            HttpHeaders headers = createTokenHttpHeaders(token);
-            HttpEntity<String> request = new HttpEntity<>(headers);
-            ResponseEntity<UserDTO> response = restTemplate.exchange(URL + "?name=" + name, HttpMethod.GET, request, UserDTO.class);
+            ResponseEntity<UserDTO> response = restTemplateUtil.exchange(URL + "?name=" + name, HttpMethod.GET, request, UserDTO.class);
             return response.getBody();
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
@@ -50,7 +46,7 @@ public class CustomerService {
         } else
             URL = URL_ONE_OPER;
         try {
-            String name=token.split(":")[0];
+            String name = token.split(":")[0];
             UserDTO userDTO = new UserDTO(name, fname, sname, phone);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -62,5 +58,5 @@ public class CustomerService {
         } catch (Exception e) {
             return -1;
         }
-    }
+    }*/
 }
