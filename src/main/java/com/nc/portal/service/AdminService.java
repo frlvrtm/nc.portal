@@ -6,12 +6,13 @@ import com.nc.portal.utils.RestTemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AdminService {
@@ -70,12 +71,12 @@ public class AdminService {
     public int updateUsers(HttpServletRequest request, List<UserDTO> listUpdate) {
         try {
             List<UserDTO> listOld = getAllEmployees(request);
-
             UserDTO[] users = new UserDTO[listOld.size()];
             int count = 0;
-            for (int i = 0; i < listOld.size(); i++) {
+            for (int i = 0; i < 2; i++) {
                 if (!listOld.get(i).equals(listUpdate.get(i))) {
                     users[count] = listUpdate.get(i);
+                    System.out.println(Arrays.toString(users));
                     count++;
                 }
             }
@@ -110,6 +111,5 @@ public class AdminService {
             return -1;
         }
     }
-
 
 }

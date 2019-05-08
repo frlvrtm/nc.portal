@@ -32,6 +32,7 @@ public class RestTemplateUtil {
                 new HttpEntity<>(requestBody, addHeaders(request,url));
         try {
             ResponseEntity<T> responseEntity = restTemplate.exchange(BASE_URL + url, method, entity, responseType);
+            System.out.println(entity);
             return responseEntity;
         } catch (HttpStatusCodeException e) {
             //Вернем с ответ с ошибкой

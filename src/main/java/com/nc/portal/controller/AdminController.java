@@ -168,7 +168,6 @@ public class AdminController {
             return "error/access-denied";
     }
 
-    /*
     @RequestMapping(value = "/admin/update", method = RequestMethod.POST)
     public String update(HttpServletRequest request,
                          @ModelAttribute("form") @Valid ListUser listUser,
@@ -204,7 +203,7 @@ public class AdminController {
     @RequestMapping(value = "/admin/delete", method = RequestMethod.POST)
     public String delete(HttpServletRequest request,
                          @ModelAttribute("form") ListUser listUser,
-                         @RequestParam String username,
+                         @RequestParam("username") String username,
                          Model model) {
         Role role = CookieUtil.getRole(request);
         if (role == Role.ADMIN) {
@@ -214,7 +213,6 @@ public class AdminController {
         } else
             return "error/access-denied";
     }
-    */
 
     @RequestMapping(value = "/admin/createcar", method = RequestMethod.POST)
     public String addCar(HttpServletRequest request,
