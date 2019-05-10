@@ -32,8 +32,8 @@ public class AdminController {
     @Autowired
     ListUserValidator listUserValidator;
 
-    //Словарь для добавления аттрибутов в модель
-    private Map<String, String> dictionary = new HashMap<>();
+    private String message = null;
+    private String errorMessage = null;
 
     @InitBinder("form")
     public void initBinder(WebDataBinder binder, HttpServletRequest request) {
@@ -115,138 +115,149 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/showdrivers", method = RequestMethod.GET)
-    public String getDriv(HttpServletRequest request, Model model) {
-        Role role = CookieUtil.getRole(request);
-        if (role == Role.ADMIN) {
-            model.addAttribute("form", new ListUser(adminService.getAllEmployees(request)));
-            return "admin/showDrivers";
-        } else
-            return "error/access-denied";
+    public String getDrivers(HttpServletRequest request, Model model) {
+        model.addAttribute("form", new ListUser(adminService.getAllEmployees(request)));
+        model.addAttribute("carsFree", adminService.getFreeCars(request));
+        model = showAlert(model);
+        return "admin/showDrivers";
     }
 
     @RequestMapping(value = "/admin/showoperators", method = RequestMethod.GET)
-    public String getOper(HttpServletRequest request, Model model) {
-        Role role = CookieUtil.getRole(request);
-        if (role == Role.ADMIN) {
-            model.addAttribute("form", new ListUser(adminService.getAllEmployees(request)));
-            return "admin/showOperators";
-        } else
-            return "error/access-denied";
+    public String getOperators(HttpServletRequest request, Model model) {
+        model.addAttribute("form", new ListUser(adminService.getAllEmployees(request)));
+        model = showAlert(model);
+        return "admin/showOperators";
     }
 
     @RequestMapping(value = "/admin/showcars", method = RequestMethod.GET)
-    public String getCar(HttpServletRequest request, Model model) {
-        Role role = CookieUtil.getRole(request);
-        if (role == Role.ADMIN) {
-            model.addAttribute("form", new ListUser(adminService.getAllEmployees(request)));
-            model.addAttribute("carsFree", adminService.getFreeCars(request));
-            model.addAttribute("carsAll", adminService.getAllCars(request));
-            return "admin/showCars";
-        } else
-            return "error/access-denied";
+    public String getCars(HttpServletRequest request, Model model) {
+        //model.addAttribute("form", new ListUser(adminService.getAllEmployees(request)));
+        // model.addAttribute("carsFree", adminService.getFreeCars(request));
+        model.addAttribute("carsAll", adminService.getAllCars(request));
+        model = showAlert(model);
+        return "admin/showCars";
+    }
+
+
+    @RequestMapping(value = "/admin/createuser", method = RequestMethod.GET)
+    public String createUser(@ModelAttribute() UserDTO userDTO, Model model) {
+        model.addAttribute("userDTO", userDTO);
+        model = showAlert(model);
+        return "admin/createUser";
     }
 
     @RequestMapping(value = "/admin/createuser", method = RequestMethod.POST)
     public String addUser(HttpServletRequest request,
-                          @ModelAttribute UserDTO userDTO, Model model) {
-        Role role = CookieUtil.getRole(request);
-        if (role == Role.ADMIN) {
-            int code = adminService.createEmployee(request, userDTO);
-            switch (code) {
-                case 201:
-                    model.addAttribute("Message", "Data savedUser added");
-                    break;
-                case 406:
-                    model.addAttribute("errorMessage", "Name already taken");
-                    break;
-                case -1:
-                    model.addAttribute("errorMessage", "Unexpected error");
-                    break;
-            }
-            return "redirect:/admin/createuser";
-        } else
-            return "error/access-denied";
+                          @ModelAttribute UserDTO userDTO) {
+        //откуда пришел запрос
+        String referer = request.getHeader("referer");
+        int index = referer.lastIndexOf('/');
+        String show = referer.substring(index + 1);
+
+        int code = adminService.createEmployee(request, userDTO);
+        switch (code) {
+            case 201:
+                message = "Data saved, User added";
+                break;
+            case 406:
+                errorMessage = "Name already taken";
+                break;
+            case -1:
+                errorMessage = "Unexpected error";
+                break;
+        }
+        return "redirect:/admin/" + show;
     }
 
     @RequestMapping(value = "/admin/update", method = RequestMethod.POST)
     public String update(HttpServletRequest request,
                          @ModelAttribute("form") @Valid ListUser listUser,
-                         BindingResult bindingResult,
-                         Model model) {
-        Role role = CookieUtil.getRole(request);
-        if (role == Role.ADMIN) {
-            if (bindingResult.hasErrors()) {
-                model.addAttribute("errorMessage", "1 car selected for 2 drivers");
-                return "redirect:/admin/update";
-            }
-            List<UserDTO> list = listUser.getList();
-            int code = adminService.updateUsers(request, list);
-            switch (code) {
-                case 0:
-                    model.addAttribute("Message", "No changes, no need to update");
-                    break;
-                case 201:
-                    model.addAttribute("Message", "Updated");
-                    break;
-                case 400:
-                    model.addAttribute("errorMessage", "Bad request");
-                    break;
-                case -1:
-                    model.addAttribute("errorMessage", "Unexpected error");
-                    break;
-            }
+                         BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            errorMessage = "1 car selected for 2 drivers";
             return "redirect:/admin/update";
-        } else
-            return "error/access-denied";
+        }
+
+        //откуда пришел запрос
+        String referer = request.getHeader("referer");
+        int index = referer.lastIndexOf('/');
+        String show = referer.substring(index + 1);
+
+        List<UserDTO> list = listUser.getList();
+        int code = adminService.updateUsers(request, list);
+        switch (code) {
+            case 0:
+                message = "No changes, no need to update";
+                break;
+            case 200:
+                message = "Updated";
+                break;
+            case 400:
+                errorMessage = "Bad request";
+                break;
+            case -1:
+                errorMessage = "Unexpected error";
+                break;
+        }
+        return "redirect:/admin/" + show;
     }
 
     @RequestMapping(value = "/admin/delete", method = RequestMethod.POST)
     public String delete(HttpServletRequest request,
-                         @ModelAttribute("form") ListUser listUser,
                          @RequestParam("username") String username,
                          Model model) {
-        Role role = CookieUtil.getRole(request);
-        if (role == Role.ADMIN) {
-            adminService.deleteEmployee(request, username);
-            model.addAttribute("Message", username + " deleted");
-            return "redirect:/admin/delete";
-        } else
-            return "error/access-denied";
+        //откуда пришел запрос
+        String referer = request.getHeader("referer");
+        int index = referer.lastIndexOf('/');
+        String show = referer.substring(index + 1);
+
+        adminService.deleteEmployee(request, username);
+        message = username + " deleted";
+        return "redirect:/admin/" + show;
+    }
+
+    @RequestMapping(value = "/admin/createcar", method = RequestMethod.GET)
+    public String createCar(@ModelAttribute CarDTO carDTO, Model model) {
+        model.addAttribute("carDTO", carDTO);
+        model = showAlert(model);
+        return "admin/createCar";
     }
 
     @RequestMapping(value = "/admin/createcar", method = RequestMethod.POST)
     public String addCar(HttpServletRequest request,
-                         @ModelAttribute() CarDTO carDTO, Model model) {
-        Role role = CookieUtil.getRole(request);
-        if (role == Role.ADMIN) {
-            int code = adminService.addCar(request, carDTO);
-            switch (code) {
-                case 201:
-                    model.addAttribute("Message", "Data savedUser added");
-                    break;
-                case 406:
-                    model.addAttribute("errorMessage", "Number already taken");
-                    break;
-                case -1:
-                    model.addAttribute("errorMessage", "Unexpected error");
-                    break;
-            }
-            return "redirect:/admin/createcar";
-        } else
-            return "error/access-denied";
+                         @ModelAttribute() CarDTO carDTO) {
+
+        //откуда пришел запрос
+        String referer = request.getHeader("referer");
+        int index = referer.lastIndexOf('/');
+        String show = referer.substring(index + 1);
+
+        int code = adminService.addCar(request, carDTO);
+        switch (code) {
+            case 201:
+                message = "Data saved, Car added";
+                break;
+            case 406:
+                errorMessage = "Number already taken";
+                break;
+            case -1:
+                errorMessage = "Unexpected error";
+                break;
+        }
+        return "redirect:/admin/" + show;
     }
 
-    @RequestMapping(value = "/admin/createuser", method = RequestMethod.GET)
-    public String createUser(@ModelAttribute() UserDTO userDTO, Model model) {
-        model.addAttribute("userDTO", userDTO);
-        return "admin/createUser";
+    //опять костыль
+    private Model showAlert(Model model) {
+        if (message != null) {
+            model.addAttribute("Message", message);
+        }
+        if (errorMessage != null) {
+            model.addAttribute("errorMessage", errorMessage);
+        }
+        message = null;
+        errorMessage = null;
+        return model;
     }
-
-    @RequestMapping(value = "/admin/createcar", method = RequestMethod.GET)
-    public String createCar(@ModelAttribute() CarDTO carDTO, Model model) {
-        model.addAttribute("carDTO", carDTO);
-        return "admin/createCar";
-    }
-
-
 }

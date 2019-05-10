@@ -16,6 +16,26 @@
 </head>
 <body>
 
+<div th:if="${Message}">
+    <div class="alert alert-success alert-dismissible fade show" role="alert"
+         style="margin: 0; padding: 0; width: 100%; height: 50px; text-align: center">
+        <span th:text="${Message}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+<div th:if="${errorMessage}">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert"
+         style="margin: 0; padding: 0; width: 100%; height: 50px; text-align: center">
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+
+
 <div class="row justify-content-center align-items-center">
     <div class="col-6">
         <form action="/admin/createcar" th:object="${carDTO}" method="post">
@@ -25,11 +45,25 @@
             </div>
             <div class="form-group">
                 <label for="">Model:</label>
-                <input class="form-control" type="text" th:field="*{model}" placeholder="Enter model" required>
+                <select class="form-control" th:field="*{model}">
+                    <option value="Lada" th:text="Lada"></option>
+                    <option value="Daewoo" th:text="Daewoo"></option>
+                    <option value="Ford" th:text="Ford"></option>
+                    <option value="Hyundai" th:text="Hyundai"></option>
+                    <option value="BMW" th:text="BMW"></option>
+                    <option value="Audi" th:text="Audi"></option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="">Color:</label>
-                <input class="form-control" type="text" th:field="*{color}" placeholder="Enter color" required>
+                <select class="form-control" th:field="*{color}">
+                    <option value="RED" th:text="RED"></option>
+                    <option value="GREEN" th:text="GREEN"></option>
+                    <option value="BLUE" th:text="BLUE"></option>
+                    <option value="YELLOW" th:text="YELLOW"></option>
+                    <option value="BLACK" th:text="BLACK"></option>
+                    <option value="WHITE" th:text="WHITE"></option>
+                </select>
             </div>
             <div class="form-group">
                 <input class="btn btn-success" type="submit" name="submit" value="Registration" id="id_subreg1">

@@ -73,18 +73,20 @@ public class AdminService {
             List<UserDTO> listOld = getAllEmployees(request);
             UserDTO[] users = new UserDTO[listOld.size()];
             int count = 0;
-            for (int i = 0; i < 2; i++) {
-                if (!listOld.get(i).equals(listUpdate.get(i))) {
-                    users[count] = listUpdate.get(i);
-                    System.out.println(Arrays.toString(users));
-                    count++;
+            for (int i = 0; i < listUpdate.size(); i++) {
+                if (!listOld.contains(listUpdate.get(i))) {
+                    //Костыль
+                    if (!(listUpdate.get(i).getRole() == null)) {
+                        users[count] = listUpdate.get(i);
+                        count++;
+                    }
                 }
             }
             if (count == 0)
                 return 0;
             users = Arrays.copyOf(users, count);
 
-            ResponseEntity<UserDTO[]> response = restTemplateUtil.exchange(request, URL_EMPLOYEES, users, HttpMethod.PUT, UserDTO[].class);
+            ResponseEntity<UserDTO[]> response = restTemplateUtil.exchange(request, URL_EMPLOYEES + "/update", users, HttpMethod.PUT, UserDTO[].class);
             return response.getStatusCode().value();
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
@@ -94,7 +96,7 @@ public class AdminService {
 
     public int deleteEmployee(HttpServletRequest request, String username) {
         try {
-            ResponseEntity<String> response = restTemplateUtil.exchange(request, URL_EMPLOYEES, username, HttpMethod.DELETE, String.class);
+            ResponseEntity<String> response = restTemplateUtil.exchange(request, URL_EMPLOYEES + "/delete", username, HttpMethod.DELETE, String.class);
             return response.getStatusCode().value();
         } catch (Exception e) {
             System.out.println("** Exception: " + e.getMessage());
