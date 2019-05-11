@@ -16,7 +16,7 @@ public class RestTemplateUtil {
 
     public static final String BASE_URL = "http://localhost:8082/";
     private RestTemplate restTemplate;
-
+    //public static final String BASE_URL ="https://localhost:8443/server-1/";
     public RestTemplateUtil() {
         this.restTemplate = new RestTemplate();
     }

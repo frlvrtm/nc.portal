@@ -70,7 +70,8 @@ public class AuthService implements GlobalConstants {
     }
 
     public void logout(HttpServletRequest request) {
-        restTemplateUtil.exchange(request, URL_LOGOUT, null, HttpMethod.GET, String.class);
+        ResponseEntity<String> exchange =  restTemplateUtil.exchange(request, URL_LOGOUT, null, HttpMethod.GET, String.class);
+        int code = exchange.getStatusCode().value();
     }
 
 
