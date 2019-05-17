@@ -108,11 +108,11 @@
                        name="description" style="width: 200px" readonly="readonly">
             </td>
             <td th:if="${o.status == 'OPEN'}">
-                <input class="form-control" type="submit" name="submit1" formaction="/operator/assigned"
+                <input class="form-control" style="background-color: #ffc107; color: #000;" type="submit" name="submit1" formaction="/operator/assigned"
                        value="Assigned">
             </td>
             <td th:if="${o.status == 'RESOLVED'}">
-                <input class="form-control" type="submit" name="submit2" formaction="/operator/close" value="Close">
+                <input class="form-control" style="background-color: #dc3545; color: #fff;" type="submit" name="submit2" formaction="/operator/close" value="Close">
             </td>
         </form>
     </tr>

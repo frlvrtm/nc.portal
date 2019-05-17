@@ -38,30 +38,33 @@
     </div>
 </div>
 
-<div class="row justify-content-center align-items-center">
-    <div class="col-6">
-        <form action="/driver/aboutDriver" th:object="${user}" method="post">
-            <div class="form-group">
+<div class="container">
+    <div class="row no-gutters h-100 justify-content-center align-items-center">
+        <div class="col-lg-5">
+            <form action="/driver/aboutDriver" th:object="${user}" method="post">
                 <label for="firstName">first Name:</label>
-                <input class="form-control" type="text" th:value="${user.firstName}" id="firstName" name="firstName">
-            </div>
-            <div class="form-group">
+                <div class="form-group">
+                    <input class="form-control" type="text" th:value="${user.firstName}" id="firstName"
+                           name="firstName">
+                </div>
                 <label for="lastName">last Name:</label>
-                <input class="form-control" type="text" th:value="${user.lastName}" id="lastName" name="lastName">
-            </div>
-            <div class="form-group">
-                <label for="phone">phone:</label>
-
-                <input type="tel" th:value="${user.phone}"
-                       pattern="^\+\d\(\d{3}\)\d{3}-\d{2}-\d{2}$"
-                       class="form-control" id="phone" name="phone"
-                       title="+7(XXX)XXX-XX-XX"
-                >
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="submit" value="Edit">
-            </div>
-        </form>
+                <div class="form-group">
+                    <input class="form-control" type="text" th:value="${user.lastName}" id="lastName" name="lastName"
+                    >
+                </div>
+                <label for="phone">phone:</label><br>
+                <div class="form-group">
+                    <input type="tel" th:value="${user.phone}"
+                           pattern="^\+\d\(\d{3}\)\d{3}-\d{2}-\d{2}$"
+                           class="form-control" id="phone" name="phone"
+                           title="+7(XXX)XXX-XX-XX"
+                    >
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-success" type="submit" value="Edit">
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 <!-- SCRIPTS -->

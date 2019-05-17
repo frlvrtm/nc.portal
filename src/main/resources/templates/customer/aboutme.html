@@ -38,34 +38,34 @@
     </div>
 </div>
 
-<div class="row justify-content-center align-items-center">
-    <div class="col-6">
-        <form th:object="${user}" method="post">
-            <div class="form-group">
+<div class="container">
+    <div class="row no-gutters h-100 justify-content-center align-items-center">
+        <div class="col-lg-5">
+            <form th:object="${user}" method="post">
                 <label for="firstName">first Name:</label>
-                <input class="form-control" type="text" th:value="${user.firstName}" id="firstName" name="firstName">
-            </div>
-            <div class="form-group">
+                <div class="form-group">
+                    <input class="form-control" type="text" th:value="${user.firstName}" id="firstName"
+                           name="firstName">
+                </div>
                 <label for="lastName">last Name:</label>
-                <input class="form-control" type="text" th:value="${user.lastName}" id="lastName" name="lastName">
-            </div>
-            <div class="form-group">
+                <div class="form-group">
+                    <input class="form-control" type="text" th:value="${user.lastName}" id="lastName" name="lastName">
+                </div>
                 <label for="phone">phone:</label>
-                <input class="form-control" type="text" th:value="${user.phone}" id="phone" name="phone"
-                       pattern="^\+\d\(\d{3}\)\d{3}-\d{2}-\d{2}$"
-                       title="+7(XXX)XXX-XX-XX">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="submit" formaction="/customer/aboutme" value="Edit">
-            </div>
-        </form>
+                <div class="form-group">
+                    <input class="form-control" type="text" th:value="${user.phone}" id="phone" name="phone"
+                           pattern="^\+\d\(\d{3}\)\d{3}-\d{2}-\d{2}$"
+                           title="+7(XXX)XXX-XX-XX">
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-success" type="submit" formaction="/customer/aboutme" value="Edit">
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-<!-- SCRIPTS -->
-<!-- JQuery -->
+
 <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
-<!-- Bootstrap tooltips -->
-<script type="text/javascript" src="../js/popper.min.js"></script>
 <!-- Bootstrap core JavaScript -->
 <script type="text/javascript" src="../js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->

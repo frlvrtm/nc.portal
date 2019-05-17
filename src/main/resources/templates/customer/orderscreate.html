@@ -39,48 +39,52 @@
     </div>
 </div>
 
-<div th:if="${createOrder}">
-    <div id="alert">
-        <span th:text="${Tariff}"></span><br/>
-        <span th:text="${Distance}"></span><br/>
-        <span th:text="${Price}"></span><br/>
-        <div class="row">
-            <div class="col-50">
-                <form action="/customer/create" th:object="${order}" method="post">
-                    <input class="form-control" type="submit" value="Arrange delivery">
-                </form>
-                <!--                <a href="/customer/create" class="btn" method="post">Arrange delivery</a>-->
+<div class="container">
+    <div th:if="${createOrder}">
+        <div id="alert">
+            <div class="col-lg-12">
+                <span th:text="${Tariff}"></span><br/>
+                <span th:text="${Distance}"></span><br/>
+                <span th:text="${Price}"></span><br/>
             </div>
-            <div class="col-50">
-                <a href="" class="btn" onclick="visible()">Close</a>
+            <div class="row no-gutters">
+                <div class="col-lg-6">
+                    <form action="/customer/create" th:object="${order}" method="post">
+                        <input class="btn btn-success" type="submit" value="Create order">
+                    </form>
+                    <!--                <a href="/customer/create" class="btn" method="post">Arrange delivery</a>-->
+                </div>
+                <div class="col-lg-6">
+                    <input class="btn btn-dark" type="submit" value="Close" onclick="visible()">
+<!--                    <a href="" class="btn btn-dark" onclick="visible()">Close</a>-->
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row justify-content-center align-items-center">
-    <div class="col-6">
-        <form action="/customer/viewprice" th:object="${order}" method="post">
-            <label for="pointFrom">PointFrom:</label><br>
-            <div class="q">
-                <input id="pointFrom" name="pointFrom" type="text" placeholder="Enter pointFrom">
-                <span class="tooltiptext">Template: Country, City, Street, House</span>
-            </div>
-            <label for="pointTo">PointTo:</label>
-            <div class="q">
-                <input id="pointTo" name="pointTo" type="text" placeholder="Enter pointTo">
-                <span class="tooltiptext">Template: Country, City, Street, House</span>
-            </div>
-            <div class="q">
-                <label for="description">Description</label>
-                <input class="form-control" id="description" type="text" th:field="*{description}">
-                <span class="tooltiptext">Description</span>
-            </div>
-            <br><br>
-            <div class="form-group">
-                <input class="form-control" type="submit" value="Create">
-            </div>
-        </form>
+<div class="container">
+    <div class="row no-gutters h-100 justify-content-center align-items-center text-center">
+        <div class="col-lg-5">
+            <form action="/customer/viewprice" th:object="${order}" method="post">
+                <div class="form-group input-group">
+                    <input class="form-control" id="pointFrom" name="pointFrom" type="text"
+                           placeholder="Enter pointFrom"
+                           title="Template: Country, City, Street, House" required>
+                </div>
+                <div class="form-group input-group">
+                    <input class="form-control" id="pointTo" name="pointTo" type="text" placeholder="Enter pointTo"
+                           title="Template: Country, City, Street, House" required>
+                </div>
+                <div class="form-group input-group">
+                    <input class="form-control" id="description" type="text" placeholder="Enter description"
+                           th:field="*{description}">
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-success" type="submit" value="Create">
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -90,11 +94,8 @@
     }
 </script>
 
-<!-- SCRIPTS -->
-<!-- JQuery -->
+
 <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
-<!-- Bootstrap tooltips -->
-<script type="text/javascript" src="../js/popper.min.js"></script>
 <!-- Bootstrap core JavaScript -->
 <script type="text/javascript" src="../js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->

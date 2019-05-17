@@ -93,11 +93,11 @@
                        name="description" style="width: 200px" readonly="readonly">
             </td>
             <td th:if="${o.status == 'ASSIGNED'}">
-                <input class="form-control" type="submit" name="submit1" formaction="/driver/inprogress"
+                <input class="form-control" style="background-color: #ffc107; color: #000;" type="submit" name="submit1" formaction="/driver/inprogress"
                        value="In Progress">
             </td>
             <td th:if="${o.status == 'INPROGRESS'}">
-                <input class="form-control" type="submit" name="submit2" formaction="/driver/resolved"
+                <input class="form-control" style="background-color: #dc3545; color: #fff;" type="submit" name="submit2" formaction="/driver/resolved"
                        value="Resolved">
             </td>
         </form>
