@@ -47,13 +47,13 @@ public class AuthService implements GlobalConstants {
             //Для того чтобы можно было узнать роль в AuthController.getAuth()
             RoleThreadLocal.setRole(role);
             //Добавляем куки
-            CookieUtil.create(response, AuthThreadLocal.getAuth(), RoleThreadLocal.getRole().toString(), -1);
+            CookieUtil.create(response, AuthThreadLocal.getAuth(), RoleThreadLocal.getRole().toString(), true);
 
             return exchange.getBody();
         } catch (Exception e) {
             //не знаю где надо будет обрабатывать ошибки 401 и 403, надо подумать над этим
             RoleThreadLocal.setRole(Role.UNAUTHORIZED);
-            CookieUtil.create(response, "", Role.UNAUTHORIZED.toString(), -1);
+            CookieUtil.create(response, "", Role.UNAUTHORIZED.toString(), true);
             System.out.println("** Exception getRole(): " + e.getMessage());
             return null;
         }
@@ -70,7 +70,7 @@ public class AuthService implements GlobalConstants {
     }
 
     public void logout(HttpServletRequest request) {
-        ResponseEntity<String> exchange =  restTemplateUtil.exchange(request, URL_LOGOUT, null, HttpMethod.GET, String.class);
+        ResponseEntity<String> exchange = restTemplateUtil.exchange(request, URL_LOGOUT, null, HttpMethod.GET, String.class);
         int code = exchange.getStatusCode().value();
     }
 

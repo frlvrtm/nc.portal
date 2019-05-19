@@ -1,5 +1,6 @@
 package com.nc.portal.utils;
 
+import com.nc.portal.model.OrdersDTO;
 import com.nc.portal.model.Role;
 import org.apache.tomcat.util.http.LegacyCookieProcessor;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
@@ -16,41 +17,40 @@ import java.util.Arrays;
 
 public class CookieUtil {
 
-    private static final String COOKIE_NAME = "COOKIE";
+    private static final String COOKIE_AUTH = "COOKIA";
+    private static final String COOKIE_ORDER = "COOKIO";
     //шифрование Cookie
     private static Aes256 aes256 = new Aes256();
     private static int cookSize = 0;
 
     public static void create(HttpServletResponse response,
-                              String auth,
-                              String role,
-                              Integer maxAge
-                              /*String domain*/) {
+                              String record1, //auth / pointFrom
+                              String record2, //role / pointTo
+                              boolean flag //true - auth, false - order
+            /*String domain*/) {
         try {
-            //строка шифрования
-            StringBuilder cooks = new StringBuilder()
-                    .append(auth)
-                    .append(":")
-                    .append(role);
+
             //Переводим в байты
-            String cook = auth + ":" + role;
-            byte[] cookByte = cook.getBytes();
+            String cooks = record1 + ":" + record2;
+            byte[] cookByte = cooks.getBytes();
             //Кодируем
             byte[] encrypt = aes256.makeAes(cookByte, Cipher.ENCRYPT_MODE);
             cookSize = encrypt.length;
             //Переводим декодированное в строку
             String value = new BigInteger(1, encrypt).toString(16);
 
-            Cookie cookie = new Cookie(COOKIE_NAME, value);
-            //cookie.setDomain(domain);
+            String cookieName = flag ? COOKIE_AUTH : COOKIE_ORDER;
+
+            Cookie cookie = new Cookie(cookieName, value);
+
             cookie.setPath("/");
             cookie.setSecure(false);
             cookie.setHttpOnly(true);
 
-            if (maxAge > 0) {
-                //-1 значит куки действуют до закрытия браузера
-                cookie.setMaxAge(maxAge);
-            }
+            //if (maxAge > 0) {
+            //-1 значит куки действуют до закрытия браузера
+            cookie.setMaxAge(-1);
+            // }
 
             response.addCookie(cookie);
         } catch (Exception e) {
@@ -67,11 +67,12 @@ public class CookieUtil {
     }
 
     private static String getValueByName(HttpServletRequest request, int flag) {     //flag==1 auth
-        Cookie cookie = WebUtils.getCookie(request, COOKIE_NAME);                    //flag==2 role
+        String cookieName = flag == 3 ? COOKIE_ORDER : COOKIE_AUTH;                 //flag==2 role
+        Cookie cookie = WebUtils.getCookie(request, cookieName);                   //flag==3 order
         if (cookie == null) {
             return null;
         } else {
-            if (cookSize == 0){
+            if (cookSize == 0) {
                 return null;
             }
             try {
@@ -97,6 +98,10 @@ public class CookieUtil {
                 //String value = new BigInteger(1, decrypt).toString(16);
                 String value = new String(decrypt);
 
+                if (flag == 3) {
+                    return value;
+                }
+
                 int delim = value.indexOf(":");
                 if (delim == -1) {
                     //какая-то обработка ошибки
@@ -119,6 +124,20 @@ public class CookieUtil {
     public static String getAuth(HttpServletRequest request) {
         String auth = getValueByName(request, 1);
         return auth;
+    }
+
+    public static OrdersDTO getOrder(HttpServletRequest request) {
+        String order = getValueByName(request, 3);
+        if (order == null) {
+            return null;
+        }
+        int delim = order.indexOf(":");
+
+        OrdersDTO ordersDTO = new OrdersDTO();
+        ordersDTO.setPointFrom(order.substring(0, delim));
+        ordersDTO.setPointTo(order.substring(delim + 1));
+
+        return ordersDTO;
     }
 
     public static Role getRole(HttpServletRequest request) {

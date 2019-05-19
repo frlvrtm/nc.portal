@@ -8,12 +8,14 @@ import com.nc.portal.service.CustomerService;
 import com.nc.portal.service.OrdersService;
 import com.nc.portal.service.PriceService;
 import com.nc.portal.service.UserService;
+import com.nc.portal.utils.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.List;
@@ -46,7 +48,7 @@ public class CustomerController {
 
     @RequestMapping(value = "/aboutme", method = RequestMethod.GET)
     public String getProfile(Model model, HttpServletRequest request) {
-        UserDTO userDTO = userService.getUserByName(request,  Role.CUSTOMER);
+        UserDTO userDTO = userService.getUserByName(request, Role.CUSTOMER);
         model.addAttribute("user", userDTO);
         return "customer/aboutme";
     }
@@ -64,8 +66,15 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createOrderViewPage(Model model) {
+    public String createOrderViewPage(Model model, HttpServletRequest request) {
         model.addAttribute("order", new OrdersDTO());
+
+        OrdersDTO order = CookieUtil.getOrder(request);
+        if (order != null) {
+            model.addAttribute("pointFromCookie", order.getPointFrom());
+            model.addAttribute("pointToCookie", order.getPointTo());
+        }
+
         return "customer/orderscreate";
     }
 
@@ -80,6 +89,13 @@ public class CustomerController {
         ordersService.createOrder(request, createOrder);
         model.addAttribute("message", "Order created");
         model.addAttribute("order", new OrdersDTO());
+
+        OrdersDTO order = CookieUtil.getOrder(request);
+        if (order != null) {
+            model.addAttribute("pointFromCookie", order.getPointFrom());
+            model.addAttribute("pointToCookie", order.getPointTo());
+        }
+
         return "customer/orderscreate";
     }
 
@@ -87,9 +103,10 @@ public class CustomerController {
     public String getPrice(@RequestParam("pointFrom") String pointFrom,
                            @RequestParam("pointTo") String pointTo,
                            @RequestParam("description") String description,
+                           HttpServletResponse response,
                            Model model/*, HttpServletRequest request*/) {
 
-        Map result = priceService.getPrice(pointFrom, pointTo);
+        Map result = priceService.getPrice(response, pointFrom, pointTo);
         if (result.get("price") != null) {
             double price = Double.parseDouble(result.get("price").toString());
             createOrder = new OrdersDTO(price, pointFrom, pointTo, description);

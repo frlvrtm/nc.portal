@@ -33,7 +33,8 @@ public class RegController {
     @PostMapping
     public String createUser(@ModelAttribute UserDTO userDTO,
                              HttpServletRequest request,
-                             HttpServletResponse response, Model model) {
+                             HttpServletResponse response,
+                             Model model) {
 
         int code = authService.createUser(request, userDTO);
         switch (code) {

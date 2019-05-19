@@ -70,10 +70,13 @@
                 <div class="form-group input-group">
                     <input class="form-control" id="pointFrom" name="pointFrom" type="text"
                            placeholder="Enter pointFrom"
+                           th:value="${pointFromCookie}"
                            title="Template: Country, City, Street, House" required>
                 </div>
                 <div class="form-group input-group">
-                    <input class="form-control" id="pointTo" name="pointTo" type="text" placeholder="Enter pointTo"
+                    <input class="form-control" id="pointTo" name="pointTo" type="text"
+                           placeholder="Enter pointTo"
+                           th:value="${pointToCookie}"
                            title="Template: Country, City, Street, House" required>
                 </div>
                 <div class="form-group input-group">

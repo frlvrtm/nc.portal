@@ -40,11 +40,13 @@
                 <!-- <label for="pointFrom">PointFrom:</label><br> -->
                 <div class="form-group input-group">
                     <input class="form-control" id="pointFrom" name="pointFrom" type="text"
+                           th:value="${pointFromCookie}"
                            placeholder="Enter pointFrom" title="Template: Country, City, Street, House">
                 </div>
                 <!-- <label for="pointTo">PointTo:</label> -->
                 <div class="form-group input-group">
                     <input class="form-control" id="pointTo" name="pointTo" type="text" placeholder="Enter pointTo"
+                           th:value="${pointToCookie}"
                            title="Template: Country, City, Street, House">
                 </div>
                 <br><input class="btn btn-success" type="submit" value="Сalculate the cost"><br/><br/>
