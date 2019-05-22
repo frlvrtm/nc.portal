@@ -38,14 +38,14 @@
 	</nav>
 
 	<div class="sidebar-fixed position-fixed">
-		<div class="list-group list-group-flush">
-			<a href="/customer/aboutme" target="iframe1" class="list-group-item waves-effect active">
+		<div id="list-group" class="list-group list-group-flush">
+			<a onclick="f()" href="/customer/aboutme" target="iframe1" class="list-group-item waves-effect active">
 				<i class="fas fa-address-card mr-3"></i>My profile
 			</a>
-			<a href="/customer/myorders" target="iframe1" class="list-group-item waves-effect">
+			<a onclick="f()" href="/customer/myorders" target="iframe1" class="list-group-item waves-effect">
 				<i class="fas fa-th-list mr-3"></i>Get my orders
 			</a>
-			<a href="/customer/create" target="iframe1" class="list-group-item waves-effect">
+			<a onclick="f()" href="/customer/create" target="iframe1" class="list-group-item waves-effect">
 				<i class="fas fa-address-card mr-3"></i>Create order
 			</a>
 		</div>
@@ -61,6 +61,15 @@
 		</div>
 	</div>
 </main>
+
+<script type="text/javascript">
+	function f() {
+		$("#list-group").on("click", ".list-group-item", function(){
+			$("#list-group .list-group-item").removeClass("active");
+			$(this).addClass("active");
+		});
+	}
+</script>
 
 <!-- SCRIPTS -->
 <!-- JQuery -->

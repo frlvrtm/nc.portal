@@ -38,11 +38,11 @@
     </nav>
 
     <div class="sidebar-fixed position-fixed">
-        <div class="list-group list-group-flush">
-            <a href="/driver/orders" target="iframe1" class="list-group-item waves-effect active">
+        <div id="list-group" class="list-group list-group-flush">
+            <a onclick="f()" href="/driver/orders" target="iframe1" class="list-group-item waves-effect active">
                 <i class="fas fa-address-card mr-3"></i>Orders
             </a>
-            <a href="/driver/aboutDriver" target="iframe1" class="list-group-item waves-effect">
+            <a onclick="f()" href="/driver/aboutDriver" target="iframe1" class="list-group-item waves-effect">
                 <i class="fas fa-th-list mr-3"></i>Profile
             </a>
         </div>
@@ -58,6 +58,15 @@
         </div>
     </div>
 </main>
+
+<script type="text/javascript">
+    function f() {
+        $("#list-group").on("click", ".list-group-item", function(){
+            $("#list-group .list-group-item").removeClass("active");
+            $(this).addClass("active");
+        });
+    }
+</script>
 
 <!-- SCRIPTS -->
 <!-- JQuery -->

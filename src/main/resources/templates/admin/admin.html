@@ -37,20 +37,20 @@
     </nav>
 
     <div class="sidebar-fixed position-fixed">
-        <div class="list-group list-group-flush">
-            <a id="cu" href="/admin/createuser" target="iframe1" class="list-group-item waves-effect active">
+        <div id="list-group" class="list-group list-group-flush">
+            <a onclick="f()" href="/admin/createuser" target="iframe1" class="list-group-item waves-effect active">
                 <i class="fas fa-address-card mr-3"></i>Add user
             </a>
-            <a id="sd" href="/admin/showdrivers" target="iframe1" class="list-group-item waves-effect">
+            <a onclick="f()" href="/admin/showdrivers" target="iframe1" class="list-group-item waves-effect">
                 <i class="fas fa-th-list mr-3"></i>Show Drivers
             </a>
-            <a id="so" href="/admin/showoperators" target="iframe1" class="list-group-item waves-effect">
+            <a onclick="f()" href="/admin/showoperators" target="iframe1" class="list-group-item waves-effect">
                 <i class="fas fa-th-list mr-3"></i>Show Operators
             </a>
-            <a id="sc" href="/admin/showcars" target="iframe1" class="list-group-item waves-effect">
+            <a onclick="f()" href="/admin/showcars" target="iframe1" class="list-group-item waves-effect">
                 <i class="fas fa-th-list mr-3"></i>Show Cars
             </a>
-            <a id="cc" href="/admin/createcar" target="iframe1" class="list-group-item waves-effect">
+            <a onclick="f()" href="/admin/createcar" target="iframe1" class="list-group-item waves-effect">
                 <i class="fas fa-th-list mr-3"></i>Create car
             </a>
         </div>
@@ -66,6 +66,15 @@
         </div>
     </div>
 </main>
+
+<script type="text/javascript">
+    function f() {
+        $("#list-group").on("click", ".list-group-item", function(){
+            $("#list-group .list-group-item").removeClass("active");
+            $(this).addClass("active");
+        });
+    }
+</script>
 
 <!-- SCRIPTS -->
 <!-- JQuery -->
